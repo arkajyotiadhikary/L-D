@@ -10,7 +10,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress, total }) => {
   const percentage = (progress / total) * 100;
   return (
     <div className="flex itmes-center bg-dark">
-      <div className="w-12 h-12 rounded-full border-4 border-blue-500 relative">
+      <div className="">
         <CircularProgress value={40} color='green.400'>
           <CircularProgressLabel>{Math.round(percentage)}%</CircularProgressLabel>
         </CircularProgress>

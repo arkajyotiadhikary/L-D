@@ -1,0 +1,75 @@
+/training-module-app
+├── backend
+│   ├── controllers
+│   │   ├── authController.js       # Handles user authentication (login, register)
+│   │   ├── progressController.js   # Handles video progress logic (resume, update progress)
+│   │   └── videoController.js      # Handles video data retrieval (get video list)
+│   │
+│   ├── models
+│   │   ├── User.js                 # Mongoose model for users
+│   │   ├── Progress.js             # Mongoose model for video progress
+│   │   └── Video.js                # Mongoose model for video metadata
+│   │
+│   ├── routes
+│   │   ├── authRoutes.js           # Routes for authentication (login, register)
+│   │   ├── progressRoutes.js       # Routes for video progress (resume, update progress)
+│   │   └── videoRoutes.js          # Routes for video data (get video list)
+│   │
+│   ├── middleware
+│   │   └── authMiddleware.js       # Middleware for protecting routes (JWT verification)
+│   │
+│   ├── config
+│   │   ├── db.js                   # Database connection configuration
+│   │   └── config.env              # Environment variables (e.g., DB connection string, JWT secret)
+│   │
+│   ├── utils
+│   │   └── videoUtils.js           # Utility functions for video processing (e.g., format time)
+│   │
+│   ├── .env                        # Environment configuration file (used for Docker or local dev)
+│   ├── server.js                   # Main entry point for the backend, initializes Express app
+│   ├── package.json                # Dependencies and scripts for the backend
+│   └── README.md                   # Documentation for the backend setup
+│
+├── frontend
+│   ├── public
+│   │   ├── index.html              # Main HTML file
+│   │   └── manifest.json           # Metadata for the web app
+│   │
+│   ├── src
+│   │   ├── components
+│   │   │   ├── Auth
+│   │   │   │   ├── Login.js        # Login component
+│   │   │   │   └── Register.js     # Registration component
+│   │   │   ├── VideoPlayer.js      # Video player component (integrates Video.js)
+│   │   │   ├── Dashboard.js        # Dashboard component (displays progress)
+│   │   │   ├── VideoList.js        # List of videos for user to watch
+│   │   │   └── Header.js           # Common header/navigation bar
+│   │   │
+│   │   ├── context
+│   │   │   └── AuthContext.js      # Context for managing user authentication state
+│   │   │
+│   │   ├── hooks
+│   │   │   └── useVideoProgress.js # Custom hook for handling video progress logic
+│   │   │
+│   │   ├── pages
+│   │   │   ├── LoginPage.js        # Login page (combines Auth components)
+│   │   │   ├── RegisterPage.js     # Registration page
+│   │   │   ├── DashboardPage.js    # Dashboard page (combines VideoList and progress tracking)
+│   │   │   └── VideoPage.js        # Video playback page
+│   │   │
+│   │   ├── services
+│   │   │   ├── authService.js      # API calls for authentication
+│   │   │   └── videoService.js     # API calls for video data and progress tracking
+│   │   │
+│   │   ├── styles
+│   │   │   └── main.css            # Main stylesheet
+│   │   │
+│   │   ├── App.js                  # Main React component, sets up routes
+│   │   ├── index.js                # Entry point for the React app
+│   │   ├── package.json            # Dependencies and scripts for the frontend
+│   │   └── README.md               # Documentation for the frontend setup
+│
+├── .gitignore                      # Git ignore file
+├── docker-compose.yml              # Docker Compose configuration for multi-container setup
+├── Dockerfile                      # Dockerfile for containerizing the application
+└── README.md                       # Documentation for the overall project
