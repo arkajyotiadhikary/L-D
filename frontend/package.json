@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.13.0",
     "@types/video.js": "^7.3.58",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.7.5",
     "framer-motion": "^11.3.30",
     "postcss": "^8.4.41",
     "react": "^18.3.1",

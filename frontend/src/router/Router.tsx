@@ -1,16 +1,20 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from '../components/Navbar.tsx';
+import Footer from '../components/Footer.tsx';
 
 import Home from '../pages/Home.tsx';
-
+import Auth from '../pages/Auth.tsx';
 
 const Router = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <Navbar isSignedIn={false} />
-      <Route path="/" element={<Home />}
-      <Route path="/auth" element={}
-    </Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   )
 }
 
