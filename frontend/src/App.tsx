@@ -1,12 +1,16 @@
-import TrainingModulePage from './pages/TrainingModulePage';
+import Home from './pages/Home.tsx';
+import Navbar from './components//Navbar.tsx';
+
 import { ChakraProvider } from '@chakra-ui/react';
+
 
 function App() {
 
   return (
-    <ChakraProvider>
-      <TrainingModulePage />
-    </ChakraProvider>
+    <>
+      <Navbar isSignedIn={false} />
+      <Home />
+    </>
   )
 }
 
