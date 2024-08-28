@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "watch": "tsc -w",
-    "start": "nodemon dist/index.js",
+    "start": "node dist/index.js",
     "dev": ""
   },
   "repository": {
@@ -37,6 +37,7 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/multer": "^1.4.12",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "typescript": "^5.5.4"
   }
 }
