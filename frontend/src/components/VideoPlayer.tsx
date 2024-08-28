@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 
 interface VideoPlayerProps {
       videoSrc: string;
@@ -8,8 +8,6 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, videoId, onVideoEnded }) => {
       const videoRef = useRef<HTMLVideoElement | null>(null);
-      const [currentTime, setCurrentTime] = useState(0);
-
       // Load the last stopped position for the specific video
       useEffect(() => {
             const storedPosition = localStorage.getItem(`video-${videoId}-position`);
@@ -17,7 +15,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, videoId, onVideoEnd
 
             if (videoRef.current && !isNaN(lastPosition)) {
                   videoRef.current.currentTime = lastPosition;
-                  setCurrentTime(lastPosition);
             }
       }, [videoId]);
 
@@ -25,7 +22,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, videoId, onVideoEnd
       const handleTimeUpdate = () => {
             if (videoRef.current) {
                   const currentPosition = videoRef.current.currentTime;
-                  setCurrentTime(currentPosition);
                   localStorage.setItem(`video-${videoId}-position`, currentPosition.toString());
             }
       };

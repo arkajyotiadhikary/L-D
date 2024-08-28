@@ -7,9 +7,11 @@ import ProgressBar from "../components/ProgressBar";
 import VideoPlayer from "../components/VideoPlayer";
 import { getCurrentModule } from "../services/moduleService"; // Update with the correct path
 import { updateUserProgress, getUserProgress } from "../services/userService"; // Import the function to update user progress
-import axios from "axios";
+
+import { useNavigate } from "react-router-dom";
 
 const TrainingModulePage: React.FC = () => {
+      const navigate = useNavigate();
       const LOCAL_STORAGE_KEY = "currentModuleId"; // Key to store the module ID in localStorage
       const [moduleData, setModuleData] = useState<any>(null); // Update the type according to your data structure
       const [loading, setLoading] = useState(true);
@@ -101,6 +103,9 @@ const TrainingModulePage: React.FC = () => {
                         setCurrentModuleId(moduleData.nextModuleId);
                         setLoading(true);
                   }
+                  if (nextModuleIndex === moduleData.totalModules) {
+                        navigate("/congratulations");
+                  }
             } catch (error) {
                   console.error("Error updating user progress:", error);
                   setError("Failed to update progress.");
@@ -127,7 +132,7 @@ const TrainingModulePage: React.FC = () => {
                               <ProgressBar progress={progress} total={moduleData.totalModules} />
                               {currentModule && (
                                     <VideoPlayer
-                                          videoId={currentModule.video.videoId ?? ""}
+                                          videoId={currentModule.video.filePath ?? ""}
                                           videoSrc={currentModule.video.filePath ?? ""}
                                           onVideoEnded={() => updateProgress(currentModuleId)} // Pass the function to VideoPlayer
                                     />
