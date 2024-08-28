@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000"; // Replace with your backend API base URL
+const API_BASE_URL = "https://lizmotors-app.onrender.com"; // Replace with your backend API base URL
 
 // Create an instance of axios with base URL
 const api = axios.create({

@@ -7,7 +7,7 @@ import CongratulationPage from "../pages/Congretulation.tsx";
 import Home from "../pages/Home.tsx";
 import Auth from "../pages/Auth.tsx";
 import TrainingModulePage from "../pages/TrainingModulePage.tsx";
-import UploadModule from "../pages/UploadModule.tsx";
+// import UploadModule from "../pages/UploadModule.tsx";
 
 const Router = () => {
       return (
@@ -20,10 +20,10 @@ const Router = () => {
                               path="/training"
                               element={<PrivateRoute element={<TrainingModulePage />} />}
                         />
-                        <Route
+                        {/* <Route
                               path="/upload"
                               element={<PrivateRoute element={<UploadModule />} />}
-                        />
+                        /> */}
                         <Route
                               path="/congratulations"
                               element={<PrivateRoute element={<CongratulationPage />} />}
