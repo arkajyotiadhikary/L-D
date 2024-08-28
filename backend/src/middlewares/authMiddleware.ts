@@ -1,25 +1,27 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
 interface AuthRequest extends Request {
-  userId?: string;
+      userId?: string;
 }
 
 const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+      const token = req.header("Authorization")?.replace("Bearer ", "");
 
-  if (!token) {
-    res.status(401).json({ message: 'Not authorized.' });
-    return;
-  }
+      if (!token) {
+            res.status(401).json({ message: "Not authorized." });
+            return;
+      }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string };
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    res.status(401).json({ message: 'Token is not valid' })
-  }
-}
+      try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+                  userId: string;
+            };
+            req.userId = decoded.userId;
+            next();
+      } catch (error) {
+            res.status(401).json({ message: "Token is not valid" });
+      }
+};
 
 export default authMiddleware;

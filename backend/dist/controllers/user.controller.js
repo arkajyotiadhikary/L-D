@@ -1,8 +1,10 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import { User } from '../models/User.js';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import { User } from "../models/User.js";
 dotenv.config();
+// Replace this with the ID of the first module in your system
+const INITIAL_MODULE_ID = "66cecb8b389b58336dd4ce0a";
 export const registerUser = async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -11,24 +13,31 @@ export const registerUser = async (req, res) => {
             res.status(400).json({ message: "User already exists." });
             return;
         }
-        // Hash the passowd
+        // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        // Create new user
+        // Create new user with initial progress
         const newUser = new User({
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            progress: {
+                completedModules: [],
+                currentModule: INITIAL_MODULE_ID,
+            },
         });
         await newUser.save();
-        // Generate jwt token with the user id
-        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
-            expiresIn: '24h'
+        // Generate jwt token with the user id and progress
+        const token = jwt.sign({
+            userId: newUser._id,
+            progress: newUser.progress,
+        }, process.env.JWT_SECRET, {
+            expiresIn: "24h",
         });
         res.status(200).json({ token });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error.' });
+        res.status(500).json({ message: "Server error." });
     }
 };
 export const signInUser = async (req, res) => {
@@ -36,21 +45,68 @@ export const signInUser = async (req, res) => {
     try {
         const user = await User.findOne({ username });
         if (!user) {
-            res.status(400).json({ message: 'Invalid credentials' });
+            res.status(400).json({ message: "Invalid credentials" });
             return;
         }
         const checkPassword = await bcrypt.compare(password, user.password);
         if (!checkPassword) {
-            res.status(400).json({ message: 'Invalid credentials' });
+            res.status(400).json({ message: "Invalid credentials" });
             return;
         }
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: '24h',
+        // Generate jwt token with the user id and progress
+        const token = jwt.sign({
+            userId: user._id,
+            progress: user.progress,
+        }, process.env.JWT_SECRET, {
+            expiresIn: "24h",
         });
         res.status(200).json({ token });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error.' });
+        res.status(500).json({ message: "Server error." });
+    }
+};
+export const updateUserProgress = async (req, res) => {
+    const userId = req.userId;
+    console.log({ userId });
+    const { currentModule, completedModule } = req.body;
+    console.log({ currentModule, completedModule });
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+        // Update user's progress
+        if (currentModule) {
+            user.progress.currentModule = currentModule;
+        }
+        if (completedModule && !user.progress.completedModules.includes(completedModule)) {
+            console.log("pushing completedModule: ", { completedModule });
+            user.progress.completedModules.push(completedModule);
+        }
+        await user.save();
+        // Respond with updated user progress
+        res.status(200).json(user.progress);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error." });
+    }
+};
+export const getUserProgress = async (req, res) => {
+    const userId = req.userId;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+        res.status(200).json(user.progress);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error." });
     }
 };
