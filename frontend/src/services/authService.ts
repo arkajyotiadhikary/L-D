@@ -9,7 +9,8 @@ interface AuthCredentials {
 
 export const signin = async (credentials: AuthCredentials) => {
   try {
-    const response = await axios.post(`${BASE_URL}/signin`, credentials);
+    console.log("Sending credentials: ", credentials);
+    const response = await axios.post(`${BASE_URL}/login`, credentials);
     return response.data;
   } catch (error) {
     throw error;
@@ -18,7 +19,8 @@ export const signin = async (credentials: AuthCredentials) => {
 
 export const signup = async (credentials: AuthCredentials) => {
   try {
-    const response = await axios.post(`${BASE_URL}/signup`, credentials);
+    console.log("Sending credentials: ", credentials);
+    const response = await axios.post(`${BASE_URL}/register`, credentials);
     return response.data;
 
   } catch (error) {

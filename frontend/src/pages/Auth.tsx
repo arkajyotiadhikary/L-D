@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import { useNavigate } from 'react-router-dom';
 import { signin, signup } from '../services/authService.ts';
+import { useAuth } from '../hooks/useAuth.ts';
 
 import AuthForm from '../components/AuthForm.tsx';
 
@@ -11,7 +12,8 @@ const Auth: React.FC = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
 
-
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -21,14 +23,23 @@ const Auth: React.FC = () => {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+
     e.preventDefault();
     try {
       if (isSignIn) {
         const data = await signin(credentials);
+        if (data) {
+          login(data.token);
+          navigate('/training');
+        }
         console.log('Sign in successfull', data);
       }
       else {
         const data = await signup(credentials);
+        if (data) {
+          login(data.token);
+          navigate('/training');
+        }
         console.log('Sign up successfull', data);
       }
     } catch (error) {
