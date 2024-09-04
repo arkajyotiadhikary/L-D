@@ -33,9 +33,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, videoId, onVideoEnd
       };
 
       // Handle the video src, in case it's a full path from the backend
-      const src = videoSrc.startsWith("/src/")
-            ? videoSrc
-            : `/src/assets/videos/${videoSrc.split("/").pop()}`;
 
       return (
             <video
@@ -45,7 +42,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, videoId, onVideoEnd
                   onEnded={handleVideoEnded}
                   controls
             >
-                  <source src={src} type="video/mp4" />
+                  <source src={videoSrc} type="video/mp4" />
                   Your browser does not support the video tag.
             </video>
       );

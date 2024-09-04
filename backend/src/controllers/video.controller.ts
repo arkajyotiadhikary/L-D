@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import Video from "../models/Video.js";
 import Module from "../models/Module.js";
-import fs from "fs/promises";
 import { fileURLToPath } from "url";
 import path from "path";
+import cloudinary from "../config/cloudinary.js";
+import { Readable } from "stream";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,22 +31,31 @@ export const uploadVideo = async (req: IUploadRequest, res: Response): Promise<R
       console.log("Uploading video...");
       try {
             const videoFile = req.file;
-
             if (!videoFile) {
                   return res.status(400).json({ message: "Video file is required" });
             }
+            const readableStream = new Readable();
+            readableStream.push(videoFile.buffer);
+            readableStream.push(null);
 
-            const videoDir = path.join(__dirname, "../../../frontend/src/assets/videos");
-            const videoPath = path.join(videoDir, `${Date.now()}_${videoFile.originalname}`);
+            const uploadResult = await new Promise((resolve, reject) => {
+                  const uploadStream = cloudinary.v2.uploader.upload_stream(
+                        { resource_type: "video" },
+                        (error, result) => {
+                              if (error) {
+                                    return reject(error);
+                              }
+                              resolve(result);
+                        }
+                  );
 
-            await fs.mkdir(videoDir, { recursive: true });
-            await fs.writeFile(videoPath, videoFile.buffer);
-
-            const video = new Video({
-                  filePath: videoPath,
-                  // other fields if necessary
+                  readableStream.pipe(uploadStream);
             });
 
+            const { secure_url } = (await uploadResult) as { secure_url: string };
+            const video = new Video({
+                  filePath: secure_url,
+            });
             await video.save();
             return res.status(201).json(video);
       } catch (error: any) {
