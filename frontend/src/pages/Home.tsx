@@ -1,28 +1,100 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-
-const Home: React.FC = () => {
-      const navigate = useNavigate();
+import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
+import img from "../assets/images/Rectangle 968.png";
+const LoginPage = () => {
       return (
-            <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
-                  <div className="text-center mb-8">
-                        <h1 className="text-6xl font-extrabold mb-4">Lizmotors</h1>
-                        <p className="text-lg max-w-2xl leading-relaxed">
-                              Welcome to Lizmotors, your go-to platform for comprehensive training
-                              modules with videos. Our modules are designed to equip you with the
-                              essential knowledge and skills required to excel in your field. Get
-                              started today and take the first step towards mastering the tools and
-                              techniques you need to succeed.
-                        </p>
-                  </div>
-                  <button
-                        className="px-8 py-4 bg-blue-600 text-white text-xl font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
-                        onClick={() => navigate("/training")}
+            <Flex
+                  justify="space-around"
+                  align="center"
+                  minH="100vh"
+                  p={5}
+                  gap={10}
+                  direction={{ base: "column", md: "row" }}
+            >
+                  <Box textAlign="center" maxW="800px" p={10}>
+                        <Text fontSize="4xl" mb={8}>
+                              Please
+                              <Link m={2} color="blue.500" href="#">
+                                    login
+                              </Link>
+                              to complete your Compliance Training!
+                        </Text>
+                        <Box
+                              p={10}
+                              border="1px solid"
+                              borderColor="#BCBCBC"
+                              bg="#F8F5FA"
+                              borderRadius="3xl"
+                              textAlign="center"
+                        >
+                              <Text mb={8}>Start with Login</Text>
+                              <VStack spacing={8}>
+                                    <FormControl id="email">
+                                          <Input
+                                                type="email"
+                                                placeholder="name@yourcompany.com"
+                                                bg="#F2EFF3"
+                                                borderColor="#BCBCBC"
+                                                size="lg"
+                                                padding={8}
+                                          />
+                                    </FormControl>
+                                    <FormControl id="password">
+                                          <Input
+                                                type="password"
+                                                placeholder="Password"
+                                                bg="#F2EFF3"
+                                                borderColor="#BCBCBC"
+                                                size="lg"
+                                                padding={8}
+                                          />
+                                    </FormControl>
+                                    <Button colorScheme="purple" width="full" size="lg">
+                                          Get Started
+                                    </Button>
+                                    <Text fontSize="md" color="gray.500">
+                                          By continuing, you agree to our
+                                          <Link color="blue.500" href="#">
+                                                Customer Terms
+                                          </Link>
+                                          and
+                                          <Link color="blue.500" href="#">
+                                                Privacy Policy.
+                                          </Link>
+                                    </Text>
+                              </VStack>
+                        </Box>
+                  </Box>
+                  {/* Right Side - Image Section */}
+                  <Box
+                        display={{ base: "none", md: "block" }}
+                        p={5}
+                        textAlign="center"
+                        position="relative"
+                        maxWidth="45vw"
                   >
-                        Get Started
-                  </button>
-            </div>
+                        <Image
+                              src={img} // Replace with actual image URL or import
+                              alt="Welcome"
+                              borderRadius="3xl"
+                              boxShadow="lg"
+                              mx="auto"
+                              maxWidth="100%"
+                        />
+                        <Text
+                              position="absolute"
+                              bottom={10}
+                              left="25%"
+                              transform="translateX(-50%)"
+                              color="white"
+                              fontSize="2xl"
+                              fontWeight="bold"
+                              zIndex={1}
+                        >
+                              Welcome, Nirmiti!
+                        </Text>
+                  </Box>
+            </Flex>
       );
 };
 
-export default Home;
+export default LoginPage;

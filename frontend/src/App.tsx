@@ -1,18 +1,12 @@
-import Router from './router/Router.tsx';
-import { ChakraProvider } from '@chakra-ui/react';
-import { AuthProvider } from './context/AuthContext.tsx';
-
+import Router from "./router/Router.tsx";
+import { AuthProvider } from "./context/AuthContext.tsx";
 
 function App() {
-
-  return (
-    <AuthProvider>
-      <ChakraProvider>
-        <Router />
-      </ChakraProvider>
-    </AuthProvider>
-
-  )
+      return (
+            <AuthProvider>
+                  <Router />
+            </AuthProvider>
+      );
 }
 
-export default App
+export default App;
