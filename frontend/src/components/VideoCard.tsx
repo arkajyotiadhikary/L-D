@@ -4,12 +4,22 @@ const VideoCard = ({
       title,
       progress,
       completed,
+      onClick,
 }: {
       title: string;
       progress: number;
       completed: boolean;
+      onClick: () => void;
 }) => (
-      <Box p={4} borderWidth="1px" borderRadius="md" bg="white" mb={4}>
+      <Box
+            p={4}
+            borderWidth="1px"
+            borderRadius="md"
+            bg="white"
+            mb={4}
+            onClick={onClick}
+            _hover={{ cursor: "pointer" }}
+      >
             <HStack justify="space-between">
                   <Text fontWeight="bold">{title}</Text>
                   <Button size="sm">{completed ? "Play Again" : "Play"}</Button>

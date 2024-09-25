@@ -1,6 +1,8 @@
 import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
 import img from "../assets/images/Rectangle 968.png";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
+      const navigate = useNavigate();
       return (
             <Flex
                   justify="space-around"
@@ -48,7 +50,12 @@ const LoginPage = () => {
                                                 padding={8}
                                           />
                                     </FormControl>
-                                    <Button colorScheme="purple" width="full" size="lg">
+                                    <Button
+                                          onClick={() => navigate("/dashboard")}
+                                          colorScheme="purple"
+                                          width="full"
+                                          size="lg"
+                                    >
                                           Get Started
                                     </Button>
                                     <Text fontSize="md" color="gray.500">
