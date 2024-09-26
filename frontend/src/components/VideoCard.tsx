@@ -22,13 +22,18 @@ const VideoCard = ({
       >
             <HStack justify="space-between">
                   <Text fontWeight="bold">{title}</Text>
-                  <Button size="sm">{completed ? "Play Again" : "Play"}</Button>
+                  <Button size="sm" border={"1px"} borderRadius="md">
+                        {completed ? "Play Again" : "Play"}
+                  </Button>
             </HStack>
-            <Progress value={progress} mt={2} />
-            <HStack justify="space-between" mt={2}>
-                  <Text>{progress}% Completed</Text>
-                  <Text>{completed ? "Completed" : "In Progress"}</Text>
-            </HStack>
+            <Progress
+                  value={progress}
+                  mt={2}
+                  colorScheme="green"
+                  bgColor="#ECECEC"
+                  borderRadius="md"
+                  borderColor="green.500"
+            />
       </Box>
 );
 export default VideoCard;
