@@ -8,7 +8,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ imageUrl }) => {
       return (
             <Box
                   maxW="100%"
-                  maxH="100%"
+                  h="80vh"
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
@@ -20,9 +20,9 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ imageUrl }) => {
                   <Image
                         src={imageUrl || "https://via.placeholder.com/800x450"} // Default placeholder image
                         alt="Preview"
-                        objectFit="contain"
-                        maxW="100%"
-                        maxH="100%"
+                        objectFit="cover"
+                        w="100%"
+                        h="100%"
                   />
             </Box>
       );

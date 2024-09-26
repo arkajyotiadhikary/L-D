@@ -7,7 +7,11 @@ const CourseInfo = () => {
       return (
             <Box borderWidth="1px" borderRadius="md">
                   <VStack bg={"white"}>
-                        <VideoPreview />
+                        <VideoPreview
+                              height="300px"
+                              videoUrl="https://www.youtube.com/watch?v=ysz5S6PmrZQ"
+                              title="Module 1: Introduction"
+                        />
                         <Button
                               variant="solid"
                               colorScheme="blue"
