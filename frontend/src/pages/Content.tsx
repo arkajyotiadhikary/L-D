@@ -3,10 +3,10 @@ import Layout from "../layouts/Main";
 import DynamicContentLayout from "../components/DynamicContentLayout";
 
 const Content = () => {
-      const { id } = useParams(); // Get the 'id' from URL params
-      const chapterId = parseInt(id || "0", 10);
+      const { content } = useParams(); // Get the 'content' from URL params
+      const chapterId = parseInt(content || "0", 10);
 
-      // Convert id to a number, fallback to 1 if id is not a valid number
+      // Convert content to a number, fallback to 1 if content is not a valid number
 
       // Define the data for multiple chapters
       const chaptersData = [

@@ -89,14 +89,24 @@ const Module = () => {
                                     />
                               ))}
                               <Flex>
-                                    <Button mt={4} colorScheme="teal" size="sm" w="20%" mx="auto">
+                                    <Button
+                                          mt={4}
+                                          size="sm"
+                                          w="20%"
+                                          mx="auto"
+                                          colorScheme="blue"
+                                          variant="solid"
+                                          bg="#2E066E"
+                                          _hover={{ bg: "#2E066E" }}
+                                          onClick={() => navigate("/module/1/assignment/1")}
+                                    >
                                           Take an Assignment
                                     </Button>
                               </Flex>
                         </Box>
 
                         {/* Course Info Section */}
-                        <Box w="300px" bg="gray.50" ml={4}>
+                        <Box w="300px" ml={4}>
                               <CourseInfo />
                         </Box>
                   </Flex>

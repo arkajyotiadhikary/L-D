@@ -19,7 +19,7 @@ interface DynamicContentLayoutProps {
 }
 
 const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData }) => {
-      const { id } = useParams();
+      const { content } = useParams();
 
       const renderContent = () => {
             switch (chapterData.contentType) {
@@ -27,7 +27,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                         return (
                               <Box p={8} mx="auto" h="100vh">
                                     <Text fontSize="sm" fontWeight="bold" mb={4}>
-                                          {id !== "1" ? "Chapter " + id : ""}
+                                          {content !== "1" ? "Chapter " + content : ""}
                                     </Text>
                                     <Text fontSize="2xl" fontWeight="bold" mb={4}>
                                           {chapterData.title}
@@ -59,7 +59,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                           </Box>
                                     </Flex>
                                     <HStack justify="space-between" mt={8}>
-                                          <NavigationButtons currentChapter={Number(id)} />
+                                          <NavigationButtons currentChapter={Number(content)} />
                                           <Button
                                                 size="sm"
                                                 border={"1px"}
@@ -77,7 +77,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                               <Flex flex="1" p={4} bg="white">
                                     <Box flex="1" p={4} borderRadius="md" mr={4}>
                                           <Text fontSize="lg" fontWeight="bold">
-                                                Chapter {id}
+                                                Chapter {content}
                                           </Text>
                                           <Text fontSize="2xl" fontWeight="bold" mt={2}>
                                                 {chapterData.title}
@@ -94,7 +94,9 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                                 {chapterData.description}
                                           </Text>
                                           <HStack justify="space-between" mt={4}>
-                                                <NavigationButtons currentChapter={Number(id)} />
+                                                <NavigationButtons
+                                                      currentChapter={Number(content)}
+                                                />
                                                 <Button leftIcon={<FaPlay />} variant="outline">
                                                       Play
                                                 </Button>

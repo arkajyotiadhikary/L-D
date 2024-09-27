@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CourseInfo = () => {
       const navigate = useNavigate();
       return (
-            <Box borderWidth="1px" borderRadius="md">
+            <Box borderRadius="md">
                   <VStack bg={"white"}>
                         <VideoPreview
                               height="300px"

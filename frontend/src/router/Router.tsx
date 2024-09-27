@@ -4,7 +4,7 @@ import Home from "../pages/Home.tsx";
 import Dashboard from "../pages/Dashboard.tsx";
 import Module from "../pages/Module.tsx";
 import Content from "../pages/Content.tsx";
-// import UploadModule from "../pages/UploadModule.tsx";
+import Assignment from "../pages/Assignment.tsx";
 
 const Router = () => {
       return (
@@ -13,7 +13,11 @@ const Router = () => {
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/module/:id" element={<Module />} />
-                        <Route path="/module/:id/content/:id" element={<Content />} />
+                        <Route path="/module/:module/content/:content" element={<Content />} />
+                        <Route
+                              path="/module/:module/assignment/:assignment"
+                              element={<Assignment />}
+                        />
                   </Routes>
             </BrowserRouter>
       );

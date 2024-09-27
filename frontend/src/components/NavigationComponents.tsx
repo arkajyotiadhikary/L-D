@@ -8,12 +8,12 @@ const NavigationButtons = ({ currentChapter }: { currentChapter: number }) => {
       // Function to handle navigation
       const handlePrev = () => {
             if (currentChapter > 1) {
-                  navigate(`/module/:id/content/${currentChapter - 1}`);
+                  navigate(`/module/:module/content/${currentChapter - 1}`);
             }
       };
 
       const handleNext = () => {
-            if (currentChapter < 5) navigate(`/module/:id/content/${currentChapter + 1}`);
+            if (currentChapter < 5) navigate(`/module/:module/content/${currentChapter + 1}`);
       };
 
       return (
