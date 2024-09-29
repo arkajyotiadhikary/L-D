@@ -19,6 +19,7 @@ import {
       Text,
       useDisclosure,
       Icon,
+      HStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdClose, MdCheckCircle } from "react-icons/md"; // Icons for success or failure
@@ -48,7 +49,7 @@ const QuizPage: React.FC = () => {
 
       return (
             <Layout>
-                  <Container maxW="container" maxH={"100vh"} py={8}>
+                  <Container bg="white" maxW="container" maxH={"100vh"} py={8} borderRadius={"lg"}>
                         <Box display="flex" alignItems="flex-start" gap={8}>
                               {/* Left Side: Text and Quiz */}
                               <Box flex="1">
@@ -68,24 +69,59 @@ const QuizPage: React.FC = () => {
                                           What should Imani do?
                                     </Text>
                                     <Text mb={4}>Select the correct option.</Text>
-
                                     <RadioGroup onChange={setValue} value={value}>
                                           <Stack spacing={4}>
-                                                <Radio value="1">
-                                                      There is no need for Imani to get involved,
-                                                      because Maeve hasn’t said anything hurtful
-                                                      directly to Tejas.
-                                                </Radio>
-                                                <Radio value="2">
-                                                      Maeve is entitled to her opinions to Tejas,
-                                                      and there’s nothing Imani can do to control
-                                                      her behavior.
-                                                </Radio>
-                                                <Radio value="3">
-                                                      Imani should report Maeve’s behavior
-                                                      internally straight away because it could be
-                                                      harassment, even if Tejas is unaware of it.
-                                                </Radio>
+                                                <HStack bg="gray.100" borderRadius="md">
+                                                      <Radio
+                                                            value="1"
+                                                            p={4}
+                                                            bg="gray.300"
+                                                            _checked={{
+                                                                  bg: "gray.700",
+                                                                  color: "white",
+                                                                  borderColor: "gray.700",
+                                                            }}
+                                                      >
+                                                            There is no need for Imani to get
+                                                            involved, because Maeve hasn’t said
+                                                            anything hurtful directly to Tejas.
+                                                      </Radio>
+                                                </HStack>
+
+                                                <HStack bg="gray.100" borderRadius="md">
+                                                      <Radio
+                                                            value="2"
+                                                            p={4}
+                                                            bg="gray.300"
+                                                            _checked={{
+                                                                  bg: "gray.700",
+                                                                  color: "white",
+                                                                  borderColor: "gray.700",
+                                                            }}
+                                                      >
+                                                            Maeve is entitled to her opinions to
+                                                            Tejas, and there’s nothing Imani can do
+                                                            to control her behavior.
+                                                      </Radio>
+                                                </HStack>
+
+                                                <HStack bg="gray.100" borderRadius="md">
+                                                      <Radio
+                                                            value="3"
+                                                            p={4}
+                                                            bg="gray.300"
+                                                            _checked={{
+                                                                  bg: "gray.700",
+                                                                  color: "white",
+                                                                  borderColor: "gray.700",
+                                                            }}
+                                                      >
+                                                            Imani should report Maeve’s behavior
+                                                            internally straight away because it
+                                                            could be harassment, even if Tejas is
+                                                            unaware of it.
+                                                      </Radio>
+                                                </HStack>
                                           </Stack>
                                     </RadioGroup>
 
@@ -93,8 +129,14 @@ const QuizPage: React.FC = () => {
                                           Submit
                                     </Button>
 
-                                    <Box mt={4}>
-                                          <Progress colorScheme="purple" size="sm" value={50} />
+                                    <Box my={10} w="full" display="flex" justifyContent="center">
+                                          <Progress
+                                                colorScheme="purple"
+                                                w="xs"
+                                                size="md"
+                                                value={50}
+                                                borderRadius={"full"}
+                                          />
                                     </Box>
                               </Box>
 
