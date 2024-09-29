@@ -1,19 +1,39 @@
-import { Schema, model, Document, Types } from "mongoose";
-import Video from "./Video";
-interface IModule extends Document {
+import { Schema, model, Document } from "mongoose";
+
+interface IChapter extends Document {
       title: string;
-      content: string;
+      description: string;
+      content: {
+            type: "video" | "text";
+            url: string;
+      };
+}
+
+export interface IModule extends Document {
+      title: string;
+      details: string;
+      chapters: IChapter[];
       order: number;
-      video: typeof Video;
-      createdAt: Date;
 }
 
 const moduleSchema = new Schema<IModule>({
       title: { type: String, required: true },
-      content: { type: String, required: true },
+      details: { type: String, required: true },
+      chapters: [
+            {
+                  title: { type: String, required: true },
+                  description: { type: String, required: true },
+                  content: {
+                        type: {
+                              type: String,
+                              enum: ["video", "text"],
+                              required: true,
+                        },
+                        url: { type: String, required: true },
+                  },
+            },
+      ],
       order: { type: Number, required: true, unique: true },
-      video: { type: Schema.Types.ObjectId, ref: "Video" },
-      createdAt: { type: Date, default: Date.now },
 });
 
 const Module = model<IModule>("Module", moduleSchema);
