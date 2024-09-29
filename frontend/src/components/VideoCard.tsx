@@ -6,6 +6,8 @@ const VideoCard = ({
       completed,
       onClick,
 }: {
+      description: string;
+      content: { type: "video" | "text"; url: string };
       title: string;
       progress: number;
       completed: boolean;

@@ -6,11 +6,13 @@ const ModuleCard = ({
       description,
       completion,
       img = "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
+      order,
 }: {
       title: string;
       description: string;
-      completion: string;
+      completion?: string;
       img?: string;
+      order: number;
 }) => {
       const navigate = useNavigate();
       return (
@@ -22,7 +24,7 @@ const ModuleCard = ({
                   flexDirection="column"
                   alignItems="start"
                   transition="all 0.2s ease-in-out"
-                  onClick={() => navigate("/module/1")}
+                  onClick={() => navigate(`/module/${order}`)}
                   _hover={{
                         bg: "gray.100",
                         boxShadow: "md",

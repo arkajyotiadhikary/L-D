@@ -4,6 +4,7 @@ import {
       getAllModules,
       getModuleById,
       uploadChapter,
+      getChaptersByModuleId,
 } from "../controllers/module.controller.js";
 
 const router = express.Router();
@@ -15,7 +16,10 @@ router.post("/api/module/create", createModule);
 router.get("/api/modules", getAllModules);
 
 // Router for get module by id
-router.get("/api/module/:moduleId", getModuleById);
+router.get("/api/module/:id", getModuleById);
+
+// Router for getting all the chapters
+router.get("/api/chapters/:id", getChaptersByModuleId);
 
 // Router for uploading a chapter
 router.post("/api/module/:moduleId/chapter", uploadChapter);

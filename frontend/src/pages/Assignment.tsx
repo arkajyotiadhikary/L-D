@@ -49,10 +49,10 @@ const QuizPage: React.FC = () => {
 
       return (
             <Layout>
-                  <Container bg="white" maxW="container" maxH={"100vh"} py={8} borderRadius={"lg"}>
-                        <Box display="flex" alignItems="flex-start" gap={8}>
+                  <Container bg="white" maxW="container" py={8} borderRadius={"lg"}>
+                        <Stack direction={["column", "row"]} spacing={8}>
                               {/* Left Side: Text and Quiz */}
-                              <Box flex="1">
+                              <Box flex={{ base: "1", md: "1" }}>
                                     <Text fontSize="sm" color="gray.500">
                                           Module 1 &gt; Quiz
                                     </Text>
@@ -141,7 +141,10 @@ const QuizPage: React.FC = () => {
                               </Box>
 
                               {/* Right Side: Image */}
-                              <Box flex={1} h={"full"} display={{ base: "none", md: "block" }}>
+                              <Box
+                                    flex={{ base: "1", md: "1" }}
+                                    display={{ base: "none", md: "block" }}
+                              >
                                     <Image
                                           h={"full"}
                                           w={"full"}
@@ -151,8 +154,7 @@ const QuizPage: React.FC = () => {
                                           alt="The New Team Member"
                                     />
                               </Box>
-                        </Box>
-                        // TODO have to move this in a differnet component
+                        </Stack>
                         {/* Modal for Feedback */}
                         <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
                               <ModalOverlay />

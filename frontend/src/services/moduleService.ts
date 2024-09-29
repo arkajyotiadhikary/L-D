@@ -10,18 +10,51 @@ const api = axios.create({
 });
 
 // Add an interceptor to include the JWT token in the Authorization header
-api.interceptors.request.use(
-      (config) => {
-            const token = localStorage.getItem("authToken"); // Get token from localStorage or another secure location
-            if (token) {
-                  config.headers["Authorization"] = `Bearer ${token}`;
-            }
-            return config;
-      },
-      (error) => {
-            return Promise.reject(error);
+// api.interceptors.request.use(
+//       (config) => {
+//             const token = localStorage.getItem("authToken"); // Get token from localStorage or another secure location
+//             if (token) {
+//                   config.headers["Authorization"] = `Bearer ${token}`;
+//             }
+//             return config;
+//       },
+//       (error) => {
+//             return Promise.reject(error);
+//       }
+// );
+
+// Get all modules for the user
+// TODO we can add user id to get modules for specfic user but for now we are getting all the modules
+export const getAllModules = async () => {
+      try {
+            const response = await api.get(`/api/modules`);
+            return response.data;
+      } catch (error) {
+            console.error("Error fetching all modules:", error);
       }
-);
+};
+
+// Get module by id
+export const getModuleById = async (id: string) => {
+      try {
+            const response = await api.get(`/api/module/${id}`);
+            return response.data;
+      } catch (error) {
+            console.error("Error fetching module by id:", error);
+      }
+};
+
+// Get chapter by module id
+export const getChapterById = async (id: string) => {
+      try {
+            console.log("Fetching chapter by id: ", id);
+            const response = await api.get(`/api/chapters/${id}`);
+            console.log("Response: ", response.data);
+            return response.data;
+      } catch (error) {
+            console.error("Error fetching chapter by id:", error);
+      }
+};
 
 // Function to upload a video
 export const uploadVideo = async (formData: FormData) => {
