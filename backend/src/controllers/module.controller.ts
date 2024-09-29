@@ -34,6 +34,17 @@ export const getChaptersByModuleId = async (req: Request, res: Response): Promis
       }
 };
 
+// get chapter by id
+export const getChapterById = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { moduleId, id } = req.params;
+            const chapter = await Chapter.findOne({ moduleId: moduleId, _id: id });
+            return res.status(200).json(chapter);
+      } catch (error: any) {
+            return res.status(500).json({ message: error.message });
+      }
+};
+
 // create modules
 export const createModule = async (req: Request, res: Response): Promise<Response> => {
       console.debug("createModule called");

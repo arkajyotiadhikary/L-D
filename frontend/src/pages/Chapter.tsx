@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Layout from "../layouts/Main";
 import DynamicContentLayout from "../components/DynamicContentLayout";
 
-const Content = () => {
+const Chapter = () => {
       const { content } = useParams(); // Get the 'content' from URL params
       const chapterId = parseInt(content || "0", 10);
 
@@ -62,4 +62,4 @@ const Content = () => {
       );
 };
 
-export default Content;
+export default Chapter;
