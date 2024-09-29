@@ -152,7 +152,7 @@ const QuizPage: React.FC = () => {
                                     />
                               </Box>
                         </Box>
-
+                        // TODO have to move this in a differnet component
                         {/* Modal for Feedback */}
                         <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
                               <ModalOverlay />

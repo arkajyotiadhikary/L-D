@@ -94,10 +94,9 @@ const Module = () => {
                                           size="sm"
                                           w="20%"
                                           mx="auto"
-                                          colorScheme="blue"
+                                          colorScheme="purple"
                                           variant="solid"
-                                          bg="#2E066E"
-                                          _hover={{ bg: "#2E066E" }}
+                                          _hover={{ bg: "purple.600" }}
                                           onClick={() => navigate("/module/1/assignment/1")}
                                     >
                                           Take an Assignment
