@@ -5,7 +5,7 @@ const ModuleCard = ({
       title,
       description,
       completion,
-      img = "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
+      img,
       order,
 }: {
       title: string;

@@ -13,6 +13,7 @@ const Dashboard = () => {
                   description: string;
                   content: { type: "video" | "text"; url: string }[];
                   order: number;
+                  imgUrl: string;
             }>
       >([]);
       useEffect(() => {
@@ -32,6 +33,7 @@ const Dashboard = () => {
                                           title={module.title}
                                           description={module.description}
                                           order={module.order}
+                                          img={module.imgUrl}
                                     />
                               ))
                         ) : (

@@ -53,9 +53,9 @@ export const createModule = async (req: Request, res: Response): Promise<Respons
             const newModule: IModule = new Module({
                   title,
                   details,
-                  order,
                   imgUrl,
             });
+
             const savedModule = await newModule.save();
             console.debug(`Created module: ${savedModule._id}`);
 

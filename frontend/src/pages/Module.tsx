@@ -42,12 +42,12 @@ const Module = () => {
             <Layout>
                   <Box p={5}>
                         <Text fontSize="2xl" fontWeight="bold">
-                              {currentModule ? currentModule.title : "Module"}
+                              {`Module ${id}`}
                         </Text>
                   </Box>
 
-                  <Flex>
-                        <Box flex="1" p={8} bg="gray.50">
+                  <Flex direction={{ base: "column", md: "row" }} w="full" justify="space-between">
+                        <Box flex="1" p={8} bg="gray.50" w="full" order={{ base: 2, md: 1 }}>
                               <HStack justify="space-between" mb={5}>
                                     <Text fontSize="2xl" fontWeight="bold">
                                           {currentModule?.title}
@@ -62,7 +62,7 @@ const Module = () => {
                                                 key={index}
                                                 title={chapter.title}
                                                 description={chapter.description}
-                                                content={chapter.content} // Pass the content field
+                                                content={chapter.content}
                                                 progress={index + 1}
                                                 completed={index === 2}
                                                 onClick={() =>
@@ -90,7 +90,7 @@ const Module = () => {
                               </Flex>
                         </Box>
 
-                        <Box w="300px" ml={4}>
+                        <Box ml={4} w={{ base: "full", md: "400px" }} order={{ base: 1, md: 2 }}>
                               <CourseInfo />
                         </Box>
                   </Flex>

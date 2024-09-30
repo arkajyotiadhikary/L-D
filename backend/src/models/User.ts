@@ -42,8 +42,8 @@ const userSchema = new Schema<IUser>({
             },
       ],
       progress: {
-            completedModules: { type: [String], default: [] }, // Initialize as an empty array
-            currentModule: { type: String, required: true }, // Set the first module's ID when the user is created
+            completedModules: { type: [String], default: [] },
+            currentModule: { type: String, required: true },
       },
 });
 
