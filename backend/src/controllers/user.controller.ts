@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
@@ -17,49 +16,49 @@ interface AuthRequest extends Request {
       userId?: string;
 }
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
-      const { username, password } = req.body;
+// export const registerUser = async (req: Request, res: Response): Promise<void> => {
+//       const { username, password } = req.body;
 
-      try {
-            const user = await User.findOne({ username });
-            if (user) {
-                  res.status(400).json({ message: "User already exists." });
-                  return;
-            }
+//       try {
+//             const user = await User.findOne({ username });
+//             if (user) {
+//                   res.status(400).json({ message: "User already exists." });
+//                   return;
+//             }
 
-            // Hash the password
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
+//             // Hash the password
+//             const salt = await bcrypt.genSalt(10);
+//             const hashedPassword = await bcrypt.hash(password, salt);
 
-            // Create new user with initial progress
-            const newUser = new User({
-                  username,
-                  password: hashedPassword,
-                  progress: {
-                        completedModules: [],
-                        currentModule: INITIAL_MODULE_ID,
-                  },
-            });
+//             // Create new user with initial progress
+//             const newUser = new User({
+//                   username,
+//                   password: hashedPassword,
+//                   progress: {
+//                         completedModules: [],
+//                         currentModule: INITIAL_MODULE_ID,
+//                   },
+//             });
 
-            await newUser.save();
+//             await newUser.save();
 
-            // Generate jwt token with the user id and progress
-            const token = jwt.sign(
-                  {
-                        userId: newUser._id,
-                        progress: newUser.progress,
-                  },
-                  process.env.JWT_SECRET as string,
-                  {
-                        expiresIn: "24h",
-                  }
-            );
-            res.status(200).json({ token });
-      } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Server error." });
-      }
-};
+//             // Generate jwt token with the user id and progress
+//             const token = jwt.sign(
+//                   {
+//                         userId: newUser._id,
+//                         progress: newUser.progress,
+//                   },
+//                   process.env.JWT_SECRET as string,
+//                   {
+//                         expiresIn: "24h",
+//                   }
+//             );
+//             res.status(200).json({ token });
+//       } catch (error) {
+//             console.error(error);
+//             res.status(500).json({ message: "Server error." });
+//       }
+// };
 
 export const signInUser = async (req: Request, res: Response): Promise<void> => {
       const { email, password } = req.body;
