@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-      registerUser,
       signInUser,
       updateUserProgress,
       getUserProgress,
@@ -10,7 +9,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
-router.post("/register", registerUser);
+// router.post("/register", registerUser);
 
 router.post("/login", signInUser);
 
