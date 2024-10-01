@@ -11,6 +11,7 @@ interface IAssignmentScore {
 export interface IUser extends Document {
       username: string;
       password: string;
+      company: Types.ObjectId;
       moduleProgress: IModuleProgress[];
       assignmentScores: IAssignmentScore[];
       progress: {
@@ -22,6 +23,7 @@ export interface IUser extends Document {
 const userSchema = new Schema<IUser>({
       username: { type: String, required: true, unique: true },
       password: { type: String, required: true },
+      company: { type: Schema.Types.ObjectId, ref: "Company", required: true },
       moduleProgress: [
             {
                   moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
@@ -47,4 +49,4 @@ const userSchema = new Schema<IUser>({
       },
 });
 
-export const User = model<IUser>("User", userSchema);
+export default model<IUser>("User", userSchema);

@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    company: { type: Schema.Types.ObjectId, ref: "Company", required: true },
     moduleProgress: [
         {
             moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
@@ -26,4 +27,4 @@ const userSchema = new Schema({
         currentModule: { type: String, required: true },
     },
 });
-export const User = model("User", userSchema);
+export default model("User", userSchema);

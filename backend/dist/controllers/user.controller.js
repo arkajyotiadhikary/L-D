@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { User } from "../models/User.js";
+import User from "../models/User.js";
+import Company from "../models/Company.js";
 dotenv.config();
 // Replace this with the ID of the first module in your system
 const INITIAL_MODULE_ID = "66cecb8b389b58336dd4ce0a";
@@ -109,4 +110,31 @@ export const getUserProgress = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Server error." });
     }
+};
+// SUPER ADMIN
+// create user
+export const createUser = async (req, res) => {
+    try {
+        // get the company id and emails
+        const { companyId, emails } = req.body;
+        // check the request body if it is valid or not
+        if (!companyId || !Array.isArray(emails) || emails.length === 0) {
+            return res.status(400).json({ message: "Invalid request body" });
+        }
+        // find the company does it exist
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ message: "Company not found" });
+        }
+        // create users for each emails and attach a password
+        const createdUsers = [];
+        for (const email of emails) {
+            const password = generatePassword();
+            // save the users
+        }
+        try { }
+        catch (error) { }
+    }
+    finally { }
+    ;
 };

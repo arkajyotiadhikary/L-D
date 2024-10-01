@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-import { User } from "../models/User.js";
+import User, { IUser } from "../models/User.js";
+import Company from "../models/Company.js";
 
 dotenv.config();
 
@@ -140,4 +141,29 @@ export const getUserProgress = async (req: AuthRequest, res: Response): Promise<
             console.error(error);
             res.status(500).json({ message: "Server error." });
       }
+};
+
+// SUPER ADMIN
+
+// create user
+export const createUser = async (req: Request, res: Response) => {
+      try {
+            // get the company id and emails
+            const { companyId, emails } = req.body;
+
+            // check the request body if it is valid or not
+            if (!companyId || !Array.isArray(emails) || emails.length === 0) {
+                  return res.status(400).json({ message: "Invalid request body" });
+            }
+            // find the company does it exist
+            const company = await Company.findById(companyId);
+            if (!company) {
+                  return res.status(404).json({ message: "Company not found" });
+            }
+            // create users for each emails and attach a password
+            const createdUsers: IUser[] = [];
+            for (const email of emails) {
+                  const password =generatePassword();
+            // save the users
+      } catch (error) {}
 };
