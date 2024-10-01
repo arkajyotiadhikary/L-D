@@ -1,4 +1,4 @@
-export const generatePassword = (length: number = 12): string => {
+export default (length: number = 12): string => {
       const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       let password = "";
       for (let i = 0; i < length; i++) {

@@ -1,30 +1,29 @@
 import { Schema, model } from "mongoose";
 const userSchema = new Schema({
-    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     company: { type: Schema.Types.ObjectId, ref: "Company", required: true },
     moduleProgress: [
         {
-            moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
+            moduleId: { type: Schema.Types.ObjectId, ref: "Module" },
             completionPercentage: {
                 type: Number,
-                required: true,
                 min: 0,
                 max: 100,
                 default: 0,
             },
-            lastChapeterId: { type: Schema.Types.ObjectId, ref: "Chapter", required: true },
+            lastChapeterId: { type: Schema.Types.ObjectId, ref: "Chapter" },
         },
     ],
     assignmentScores: [
         {
-            assignmentId: { type: Schema.Types.ObjectId, ref: "Assignment", required: true },
-            score: { type: Number, required: true, min: 0, max: 100 },
+            assignmentId: { type: Schema.Types.ObjectId, ref: "Assignment" },
+            score: { type: Number, min: 0, max: 100 },
         },
     ],
     progress: {
         completedModules: { type: [String], default: [] },
-        currentModule: { type: String, required: true },
+        currentModule: { type: String },
     },
 });
 export default model("User", userSchema);

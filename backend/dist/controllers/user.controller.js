@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/User.js";
 import Company from "../models/Company.js";
+import generatePassword from "../utils/passwordGenerator.js";
 dotenv.config();
 // Replace this with the ID of the first module in your system
 const INITIAL_MODULE_ID = "66cecb8b389b58336dd4ce0a";
@@ -42,22 +43,20 @@ export const registerUser = async (req, res) => {
     }
 };
 export const signInUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email });
         if (!user) {
             res.status(400).json({ message: "Invalid credentials" });
             return;
         }
-        const checkPassword = await bcrypt.compare(password, user.password);
-        if (!checkPassword) {
+        if (password !== user.password) {
             res.status(400).json({ message: "Invalid credentials" });
             return;
         }
         // Generate jwt token with the user id and progress
         const token = jwt.sign({
             userId: user._id,
-            progress: user.progress,
         }, process.env.JWT_SECRET, {
             expiresIn: "24h",
         });
@@ -113,7 +112,7 @@ export const getUserProgress = async (req, res) => {
 };
 // SUPER ADMIN
 // create user
-export const createUser = async (req, res) => {
+export const createUsers = async (req, res) => {
     try {
         // get the company id and emails
         const { companyId, emails } = req.body;
@@ -130,11 +129,26 @@ export const createUser = async (req, res) => {
         const createdUsers = [];
         for (const email of emails) {
             const password = generatePassword();
-            // save the users
+            console.log(email, password);
+            const newUser = new User({
+                email,
+                password,
+                company: company._id,
+            });
+            await newUser.save();
+            createdUsers.push(newUser);
         }
-        try { }
-        catch (error) { }
+        res.status(201).json({
+            message: "Users created successfully",
+            company: company.name,
+            users: createdUsers.map((user) => ({
+                email: user.email,
+                password: user.password,
+            })),
+        });
     }
-    finally { }
-    ;
+    catch (error) {
+        console.error("Error creating users:", error);
+        res.status(500).json({ message: "Error creating users" });
+    }
 };

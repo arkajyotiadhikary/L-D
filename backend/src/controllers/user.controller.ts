@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import User, { IUser } from "../models/User.js";
 import Company from "../models/Company.js";
 
+import generatePassword from "../utils/passwordGenerator.js";
+
 dotenv.config();
 
 // Replace this with the ID of the first module in your system
@@ -60,16 +62,15 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 };
 
 export const signInUser = async (req: Request, res: Response): Promise<void> => {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
       try {
-            const user = await User.findOne({ username });
+            const user = await User.findOne({ email });
             if (!user) {
                   res.status(400).json({ message: "Invalid credentials" });
                   return;
             }
 
-            const checkPassword = await bcrypt.compare(password, user.password);
-            if (!checkPassword) {
+            if (password !== user.password) {
                   res.status(400).json({ message: "Invalid credentials" });
                   return;
             }
@@ -78,7 +79,6 @@ export const signInUser = async (req: Request, res: Response): Promise<void> => 
             const token = jwt.sign(
                   {
                         userId: user._id,
-                        progress: user.progress,
                   },
                   process.env.JWT_SECRET as string,
                   {
@@ -146,7 +146,7 @@ export const getUserProgress = async (req: AuthRequest, res: Response): Promise<
 // SUPER ADMIN
 
 // create user
-export const createUser = async (req: Request, res: Response) => {
+export const createUsers = async (req: Request, res: Response) => {
       try {
             // get the company id and emails
             const { companyId, emails } = req.body;
@@ -163,7 +163,26 @@ export const createUser = async (req: Request, res: Response) => {
             // create users for each emails and attach a password
             const createdUsers: IUser[] = [];
             for (const email of emails) {
-                  const password =generatePassword();
-            // save the users
-      } catch (error) {}
+                  const password = generatePassword();
+                  console.log(email, password);
+                  const newUser = new User({
+                        email,
+                        password,
+                        company: company._id,
+                  });
+                  await newUser.save();
+                  createdUsers.push(newUser);
+            }
+            res.status(201).json({
+                  message: "Users created successfully",
+                  company: company.name,
+                  users: createdUsers.map((user) => ({
+                        email: user.email,
+                        password: user.password,
+                  })),
+            });
+      } catch (error) {
+            console.error("Error creating users:", error);
+            res.status(500).json({ message: "Error creating users" });
+      }
 };
