@@ -3,8 +3,11 @@ import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from
 import img from "../assets/images/Rectangle 968.png";
 import { useNavigate } from "react-router-dom";
 import { signin } from "../services/authService";
+import { useAuth } from "../hooks/useAuth";
 const LoginPage = () => {
       const navigate = useNavigate();
+      const { login } = useAuth();
+
       const [credentials, setCredentials] = useState({
             email: "",
             password: "",
@@ -14,7 +17,7 @@ const LoginPage = () => {
             event.preventDefault();
             try {
                   const { token } = await signin(credentials);
-                  localStorage.setItem("token", token);
+                  login(token);
                   navigate("/dashboard");
             } catch (error) {
                   console.log(error);
