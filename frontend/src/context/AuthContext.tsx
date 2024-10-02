@@ -11,7 +11,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       const [userToken, setUserToken] = useState<string | null>(() => {
-            return localStorage.getItem("authToken");
+            return localStorage.getItem("token");
       });
 
       const isAuthenticated = !!userToken;
@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const logout = () => {
             setUserToken(null);
-            localStorage.removeItem("authToken");
+            localStorage.removeItem("token");
             localStorage.removeItem("currentModuleId");
             const videoKeys = Object.keys(localStorage).filter((key) => key.startsWith("video-"));
             videoKeys.forEach((key) => localStorage.removeItem(key));

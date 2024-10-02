@@ -5,13 +5,17 @@ import Dashboard from "../pages/Dashboard.tsx";
 import Module from "../pages/Module.tsx";
 import Chapter from "../pages/Chapter.tsx";
 import Assignment from "../pages/Assignment.tsx";
+import PrivateRoute from "../components/PrivateRoute.tsx";
 
 const Router = () => {
       return (
             <BrowserRouter>
                   <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route
+                              path="/dashboard"
+                              element={<PrivateRoute element={<Dashboard />} />}
+                        />
                         <Route path="/module/:id" element={<Module />} />
                         <Route path="/module/:module/content/:content" element={<Chapter />} />
                         <Route

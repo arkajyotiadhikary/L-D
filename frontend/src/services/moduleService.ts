@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
-const API_BASE_URL = "https://lizmotor.onrender.com"; // Replace with your backend API base URL
+const API_BASE_URL = "https://lizmotor.onrender.com";
 // const API_BASE_URL = "http://localhost:8000";
 // Create an instance of axios with base URL
 
@@ -12,7 +12,7 @@ const api = axios.create({
 // Add an interceptor to include the JWT token in the Authorization header
 // api.interceptors.request.use(
 //       (config) => {
-//             const token = localStorage.getItem("authToken"); // Get token from localStorage or another secure location
+//             const token = localStorage.getItem("token"); // Get token from localStorage or another secure location
 //             if (token) {
 //                   config.headers["Authorization"] = `Bearer ${token}`;
 //             }

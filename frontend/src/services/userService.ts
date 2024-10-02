@@ -10,7 +10,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
       (config) => {
-            const token = localStorage.getItem("authToken"); // Get token from localStorage or another secure location
+            const token = localStorage.getItem("token"); // Get token from localStorage or another secure location
             if (token) {
                   config.headers["Authorization"] = `Bearer ${token}`;
             }
@@ -29,6 +29,7 @@ export const updateUserProgress = async (currentModule: string, completedModule?
                   completedModule,
             });
             return response.data;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
             console.error("Error updating user progress:", error.response?.data || error.message);
             throw error;
@@ -40,6 +41,7 @@ export const getUserProgress = async () => {
       try {
             const response = await api.get(`/api/users/progress`);
             return response.data;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
             console.error("Error fetching user progress:", error.response?.data || error.message);
             throw error;

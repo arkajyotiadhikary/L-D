@@ -1,8 +1,26 @@
+import { useState } from "react";
 import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
 import img from "../assets/images/Rectangle 968.png";
 import { useNavigate } from "react-router-dom";
+import { signin } from "../services/authService";
 const LoginPage = () => {
       const navigate = useNavigate();
+      const [credentials, setCredentials] = useState({
+            email: "",
+            password: "",
+      });
+
+      const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
+            event.preventDefault();
+            try {
+                  const { token } = await signin(credentials);
+                  localStorage.setItem("token", token);
+                  navigate("/dashboard");
+            } catch (error) {
+                  console.log(error);
+            }
+      };
+
       return (
             <Flex
                   justify="space-around"
@@ -38,6 +56,12 @@ const LoginPage = () => {
                                                 borderColor="#BCBCBC"
                                                 size="lg"
                                                 padding={8}
+                                                onChange={(e) =>
+                                                      setCredentials({
+                                                            ...credentials,
+                                                            email: e.target.value,
+                                                      })
+                                                }
                                           />
                                     </FormControl>
                                     <FormControl id="password">
@@ -48,10 +72,16 @@ const LoginPage = () => {
                                                 borderColor="#BCBCBC"
                                                 size="lg"
                                                 padding={8}
+                                                onChange={(e) =>
+                                                      setCredentials({
+                                                            ...credentials,
+                                                            password: e.target.value,
+                                                      })
+                                                }
                                           />
                                     </FormControl>
                                     <Button
-                                          onClick={() => navigate("/dashboard")}
+                                          onClick={handleSubmit}
                                           colorScheme="purple"
                                           width="full"
                                           size="lg"

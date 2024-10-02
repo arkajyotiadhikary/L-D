@@ -6,11 +6,11 @@ const BASE_URL = "https://lizmotor.onrender.com";
 // const BASE_URL = "http://localhost:8000";
 
 interface AuthCredentials {
-      username: string;
+      email: string;
       password: string;
 }
 
-export const signin = async (credentials: AuthCredentials) => {
+export const signin = async (credentials: AuthCredentials): Promise<{ token: string }> => {
       try {
             console.log("Sending credentials: ", credentials);
             const response = await axios.post(`${BASE_URL}/login`, credentials);
