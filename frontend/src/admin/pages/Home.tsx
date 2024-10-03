@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
-import img from "../assets/images/Rectangle 968.png";
+import img from "../../assets/images/Rectangle 968.png";
 import { useNavigate } from "react-router-dom";
-import { signin } from "../services/authService";
-import { useAuth } from "../hooks/useAuth";
-import useUserStore from "../store";
+import { signin } from "../../services/authService";
+import { useAuth } from "../../hooks/useAuth";
+import useUserStore from "../../store";
 const LoginPage = () => {
       const navigate = useNavigate();
       const { login } = useAuth();

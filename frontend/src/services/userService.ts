@@ -36,10 +36,11 @@ export const updateUserProgress = async (currentModule: string, completedModule?
       }
 };
 
-export const getUserProgress = async () => {
+export const getUserProgress = async (userId: string) => {
       console.log("Fetching user progress...");
+
       try {
-            const response = await api.get(`/api/users/progress`);
+            const response = await api.get(`/api/users/progress/${userId}`);
             return response.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {

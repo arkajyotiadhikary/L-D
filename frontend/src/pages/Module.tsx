@@ -43,7 +43,7 @@ const Module = () => {
 
       // Helper function to get the user's progress for this module
       const getModuleProgress = () => {
-            return user?.moduleProgress.find((progress) => progress.moduleId === id);
+            return user?.moduleProgress?.find((progress) => progress.moduleId === id);
       };
 
       // Helper function to determine chapter completion status

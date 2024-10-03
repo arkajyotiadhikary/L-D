@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Grid, Skeleton, Text } from "@chakra-ui/react";
 import ModuleCard from "../components/ModuleCard";
 import Layout from "../layouts/Main";
-
 import { getAllModules } from "../services/moduleService";
+import { getUserProgress } from "../services/userService";
 import useUserStore from "../store";
 
 const Dashboard = () => {
+      const user = useUserStore((state) => state.user); // Get user directly from Zustand
       const [modules, setModules] = useState<
             Array<{
                   _id: string;
@@ -20,23 +21,42 @@ const Dashboard = () => {
 
       const [isLoading, setIsLoading] = useState(true);
 
-      const { user } = useUserStore();
-
       useEffect(() => {
-            const fetchModules = async () => {
-                  setIsLoading(true);
-                  const _modules = await getAllModules();
-                  setModules(_modules);
-                  setIsLoading(false);
+            const fetchData = async () => {
+                  try {
+                        const [modulesData, progress] = await Promise.all([
+                              getAllModules(),
+                              getUserProgress(user?._id || ""),
+                        ]);
+                        setModules(modulesData);
+
+                        if (user?._id) {
+                              useUserStore.setState({
+                                    user: {
+                                          ...user,
+                                          progress,
+                                    },
+                              });
+                        } else {
+                              console.error("User ID is undefined");
+                        }
+                  } catch (error) {
+                        console.error("Error fetching data", error);
+                  } finally {
+                        setIsLoading(false);
+                  }
             };
-            fetchModules();
+
+            if (user) {
+                  fetchData();
+            }
       }, []);
 
       const getModuleCompletionStatus = (moduleId: string) => {
-            if (user) {
+            if (user && user.progress) {
                   const { completedModules, currentModule } = user.progress;
 
-                  if (completedModules.includes(moduleId)) {
+                  if (completedModules && completedModules.includes(moduleId)) {
                         return "completed";
                   }
                   if (currentModule === moduleId) {
