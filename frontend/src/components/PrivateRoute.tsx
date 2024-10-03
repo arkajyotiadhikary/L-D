@@ -8,7 +8,7 @@ interface PrivateRouteProps {
       role?: string;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, role }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, role = "EMPLOYEE" }) => {
       const { isAuthenticated } = useAuth();
       const { user } = useUserStore();
 

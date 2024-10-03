@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
-import img from "../../assets/images/Rectangle 968.png";
+import img from "../../assets/images/Admin Home.jpg";
 import { useNavigate } from "react-router-dom";
 import { signin } from "../../services/authService";
 import { useAuth } from "../../hooks/useAuth";
@@ -122,6 +122,9 @@ const LoginPage = () => {
                               boxShadow="lg"
                               mx="auto"
                               maxWidth="100%"
+                              height="60vh"
+                              width="60vw"
+                              objectFit="cover"
                         />
                         <Text
                               position="absolute"

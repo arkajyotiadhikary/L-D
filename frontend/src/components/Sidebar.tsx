@@ -10,7 +10,13 @@ import {
       Box,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+      faAngleDoubleLeft,
+      faClipboard,
+      faCubes,
+      faHistory,
+      faStar,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
@@ -32,15 +38,48 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                         <DrawerBody>
                               <VStack spacing={4} align="start">
                                     <VStack spacing={4} align="start" mt={10}>
-                                          <Button
-                                                variant="link"
-                                                onClick={() => navigate("/dashboard")}
-                                          >
-                                                Modules
-                                          </Button>
-                                          <Button variant="link">Assignments</Button>
-                                          <Button variant="link">Scores</Button>
-                                          <Button variant="link">Learning History</Button>
+                                          <VStack spacing={4} align="start">
+                                                <Button
+                                                      variant="link"
+                                                      onClick={() => navigate("/modules")}
+                                                >
+                                                      <FontAwesomeIcon
+                                                            style={{ marginRight: "5px" }}
+                                                            icon={faCubes}
+                                                      />
+                                                      Modules
+                                                </Button>
+                                                <Button
+                                                      variant="link"
+                                                      onClick={() => navigate("/assignments")}
+                                                >
+                                                      <FontAwesomeIcon
+                                                            style={{ marginRight: "5px" }}
+                                                            icon={faClipboard}
+                                                      />
+                                                      Assignments
+                                                </Button>
+                                                <Button
+                                                      variant="link"
+                                                      onClick={() => navigate("/scores")}
+                                                >
+                                                      <FontAwesomeIcon
+                                                            style={{ marginRight: "5px" }}
+                                                            icon={faStar}
+                                                      />
+                                                      Scores
+                                                </Button>
+                                                <Button
+                                                      variant="link"
+                                                      onClick={() => navigate("/learning-history")}
+                                                >
+                                                      <FontAwesomeIcon
+                                                            style={{ marginRight: "5px" }}
+                                                            icon={faHistory}
+                                                      />
+                                                      Learning History
+                                                </Button>
+                                          </VStack>
                                     </VStack>
                               </VStack>
                         </DrawerBody>

@@ -7,6 +7,7 @@ import Chapter from "../pages/Chapter.tsx";
 import Assignment from "../pages/Assignment.tsx";
 import PrivateRoute from "../components/PrivateRoute.tsx";
 import AdminHome from "../admin/pages/Home.tsx";
+import AdminDashboard from "../admin/pages/Dashboard.tsx";
 
 const Router = () => {
       return (
@@ -23,9 +24,10 @@ const Router = () => {
                               path="/module/:module/assignment/:assignment"
                               element={<Assignment />}
                         />
+                        <Route path="/admin" element={<PrivateRoute element={<AdminHome />} />} />
                         <Route
-                              path="/admin"
-                              element={<PrivateRoute element={<AdminHome />} role="SUPER_ADMIN" />}
+                              path="/admin/dashboard"
+                              element={<PrivateRoute element={<AdminDashboard />} />}
                         />
                   </Routes>
             </BrowserRouter>
