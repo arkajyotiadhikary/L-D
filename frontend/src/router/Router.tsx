@@ -24,10 +24,12 @@ const Router = () => {
                               path="/module/:module/assignment/:assignment"
                               element={<Assignment />}
                         />
-                        <Route path="/admin" element={<PrivateRoute element={<AdminHome />} />} />
+                        <Route path="/admin" element={<AdminHome />} />
                         <Route
                               path="/admin/dashboard"
-                              element={<PrivateRoute element={<AdminDashboard />} />}
+                              element={
+                                    <PrivateRoute element={<AdminDashboard />} role="SUPER_ADMIN" />
+                              }
                         />
                   </Routes>
             </BrowserRouter>

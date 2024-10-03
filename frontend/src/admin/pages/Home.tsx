@@ -21,7 +21,7 @@ const LoginPage = () => {
                   console.log(token, user);
                   login(token, user);
                   useUserStore.setState({ user });
-                  navigate("/dashboard");
+                  navigate("/admin/dashboard");
             } catch (error) {
                   console.log(error);
             }
