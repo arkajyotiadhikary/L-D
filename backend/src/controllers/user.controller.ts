@@ -85,7 +85,7 @@ export const signInUser = async (req: Request, res: Response): Promise<void> => 
                   }
             );
 
-            res.status(200).json({ token });
+            res.status(200).json({ token, user });
       } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Server error." });

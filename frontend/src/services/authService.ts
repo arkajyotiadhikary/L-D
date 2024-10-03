@@ -2,15 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
 
-const BASE_URL = "https://lizmotor.onrender.com";
-// const BASE_URL = "http://localhost:8000";
+// const BASE_URL = "https://lizmotor.onrender.com";
+const BASE_URL = "http://localhost:8000";
 
 interface AuthCredentials {
       email: string;
       password: string;
 }
 
-export const signin = async (credentials: AuthCredentials): Promise<{ token: string }> => {
+export const signin = async (
+      credentials: AuthCredentials
+): Promise<{ token: string; user: any }> => {
       try {
             console.log("Sending credentials: ", credentials);
             const response = await axios.post(`${BASE_URL}/login`, credentials);

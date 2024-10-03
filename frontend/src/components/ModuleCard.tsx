@@ -10,7 +10,7 @@ const ModuleCard = ({
 }: {
       title: string;
       description: string;
-      completion?: string;
+      completion?: "completed" | "progress" | "incomplete";
       img?: string;
       order: number;
 }) => {
@@ -24,7 +24,11 @@ const ModuleCard = ({
                   flexDirection="column"
                   alignItems="start"
                   transition="all 0.2s ease-in-out"
-                  onClick={() => navigate(`/module/${order}`)}
+                  onClick={
+                        completion === "incomplete" ? undefined : () => navigate(`/module/${order}`)
+                  }
+                  opacity={completion === "incomplete" ? 0.5 : 1}
+                  pointerEvents={completion === "incomplete" ? "none" : undefined}
                   _hover={{
                         bg: "gray.100",
                         boxShadow: "md",
@@ -49,9 +53,23 @@ const ModuleCard = ({
                         <Text
                               mt={4}
                               fontWeight="semibold"
-                              color={completion === "100%" ? "green.500" : "gray.500"}
+                              color={
+                                    completion === "completed"
+                                          ? "green.500"
+                                          : completion === "incomplete"
+                                          ? "red.500"
+                                          : completion === "progress"
+                                          ? "gray.500"
+                                          : "yellow.500"
+                              }
                         >
-                              {completion} Completed
+                              {completion === "completed"
+                                    ? "Completed"
+                                    : completion === "incomplete"
+                                    ? "Incomplete"
+                                    : completion === "progress"
+                                    ? "Continue"
+                                    : "In Progress"}
                         </Text>
                   </Box>
             </Box>

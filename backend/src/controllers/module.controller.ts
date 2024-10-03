@@ -4,7 +4,7 @@ import Chapter, { IChapter } from "../models/Chapter.js";
 // get all modules
 export const getAllModules = async (req: Request, res: Response): Promise<Response> => {
       try {
-            const modules = await Module.find();
+            const modules = await Module.find().sort({ order: 1 });
             return res.status(200).json(modules);
       } catch (error: any) {
             return res.status(500).json({ message: error.message });

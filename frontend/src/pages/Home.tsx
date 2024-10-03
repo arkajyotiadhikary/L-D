@@ -4,6 +4,7 @@ import img from "../assets/images/Rectangle 968.png";
 import { useNavigate } from "react-router-dom";
 import { signin } from "../services/authService";
 import { useAuth } from "../hooks/useAuth";
+import useUserStore from "../store";
 const LoginPage = () => {
       const navigate = useNavigate();
       const { login } = useAuth();
@@ -16,8 +17,9 @@ const LoginPage = () => {
       const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
             event.preventDefault();
             try {
-                  const { token } = await signin(credentials);
+                  const { token, user } = await signin(credentials);
                   login(token);
+                  useUserStore.setState({ user });
                   navigate("/dashboard");
             } catch (error) {
                   console.log(error);

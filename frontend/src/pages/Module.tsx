@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CourseInfo from "../components/CourseInfo";
 import VideoCard from "../components/VideoCard";
 import Layout from "../layouts/Main";
+import useUserStore from "../store"; // Assuming Zustand store is here
 
 const Module = () => {
       const { id } = useParams();
@@ -15,13 +16,15 @@ const Module = () => {
                   title: string;
                   description: string;
                   content: { type: "video" | "text"; url: string };
+                  _id: string; // Assume chapters have an _id to track progress
             }>
       >([]);
-
       const [currentModule, setCurrentModule] = useState<{
             title: string;
             details: string;
       } | null>(null);
+
+      const { user } = useUserStore(); // Access user state from Zustand store
 
       useEffect(() => {
             const fetchModule = async () => {
@@ -38,6 +41,43 @@ const Module = () => {
             fetchModule();
       }, [id]);
 
+      // Helper function to get the user's progress for this module
+      const getModuleProgress = () => {
+            return user?.moduleProgress.find((progress) => progress.moduleId === id);
+      };
+
+      // Helper function to determine chapter completion status
+      const getChapterCompletionStatus = (chapterId: string, index: number) => {
+            const moduleProgress = getModuleProgress();
+
+            // If no progress, mark the first chapter as "progress"
+            if (!moduleProgress) {
+                  return index === 0 ? "progress" : "incomplete";
+            }
+
+            const { chapterProgress, currentChapterId } = moduleProgress;
+
+            const chapterProgressItem = chapterProgress.find(
+                  (progress) => progress.chapterId === chapterId
+            );
+
+            // Check if chapter is completed
+            if (chapterProgressItem && chapterProgressItem.completed) {
+                  return "completed";
+            }
+
+            // If currentChapterId is null, make the first chapter as "progress"
+            if (!currentChapterId && index === 0) {
+                  return "progress";
+            }
+
+            // If the chapter matches the current one in progress
+            if (currentChapterId === chapterId) {
+                  return "progress";
+            }
+
+            return "incomplete";
+      };
       return (
             <Layout>
                   <Box p={5}>
@@ -59,12 +99,15 @@ const Module = () => {
                               {chapters?.length > 0 ? (
                                     chapters.map((chapter, index) => (
                                           <VideoCard
-                                                key={index}
+                                                key={chapter._id}
                                                 title={chapter.title}
                                                 description={chapter.description}
                                                 content={chapter.content}
                                                 progress={index + 1}
-                                                completed={index === 2}
+                                                completion={getChapterCompletionStatus(
+                                                      chapter._id,
+                                                      index
+                                                )}
                                                 onClick={() =>
                                                       navigate(`/module/${id}/content/${index + 1}`)
                                                 }

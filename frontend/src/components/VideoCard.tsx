@@ -3,14 +3,14 @@ import { Box, HStack, Button, Progress, Text } from "@chakra-ui/react";
 const VideoCard = ({
       title,
       progress,
-      completed,
+      completion,
       onClick,
 }: {
       description: string;
       content: { type: "video" | "text"; url: string };
       title: string;
       progress: number;
-      completed: boolean;
+      completion?: "completed" | "progress" | "incomplete";
       onClick: () => void;
 }) => (
       <Box
@@ -20,12 +20,18 @@ const VideoCard = ({
             bg="white"
             mb={4}
             onClick={onClick}
-            _hover={{ cursor: "pointer" }}
+            _hover={{ cursor: completion === "incomplete" ? "not-allowed" : "pointer" }}
+            pointerEvents={completion === "incomplete" ? "none" : "auto"}
       >
             <HStack justify="space-between">
                   <Text fontWeight="bold">{title}</Text>
-                  <Button size="sm" border={"1px"} borderRadius="md">
-                        {completed ? "Play Again" : "Play"}
+                  <Button
+                        size="sm"
+                        border={"1px"}
+                        borderRadius="md"
+                        isDisabled={completion === "incomplete"}
+                  >
+                        {completion === "completed" ? "Play Again" : "Play"}
                   </Button>
             </HStack>
             <Progress

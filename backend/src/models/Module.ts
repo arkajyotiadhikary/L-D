@@ -1,17 +1,19 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IModule extends Document {
       title: string;
-      details: string;
+      description: string;
       order: number;
       imgUrl: string;
+      chapters: Types.ObjectId[];
 }
 
 const moduleSchema = new Schema<IModule>({
       title: { type: String, required: true },
-      details: { type: String, required: true },
+      description: { type: String, required: true },
       order: { type: Number, unique: true },
       imgUrl: { type: String, required: true },
+      chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
 });
 
 moduleSchema.pre<IModule>("save", async function (next) {
