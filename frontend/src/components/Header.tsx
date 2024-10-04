@@ -1,8 +1,13 @@
 import { Flex, IconButton, Text, Image, useDisclosure, HStack } from "@chakra-ui/react";
+import React from "react";
 import { FiX, FiMenu, FiChevronLeft } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+      moduleId: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ moduleId }) => {
       const navigate = useNavigate();
       const location = useLocation();
       const { isOpen, onOpen, onClose } = useDisclosure();
@@ -16,7 +21,7 @@ const Header = () => {
                                     icon={<FiChevronLeft size={32} />}
                                     bg={"none"}
                                     aria-label="Back"
-                                    onClick={() => navigate("/module/1")}
+                                    onClick={() => navigate(`/module/${moduleId}`)}
                               />
                         )}
                         <Text fontSize="2xl" fontWeight="bold">

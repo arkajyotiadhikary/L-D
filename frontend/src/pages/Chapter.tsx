@@ -35,7 +35,7 @@ const Chapter = () => {
       }
 
       return (
-            <Layout>
+            <Layout moduleId={module!}>
                   <DynamicContentLayout chapter={chapters} currentModule={module!} />
             </Layout>
       );

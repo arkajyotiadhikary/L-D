@@ -5,7 +5,7 @@ import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children, moduleId }: { children: React.ReactNode; moduleId?: string }) => {
       const [isOpen, setIsOpen] = useState(false);
 
       const onClose = () => setIsOpen(false);
@@ -27,7 +27,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   {/* Main Content */}
                   <Box w={"full"} flex="1" ml={{ base: 0, md: isOpen ? "60" : "0" }} bg="gray.100">
                         {/* Header */}
-                        <Header />
+                        <Header moduleId={moduleId || ""} />
 
                         {/* Page-specific content */}
                         <Box p={5}>{children}</Box>
