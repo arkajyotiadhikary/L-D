@@ -64,16 +64,18 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                                           Instructors
                                     </Button>
                                     <Collapse in={isInstructorOpen}>
-                                          <VStack spacing={2} align="start">
+                                          <VStack spacing={4} align="start">
                                                 <Button
                                                       variant="link"
-                                                      onClick={() => navigate("/manage-courses")}
+                                                      onClick={() =>
+                                                            navigate("/admin/modules/manage")
+                                                      }
                                                 >
                                                       <FontAwesomeIcon
                                                             style={{ marginRight: "5px" }}
                                                             icon={faBook}
                                                       />
-                                                      Manage Courses
+                                                      Manage Modules
                                                 </Button>
                                                 <Button
                                                       variant="link"
@@ -83,7 +85,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                                                             style={{ marginRight: "5px" }}
                                                             icon={faCircleQuestion}
                                                       />
-                                                      Manage Quizzes
+                                                      Manage Assignments
                                                 </Button>
                                                 <Button
                                                       variant="link"
@@ -93,7 +95,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                                                             style={{ marginRight: "5px" }}
                                                             icon={faFilePen}
                                                       />
-                                                      Edit Courses
+                                                      Edit Module
                                                 </Button>
                                                 <Button
                                                       variant="link"
@@ -103,7 +105,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                                                             style={{ marginRight: "5px" }}
                                                             icon={faPenSquare}
                                                       />
-                                                      Edit Quiz
+                                                      Edit Assignment
                                                 </Button>
                                           </VStack>
                                     </Collapse>

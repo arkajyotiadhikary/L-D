@@ -32,15 +32,17 @@ chapterSchema.pre<IChapter>("save", async function (next) {
       }
 
       try {
+            // Find the last chapter for the module and set the order accordingly
             const lastChapter = await Chapter.findOne({ moduleId: this.moduleId })
                   .sort({ order: -1 })
                   .limit(1);
+
+            // Set the order for this chapter
             this.order = lastChapter ? lastChapter.order + 1 : 1;
             next();
       } catch (error: unknown) {
             next(error as Error);
       }
 });
-
 const Chapter = mongoose.model<IChapter>("Chapter", chapterSchema);
 export default Chapter;

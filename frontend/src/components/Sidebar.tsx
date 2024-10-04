@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                                           <VStack spacing={4} align="start">
                                                 <Button
                                                       variant="link"
-                                                      onClick={() => navigate("/modules")}
+                                                      onClick={() => navigate("/dashboard")}
                                                 >
                                                       <FontAwesomeIcon
                                                             style={{ marginRight: "5px" }}

@@ -15,7 +15,7 @@ export const getAllModules = async (req: Request, res: Response): Promise<Respon
 export const getModuleById = async (req: Request, res: Response): Promise<Response> => {
       try {
             const { id } = req.params;
-            const module = await Module.findOne({ order: id });
+            const module = await Module.findOne({ _id: id });
             return res.status(200).json(module);
       } catch (error: any) {
             return res.status(500).json({ message: error.message });
@@ -49,27 +49,42 @@ export const getChapterById = async (req: Request, res: Response): Promise<Respo
 export const createModule = async (req: Request, res: Response): Promise<Response> => {
       console.debug("createModule called");
       try {
-            const { title, details, chapters, order, imgUrl } = req.body;
-            const newModule: IModule = new Module({
+            const { title, description, imgUrl, chapters } = req.body;
+
+            // Create new module
+            const newModule = new Module({
                   title,
-                  details,
+                  description,
                   imgUrl,
             });
 
             const savedModule = await newModule.save();
             console.debug(`Created module: ${savedModule._id}`);
 
+            // Create chapters with automatic order
             const savedChapters = await Promise.all(
                   chapters.map(
-                        async (chapter: {
-                              title: string;
-                              description: string;
-                              content: { type: "video" | "text"; url: string };
-                        }) => {
+                        async (
+                              chapter: {
+                                    title: string;
+                                    description: string;
+                                    content: { type: "video" | "text"; url: string };
+                              },
+                              index: number
+                        ) => {
+                              // Find last chapter's order for this module
+                              const lastChapter = await Chapter.findOne({
+                                    moduleId: savedModule._id,
+                              }).sort({ order: -1 });
+
                               const newChapter = new Chapter({
                                     moduleId: savedModule._id,
-                                    ...chapter,
+                                    title: chapter.title,
+                                    description: chapter.description,
+                                    content: chapter.content,
+                                    order: lastChapter ? lastChapter.order + 1 : 1, // Auto-increment order
                               });
+
                               const savedChapter = await newChapter.save();
                               console.debug(`Created chapter: ${savedChapter._id}`);
                               return savedChapter;
