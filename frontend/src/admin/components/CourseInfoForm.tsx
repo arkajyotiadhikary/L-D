@@ -7,6 +7,7 @@ interface CourseInfoFormProps {
 }
 
 const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, setModule }) => {
+      console.log(title, description);
       return (
             <Box>
                   <Heading size="md" mb={4}>
@@ -19,7 +20,6 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         </Heading>
                         <Input
                               placeholder="Enter course title"
-                              defaultValue="Angular Fundamentals"
                               value={title}
                               onChange={(e) => setModule({ title: e.target.value, description })}
                         />
@@ -32,9 +32,10 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         <Heading size="sm" mb={2}>
                               Description
                         </Heading>
-                        <Textarea placeholder="Shortly describe this course." value={description}>
-                              Hello World! Some initial bold text
-                        </Textarea>
+                        <Textarea
+                              placeholder="Shortly describe this course."
+                              value={description}
+                        ></Textarea>
                         <Text fontSize="sm" mt={2}>
                               Shortly describe this course.
                         </Text>

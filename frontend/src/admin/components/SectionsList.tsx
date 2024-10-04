@@ -1,10 +1,12 @@
 import { Box, Button, Heading } from "@chakra-ui/react";
 import Section from "./Section";
+import { useNavigate } from "react-router-dom";
 
 interface SectionsListProps {
-      chapters: { title: string }[];
+      chapters: { _id: string; title: string }[];
 }
 const SectionsList: React.FC<SectionsListProps> = ({ chapters }) => {
+      const navigation = useNavigate();
       return (
             <Box mt={8}>
                   <Heading size="md" mb={4}>
@@ -12,10 +14,14 @@ const SectionsList: React.FC<SectionsListProps> = ({ chapters }) => {
                   </Heading>
 
                   {chapters.map((section, index) => (
-                        <Section key={index} title={section.title} />
+                        <Section key={index} title={section.title} _id={section._id} />
                   ))}
 
-                  <Button mt={4} variant="outline">
+                  <Button
+                        mt={4}
+                        variant="outline"
+                        onClick={() => navigation(`admin/chapter/edit/`)}
+                  >
                         Add Section
                   </Button>
             </Box>

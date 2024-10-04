@@ -1,9 +1,39 @@
+import { useState, useEffect } from "react";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import CourseInfoForm from "../components/CourseInfoForm";
 import VideoUploader from "../components/VideoUploader";
 import Layout from "../layouts/Main";
 
+import { useParams } from "react-router-dom";
+import { getChapterById } from "../services/moduleService";
+
 const EditCoursePage: React.FC = () => {
+      const { id } = useParams();
+
+      const [chapter, setChapter] = useState<{
+            _id?: string;
+            title?: string;
+            description?: string;
+            order?: number;
+            imgUrl?: string;
+      }>({});
+
+      useEffect(() => {
+            console.log("module", id);
+            // Get course by id
+            const fetchChapter = async () => {
+                  try {
+                        const _chapter = await getChapterById(id!);
+                        setChapter(_chapter);
+                        console.log("chapter", _chapter);
+                  } catch (error) {
+                        console.error("Error fetching chapter:", error);
+                  }
+            };
+
+            fetchChapter();
+      }, [id]);
+
       return (
             <Layout>
                   <Box p={8} bg={"white"}>
@@ -14,7 +44,11 @@ const EditCoursePage: React.FC = () => {
                               <Flex justify="space-between">
                                     {/* Left Side - Course Information */}
                                     <Box width="60%">
-                                          <CourseInfoForm />
+                                          <CourseInfoForm
+                                                title={chapter.title!}
+                                                description={chapter.description!}
+                                                setModule={setChapter}
+                                          />
                                     </Box>
 
                                     {/* Right Side - Video Uploader */}

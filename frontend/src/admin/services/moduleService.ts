@@ -34,3 +34,13 @@ export const getChaptersByModuleId = async (id: string) => {
             console.error("Error fetching chapters by module id:", error);
       }
 };
+
+export const getChapterById = async (id: string) => {
+      try {
+            const response = await api.get(`/api/chapter/${id}`);
+            console.log(response.data);
+            return response.data;
+      } catch (error) {
+            console.error("Error fetching chapter by id:", error);
+      }
+};

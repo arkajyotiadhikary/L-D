@@ -23,7 +23,7 @@ router.get("/api/module/:id", getModuleById);
 router.get("/api/chapters/:id", getChaptersByModuleId);
 
 // Router to get chapter by id
-router.get("/api/module/:moduleId/chapter/:id", getChapterById);
+router.get("/api/chapter/:id", getChapterById);
 
 // Router for uploading a chapter
 router.post("/api/module/:moduleId/chapter", uploadChapter);
