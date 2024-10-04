@@ -5,19 +5,21 @@ import useUserStore from "../store";
 
 interface PrivateRouteProps {
       element: React.ReactElement;
-      role?: string;
+      roles?: string[];
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, role = "EMPLOYEE" }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles = ["EMPLOYEE"] }) => {
       const { isAuthenticated } = useAuth();
       const { user } = useUserStore();
 
-      console.log("user: ", user, "isAuthenticated: ", isAuthenticated);
-
-      if (user?.role !== role) {
+      if (!isAuthenticated) {
             return <Navigate to="/" />;
       }
-      return isAuthenticated ? element : <Navigate to="/" />;
+
+      if (roles.length > 0 && !roles.includes(user?.role || "")) {
+            return <Navigate to="/" />;
+      }
+      return element;
 };
 
 export default PrivateRoute;

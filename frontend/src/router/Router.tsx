@@ -23,7 +23,12 @@ const Router = () => {
                         <Route path="/" element={<Home />} />
                         <Route
                               path="/dashboard"
-                              element={<PrivateRoute element={<Dashboard />} role="EMPLOYEE" />}
+                              element={
+                                    <PrivateRoute
+                                          element={<Dashboard />}
+                                          roles={["EMPLOYEE", "SUPER_ADMIN"]}
+                                    />
+                              }
                         />
                         <Route path="/module/:id" element={<Module />} />
                         <Route path="/module/:module/content/:content" element={<Chapter />} />
@@ -37,7 +42,10 @@ const Router = () => {
                         <Route
                               path="/admin/dashboard"
                               element={
-                                    <PrivateRoute element={<AdminDashboard />} role="SUPER_ADMIN" />
+                                    <PrivateRoute
+                                          element={<AdminDashboard />}
+                                          roles={["SUPER_ADMIN"]}
+                                    />
                               }
                         />
                         <Route
@@ -45,7 +53,7 @@ const Router = () => {
                               element={
                                     <PrivateRoute
                                           element={<AdminEditModule />}
-                                          role="SUPER_ADMIN"
+                                          roles={["SUPER_ADMIN"]}
                                     />
                               }
                         />
@@ -54,7 +62,7 @@ const Router = () => {
                               element={
                                     <PrivateRoute
                                           element={<AdminEditChapter />}
-                                          role="SUPER_ADMIN"
+                                          roles={["SUPER_ADMIN"]}
                                     />
                               }
                         />
@@ -63,7 +71,7 @@ const Router = () => {
                               element={
                                     <PrivateRoute
                                           element={<AdminEditAssignment />}
-                                          role="SUPER_ADMIN"
+                                          roles={["SUPER_ADMIN"]}
                                     />
                               }
                         />
@@ -72,7 +80,7 @@ const Router = () => {
                               element={
                                     <PrivateRoute
                                           element={<AdminManageModules />}
-                                          role="SUPER_ADMIN"
+                                          roles={["SUPER_ADMIN"]}
                                     />
                               }
                         />
@@ -82,7 +90,7 @@ const Router = () => {
                               element={
                                     <PrivateRoute
                                           element={<AdminEditModule />}
-                                          role="SUPER_ADMIN"
+                                          roles={["SUPER_ADMIN"]}
                                     />
                               }
                         />
@@ -91,7 +99,7 @@ const Router = () => {
                               element={
                                     <PrivateRoute
                                           element={<AdminEditChapter />}
-                                          role="SUPER_ADMIN"
+                                          roles={["SUPER_ADMIN"]}
                                     />
                               }
                         />

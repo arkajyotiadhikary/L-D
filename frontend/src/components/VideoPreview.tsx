@@ -1,6 +1,7 @@
 import { Box, IconButton, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaPlay } from "react-icons/fa";
+import ReactPlayer from "react-player";
 
 const VideoPreview = ({
       videoUrl,
@@ -11,6 +12,8 @@ const VideoPreview = ({
       title: string;
       height: React.CSSProperties["height"];
 }) => {
+      const [playing, setPlaying] = React.useState(false);
+
       return (
             <Box position="relative" w="100%" _hover={{ cursor: "pointer" }}>
                   {/* Video Preview Container */}
@@ -33,21 +36,29 @@ const VideoPreview = ({
                               {title}
                         </Text>
                         {/* Video Preview */}
-                        <video src={videoUrl} style={{ width: "100%", height: "100%" }} />
+                        <ReactPlayer
+                              url={videoUrl}
+                              playing={playing}
+                              width="100%"
+                              height="100%"
+                              controls={true}
+                              style={{ zIndex: 1 }}
+                        />
                   </Box>
 
                   {/* Play Button */}
-                  <IconButton
-                        aria-label="Play Video"
-                        icon={<FaPlay />}
-                        position="absolute"
-                        top="50%"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                        size="xl"
-                        variant="ghost"
-                        fontSize="4xl"
-                  />
+                  {!playing && (
+                        <IconButton
+                              position="absolute"
+                              top="50%"
+                              left="50%"
+                              transform="translate(-50%, -50%)"
+                              size="lg"
+                              icon={<FaPlay />}
+                              onClick={() => setPlaying(true)}
+                              aria-label={""}
+                        />
+                  )}
             </Box>
       );
 };
