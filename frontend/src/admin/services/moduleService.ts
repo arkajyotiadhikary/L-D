@@ -45,6 +45,18 @@ export const getChapterById = async (id: string) => {
       }
 };
 
+export const createChapter = async (data: ChapterData, moduleId: string) => {
+      console.log(data, moduleId);
+      try {
+            const response = await api.post(`/api/module/${moduleId}/chapter`, {
+                  chapter: data,
+            });
+            return response.data;
+      } catch (error) {
+            console.error("Error creating chapter:", error);
+      }
+};
+
 export interface ModuleData {
       title?: string;
       description?: string;

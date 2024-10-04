@@ -2,17 +2,17 @@ import { Box, Image, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const ModuleCard = ({
+      _id,
       title,
       description,
       completion,
       img,
-      order,
 }: {
+      _id: string;
       title: string;
       description: string;
       completion?: "completed" | "progress" | "incomplete";
       img?: string;
-      order: number;
 }) => {
       const navigate = useNavigate();
       return (
@@ -25,7 +25,7 @@ const ModuleCard = ({
                   alignItems="start"
                   transition="all 0.2s ease-in-out"
                   onClick={
-                        completion === "incomplete" ? undefined : () => navigate(`/module/${order}`)
+                        completion === "incomplete" ? undefined : () => navigate(`/module/${_id}`)
                   }
                   opacity={completion === "incomplete" ? 0.5 : 1}
                   pointerEvents={completion === "incomplete" ? "none" : undefined}

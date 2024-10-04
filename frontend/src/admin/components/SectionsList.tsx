@@ -12,8 +12,9 @@ interface SectionsListProps {
                   url: string;
             };
       }[];
+      moduleId: string;
 }
-const SectionsList: React.FC<SectionsListProps> = ({ chapters }) => {
+const SectionsList: React.FC<SectionsListProps> = ({ chapters, moduleId }) => {
       const navigation = useNavigate();
       return (
             <Box mt={8}>
@@ -28,7 +29,7 @@ const SectionsList: React.FC<SectionsListProps> = ({ chapters }) => {
                   <Button
                         mt={4}
                         variant="outline"
-                        onClick={() => navigation(`admin/chapter/edit/`)}
+                        onClick={() => navigation(`/admin/chapter/new/${moduleId}`)}
                   >
                         Add Section
                   </Button>

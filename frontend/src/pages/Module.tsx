@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CourseInfo from "../components/CourseInfo";
 import VideoCard from "../components/VideoCard";
 import Layout from "../layouts/Main";
-import useUserStore from "../store"; // Assuming Zustand store is here
+// import useUserStore from "../store"; // Assuming Zustand store is here
 
 const Module = () => {
       const { id } = useParams();
@@ -24,7 +24,7 @@ const Module = () => {
             details: string;
       } | null>(null);
 
-      const { user } = useUserStore(); // Access user state from Zustand store
+      // const { user } = useUserStore(); // Access user state from Zustand store
 
       useEffect(() => {
             const fetchModule = async () => {
@@ -42,42 +42,42 @@ const Module = () => {
       }, [id]);
 
       // Helper function to get the user's progress for this module
-      const getModuleProgress = () => {
-            return user?.moduleProgress?.find((progress) => progress.moduleId === id);
-      };
+      // const getModuleProgress = () => {
+      //       return user?.moduleProgress?.find((progress) => progress.moduleId === id);
+      // };
 
       // Helper function to determine chapter completion status
-      const getChapterCompletionStatus = (chapterId: string, index: number) => {
-            const moduleProgress = getModuleProgress();
+      // const getChapterCompletionStatus = (chapterId: string, index: number) => {
+      //       const moduleProgress = getModuleProgress();
 
-            // If no progress, mark the first chapter as "progress"
-            if (!moduleProgress) {
-                  return index === 0 ? "progress" : "incomplete";
-            }
+      //       // If no progress, mark the first chapter as "progress"
+      //       if (!moduleProgress) {
+      //             return index === 0 ? "progress" : "incomplete";
+      //       }
 
-            const { chapterProgress, currentChapterId } = moduleProgress;
+      //       const { chapterProgress, currentChapterId } = moduleProgress;
 
-            const chapterProgressItem = chapterProgress.find(
-                  (progress) => progress.chapterId === chapterId
-            );
+      //       const chapterProgressItem = chapterProgress.find(
+      //             (progress) => progress.chapterId === chapterId
+      //       );
 
-            // Check if chapter is completed
-            if (chapterProgressItem && chapterProgressItem.completed) {
-                  return "completed";
-            }
+      //       // Check if chapter is completed
+      //       if (chapterProgressItem && chapterProgressItem.completed) {
+      //             return "completed";
+      //       }
 
-            // If currentChapterId is null, make the first chapter as "progress"
-            if (!currentChapterId && index === 0) {
-                  return "progress";
-            }
+      //       // If currentChapterId is null, make the first chapter as "progress"
+      //       if (!currentChapterId && index === 0) {
+      //             return "progress";
+      //       }
 
-            // If the chapter matches the current one in progress
-            if (currentChapterId === chapterId) {
-                  return "progress";
-            }
+      //       // If the chapter matches the current one in progress
+      //       if (currentChapterId === chapterId) {
+      //             return "progress";
+      //       }
 
-            return "incomplete";
-      };
+      //       return "incomplete";
+      // };
       return (
             <Layout>
                   <Box p={5}>
@@ -104,10 +104,11 @@ const Module = () => {
                                                 description={chapter.description}
                                                 content={chapter.content}
                                                 progress={index + 1}
-                                                completion={getChapterCompletionStatus(
-                                                      chapter._id,
-                                                      index
-                                                )}
+                                                // completion={getChapterCompletionStatus(
+                                                //       chapter._id,
+                                                //       index
+                                                // )}
+                                                completion="completed"
                                                 onClick={() =>
                                                       navigate(`/module/${id}/content/${index + 1}`)
                                                 }

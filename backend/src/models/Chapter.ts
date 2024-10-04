@@ -15,7 +15,6 @@ const chapterSchema = new Schema<IChapter>({
       moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
       title: { type: String, required: true },
       description: { type: String, required: true },
-      order: { type: Number, required: true },
       content: {
             type: {
                   type: String,

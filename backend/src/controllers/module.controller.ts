@@ -104,21 +104,42 @@ export const uploadChapter = async (req: Request, res: Response): Promise<Respon
       try {
             const { moduleId } = req.params;
             const { chapter } = req.body;
-            console.log({
-                  moduleId,
-                  chapter,
-            });
+
+            // Validate input
+            if (!moduleId || !chapter) {
+                  return res
+                        .status(400)
+                        .json({ message: "Module ID and chapter data are required" });
+            }
+
             const module = await Module.findById(moduleId);
             if (!module) {
+                  console.log("Module not found");
                   return res.status(404).json({ message: "Module not found" });
             }
+
+            // Validate chapter object fields
+            const { title, description, content } = chapter;
+            if (!title || !description || !content || !content.url || !content.type) {
+                  return res.status(400).json({ message: "Invalid chapter data" });
+            }
+
+            // Create new chapter
             const newChapter = new Chapter({
                   moduleId: module._id,
-                  ...chapter,
+                  title,
+                  description,
+                  content,
             });
+
             await newChapter.save();
-            return res.status(200).json({ message: "Chapter uploaded successfully" });
-      } catch (error) {
+            console.log(`Created chapter: ${newChapter._id}`);
+
+            return res
+                  .status(200)
+                  .json({ message: "Chapter uploaded successfully", chapterId: newChapter._id });
+      } catch (error: unknown) {
+            console.error("Error uploading chapter:", error);
             return res.status(500).json({ message: "Error uploading chapter" });
       }
 };

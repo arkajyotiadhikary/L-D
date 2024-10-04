@@ -6,23 +6,43 @@ import NavigationButtons from "./NavigationComponents";
 import ModuleDescription from "./VideoDescription";
 import { FaPlay } from "react-icons/fa";
 
-interface ChapterData {
+interface Chapter {
       title: string;
       description: string;
-      imageUrl: string;
-      videoUrl: string;
-      contentType: string;
+      content: {
+            type: "text" | "video";
+            url: string;
+      };
 }
 
 interface DynamicContentLayoutProps {
-      chapterData: ChapterData;
+      chapter: Chapter[];
+      currentModule: string;
 }
 
-const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData }) => {
+const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, currentModule }) => {
       const { content } = useParams();
 
+      if (!content) {
+            return <Text>Invalid content</Text>;
+      }
+
+      console.log(content);
+
+      const chapterIndex = Number(content);
+
+      // Check if the chapter exists at the given index
+      if (chapterIndex < 0 || chapterIndex >= chapter.length + 1) {
+            console.log(chapterIndex);
+            return <Text>Chapter not found</Text>;
+      }
+
+      const currentChapter = chapter[chapterIndex - 1];
+
+      console.log(currentChapter);
+
       const renderContent = () => {
-            switch (chapterData.contentType) {
+            switch (currentChapter.content.type) {
                   case "video":
                         return (
                               <Box p={8} mx="auto" h="100vh">
@@ -30,10 +50,9 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                           {content !== "1" ? "Chapter " + content : ""}
                                     </Text>
                                     <Text fontSize="2xl" fontWeight="bold" mb={4}>
-                                          {chapterData.title}
+                                          {currentChapter.title}
                                     </Text>
                                     <Flex direction={{ base: "column", md: "row" }} gap={6}>
-                                          {/* Left Section: Video Preview or Image Preview */}
                                           <Box
                                                 flex="1"
                                                 display="flex"
@@ -42,12 +61,10 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                           >
                                                 <VideoPreview
                                                       height="50vh"
-                                                      videoUrl={chapterData.videoUrl}
-                                                      title={chapterData.title}
+                                                      videoUrl={currentChapter.content.url}
+                                                      title={currentChapter.title}
                                                 />
                                           </Box>
-
-                                          {/* Right Section: Description and Transcript */}
                                           <Box
                                                 flex="1"
                                                 overflowY="auto"
@@ -59,7 +76,11 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                           </Box>
                                     </Flex>
                                     <HStack justify="space-between" mt={8}>
-                                          <NavigationButtons currentChapter={Number(content)} />
+                                          <NavigationButtons
+                                                currentChapter={chapterIndex}
+                                                currentModule={currentModule}
+                                                totalChapters={chapter.length}
+                                          />
                                           <Button
                                                 size="sm"
                                                 border={"1px"}
@@ -80,7 +101,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                                 Chapter {content}
                                           </Text>
                                           <Text fontSize="2xl" fontWeight="bold" mt={2}>
-                                                {chapterData.title}
+                                                {currentChapter.title}
                                           </Text>
                                           <Text
                                                 fontSize="xl"
@@ -91,11 +112,13 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                                       wordBreak: "break-word",
                                                 }}
                                           >
-                                                {chapterData.description}
+                                                {currentChapter.description}
                                           </Text>
                                           <HStack justify="space-between" mt={4}>
                                                 <NavigationButtons
-                                                      currentChapter={Number(content)}
+                                                      currentChapter={chapterIndex}
+                                                      currentModule={currentModule}
+                                                      totalChapters={chapter.length}
                                                 />
                                                 <Button leftIcon={<FaPlay />} variant="outline">
                                                       Play
@@ -103,7 +126,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapterData
                                           </HStack>
                                     </Box>
                                     <Box flex="1" ml={4}>
-                                          <ImagePreview imageUrl={chapterData.imageUrl} />
+                                          <ImagePreview imageUrl={currentChapter.content.url} />
                                     </Box>
                               </Flex>
                         );

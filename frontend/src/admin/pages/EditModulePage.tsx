@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Flex, Input, Stack, Text } from "@chakra-ui/react";
-import CourseInfoForm from "../components/CourseInfoForm";
+import CourseInfoForm from "../components/CourseInfoFormModule";
 import VideoUploader from "../components/VideoUploader";
 import ChapterForm from "../components/ChapterForm";
 import Layout from "../layouts/Main";
@@ -200,7 +200,7 @@ const EditCoursePage: React.FC = () => {
                                           </Button>
                                     </Box>
                               ) : (
-                                    <SectionsList chapters={chapters} />
+                                    <SectionsList chapters={chapters} moduleId={id} />
                               )}
 
                               {/* Image Uploader */}

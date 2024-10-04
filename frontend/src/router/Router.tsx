@@ -86,6 +86,15 @@ const Router = () => {
                                     />
                               }
                         />
+                        <Route
+                              path="/admin/chapter/new/:moduleId"
+                              element={
+                                    <PrivateRoute
+                                          element={<AdminEditChapter />}
+                                          role="SUPER_ADMIN"
+                                    />
+                              }
+                        />
                   </Routes>
             </BrowserRouter>
       );

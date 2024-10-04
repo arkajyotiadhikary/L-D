@@ -2,18 +2,27 @@ import { Button, Box } from "@chakra-ui/react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const NavigationButtons = ({ currentChapter }: { currentChapter: number }) => {
+const NavigationButtons = ({
+      currentChapter,
+      currentModule,
+      totalChapters,
+}: {
+      currentChapter: number;
+      currentModule: string;
+      totalChapters: number;
+}) => {
       const navigate = useNavigate();
 
       // Function to handle navigation
       const handlePrev = () => {
-            if (currentChapter > 1) {
-                  navigate(`/module/:module/content/${currentChapter - 1}`);
+            if (currentChapter > 0) {
+                  navigate(`/module/${currentModule}/content/${currentChapter - 1}`);
             }
       };
 
       const handleNext = () => {
-            if (currentChapter < 5) navigate(`/module/:module/content/${currentChapter + 1}`);
+            if (currentChapter < totalChapters)
+                  navigate(`/module/${currentModule}/content/${currentChapter + 1}`);
       };
 
       return (

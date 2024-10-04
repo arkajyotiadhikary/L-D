@@ -1,19 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Input, Textarea, Heading, Text } from "@chakra-ui/react";
 
 interface CourseInfoFormProps {
       title: string;
       description: string;
-      setModule: (module: { title: string; description: string }) => void;
+      setModule: (module: {
+            title: string;
+            description: string;
+            content?: {
+                  type: "text" | "video";
+                  url: string;
+            };
+      }) => void;
 }
 
 const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, setModule }) => {
-      console.log(title, description);
+      // Local state for content fields
+
+      // Update module including content fields
+
       return (
             <Box>
                   <Heading size="md" mb={4}>
                         Basic Information
                   </Heading>
 
+                  {/* Title */}
                   <Box mb={6}>
                         <Heading size="sm" mb={2}>
                               Course Title
@@ -28,7 +40,8 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         </Text>
                   </Box>
 
-                  <Box>
+                  {/* Description */}
+                  <Box mb={6}>
                         <Heading size="sm" mb={2}>
                               Description
                         </Heading>
@@ -36,11 +49,13 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                               placeholder="Shortly describe this course."
                               value={description}
                               onChange={(e) => setModule({ title, description: e.target.value })}
-                        ></Textarea>
+                        />
                         <Text fontSize="sm" mt={2}>
                               Shortly describe this course.
                         </Text>
                   </Box>
+
+                  {/* Content Type and URL */}
             </Box>
       );
 };

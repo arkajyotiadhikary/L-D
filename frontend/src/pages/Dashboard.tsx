@@ -52,19 +52,20 @@ const Dashboard = () => {
             }
       }, []);
 
-      const getModuleCompletionStatus = (moduleId: string) => {
-            if (user && user.progress) {
-                  const { completedModules, currentModule } = user.progress;
+      // const getModuleCompletionStatus = (moduleId: string) => {
+      //       if (user && user.progress) {
+      //             const { completedModules, currentModule } = user.progress;
 
-                  if (completedModules && completedModules.includes(moduleId)) {
-                        return "completed";
-                  }
-                  if (currentModule === moduleId) {
-                        return "progress";
-                  }
-            }
-            return "incomplete";
-      };
+      //             if (completedModules && completedModules.includes(moduleId)) {
+      //                   return "completed";
+      //             }
+      //             if (currentModule === moduleId) {
+      //                   return "progress";
+      //             }
+      //       }
+      //       return "incomplete";
+      //       return "completed";
+      // };
 
       return (
             <Layout>
@@ -81,12 +82,12 @@ const Dashboard = () => {
                         ) : modules?.length > 0 ? (
                               modules.map((module) => (
                                     <ModuleCard
+                                          _id={module._id}
                                           key={module._id}
                                           title={module.title}
                                           description={module.description}
-                                          order={module.order}
                                           img={module.imgUrl}
-                                          completion={getModuleCompletionStatus(module._id)}
+                                          completion="completed"
                                     />
                               ))
                         ) : (
