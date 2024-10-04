@@ -44,3 +44,28 @@ export const getChapterById = async (id: string) => {
             console.error("Error fetching chapter by id:", error);
       }
 };
+
+export interface ModuleData {
+      title?: string;
+      description?: string;
+      imgUrl?: string;
+      chapters?: ChapterData[];
+}
+
+export interface ChapterData {
+      title?: string;
+      description?: string;
+      content?: {
+            type: "text" | "video";
+            url: string;
+      };
+}
+
+export const createModule = async (data: ModuleData) => {
+      try {
+            const response = await api.post(`/api/module/create`, data);
+            return response.data;
+      } catch (error) {
+            console.error("Error creating module:", error);
+      }
+};

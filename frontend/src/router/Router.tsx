@@ -41,7 +41,7 @@ const Router = () => {
                               }
                         />
                         <Route
-                              path="/admin/course/edit/:id"
+                              path="/admin/module/edit/:id"
                               element={
                                     <PrivateRoute
                                           element={<AdminEditCourse />}
@@ -67,7 +67,25 @@ const Router = () => {
                                     />
                               }
                         />
-                        <Route path="/admin/modules/manage" element={<AdminManageModules />} />
+                        <Route
+                              path="/admin/modules/manage"
+                              element={
+                                    <PrivateRoute
+                                          element={<AdminManageModules />}
+                                          role="SUPER_ADMIN"
+                                    />
+                              }
+                        />
+
+                        <Route
+                              path="/admin/module/new"
+                              element={
+                                    <PrivateRoute
+                                          element={<AdminEditCourse />}
+                                          role="SUPER_ADMIN"
+                                    />
+                              }
+                        />
                   </Routes>
             </BrowserRouter>
       );

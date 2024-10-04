@@ -12,7 +12,7 @@ const moduleSchema = new Schema<IModule>({
       title: { type: String, required: true },
       description: { type: String, required: true },
       order: { type: Number, unique: true },
-      imgUrl: { type: String, required: true },
+      imgUrl: { type: String },
       chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
 });
 

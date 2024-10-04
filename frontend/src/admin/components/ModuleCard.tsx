@@ -22,7 +22,7 @@ const ModuleCard = ({
                   flexDirection="column"
                   alignItems="start"
                   transition="all 0.2s ease-in-out"
-                  onClick={() => navigate(`/admin/course/edit/${_id}`)}
+                  onClick={() => navigate(`/admin/module/edit/${_id}`)}
                   _hover={{
                         bg: "gray.100",
                         boxShadow: "md",

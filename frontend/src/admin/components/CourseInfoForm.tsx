@@ -35,6 +35,7 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         <Textarea
                               placeholder="Shortly describe this course."
                               value={description}
+                              onChange={(e) => setModule({ title, description: e.target.value })}
                         ></Textarea>
                         <Text fontSize="sm" mt={2}>
                               Shortly describe this course.
