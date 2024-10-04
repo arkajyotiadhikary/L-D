@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Stack, Text } from "@chakra-ui/react";
 import CourseInfoForm from "../components/CourseInfoForm";
 import VideoUploader from "../components/VideoUploader";
 import ChapterForm from "../components/ChapterForm";
-import ImageUploader from "../components/ImageUploader"; // Import ImageUploader
 import Layout from "../layouts/Main";
-import { useParams, useLocation } from "react-router-dom";
-import { getModuleById, getChaptersByModuleId, createModule } from "../services/moduleService";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import {
+      getModuleById,
+      getChaptersByModuleId,
+      createModule,
+      deleteModule,
+      updateModule,
+} from "../services/moduleService";
 import SectionsList from "../components/SectionsList";
 
 interface Chapter {
@@ -31,6 +36,7 @@ interface Module {
 const EditCoursePage: React.FC = () => {
       const { id } = useParams();
       const location = useLocation();
+      const navigate = useNavigate();
 
       const [module, setModule] = useState<Module>({
             title: "",
@@ -59,10 +65,6 @@ const EditCoursePage: React.FC = () => {
                   fetchModuleAndChapters();
             }
       }, [id]);
-
-      useEffect(() => {
-            console.log("module", module); // Add this line
-      }, [module]);
 
       // Function to handle adding a new chapter
       const addChapter = () => {
@@ -112,8 +114,30 @@ const EditCoursePage: React.FC = () => {
             try {
                   const newModule = await createModule(module);
                   console.log("New module created:", newModule);
+                  navigate("/admin/modules/manage");
             } catch (error) {
                   console.error("Error creating new module:", error);
+            }
+      };
+
+      // Function to update a module
+      const saveModuleChanges = async () => {
+            try {
+                  const updatedModule = await updateModule(id!, module);
+                  console.log("Module updated:", updatedModule);
+                  navigate("/admin/modules/manage");
+            } catch (error) {
+                  console.error("Error updating module:", error);
+            }
+      };
+
+      // Function to delete a module
+      const removeModule = async () => {
+            try {
+                  await deleteModule(id!);
+                  navigate("/admin/modules/manage");
+            } catch (error) {
+                  console.error("Error deleting module:", error);
             }
       };
 
@@ -180,21 +204,25 @@ const EditCoursePage: React.FC = () => {
                               )}
 
                               {/* Image Uploader */}
-                              {isNewModule && (
-                                    <Box mt={8}>
-                                          <ImageUploader
-                                                image={module.imgUrl || ""}
-                                                setImage={(imgUrl: string) =>
-                                                      setModule((prev) => ({ ...prev, imgUrl }))
-                                                }
-                                          />
-                                    </Box>
-                              )}
+                              <Box mt={8}>
+                                    <Input
+                                          placeholder="Image URL"
+                                          value={module.imgUrl || ""}
+                                          onChange={(e) =>
+                                                setModule((prev) => ({
+                                                      ...prev,
+                                                      imgUrl: e.target.value,
+                                                }))
+                                          }
+                                    />
+                              </Box>
 
                               {/* Buttons */}
                               <Flex justify="space-between" mt={8}>
                                     {!isNewModule && (
-                                          <Button colorScheme="red">Delete Module</Button>
+                                          <Button colorScheme="red" onClick={removeModule}>
+                                                Delete Module
+                                          </Button>
                                     )}
                                     <Flex>
                                           <Button variant="outline" mr={4}>
@@ -202,7 +230,11 @@ const EditCoursePage: React.FC = () => {
                                           </Button>
                                           <Button
                                                 colorScheme="purple"
-                                                onClick={isNewModule ? createNewModule : undefined}
+                                                onClick={
+                                                      isNewModule
+                                                            ? createNewModule
+                                                            : saveModuleChanges
+                                                }
                                           >
                                                 {isNewModule ? "Create Module" : "Save Changes"}
                                           </Button>

@@ -126,5 +126,29 @@ export const uploadChapter = async (req: Request, res: Response): Promise<Respon
 // upload assignment
 
 // update modules
+export const updateModule = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const updatedModule = await Module.findByIdAndUpdate(id, req.body, { new: true });
+            if (!updatedModule) {
+                  return res.status(404).json({ message: "Module not found" });
+            }
+            return res.status(200).json({ message: "Module updated successfully", updatedModule });
+      } catch (error) {
+            return res.status(500).json({ message: "Error updating module" });
+      }
+};
 
 // delete modules
+export const deleteModule = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const deletedModule = await Module.findByIdAndDelete(id);
+            if (!deletedModule) {
+                  return res.status(404).json({ message: "Module not found" });
+            }
+            return res.status(200).json({ message: "Module deleted successfully" });
+      } catch (error) {
+            return res.status(500).json({ message: "Error deleting module" });
+      }
+};

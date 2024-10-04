@@ -10,7 +10,7 @@ import PrivateRoute from "../components/PrivateRoute.tsx";
 // ADMIN
 import AdminHome from "../admin/pages/Home.tsx";
 import AdminDashboard from "../admin/pages/Dashboard.tsx";
-import AdminEditCourse from "../admin/pages/EditCoursePage.tsx";
+import AdminEditModule from "../admin/pages/EditModulePage.tsx";
 import AdminEditChapter from "../admin/pages/EditChapterPage.tsx";
 import AdminEditAssignment from "../admin/pages/EditAssignmentPage.tsx";
 import AdminManageModules from "../admin/pages/ManageModules.tsx";
@@ -44,7 +44,7 @@ const Router = () => {
                               path="/admin/module/edit/:id"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditCourse />}
+                                          element={<AdminEditModule />}
                                           role="SUPER_ADMIN"
                                     />
                               }
@@ -81,7 +81,7 @@ const Router = () => {
                               path="/admin/module/new"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditCourse />}
+                                          element={<AdminEditModule />}
                                           role="SUPER_ADMIN"
                                     />
                               }

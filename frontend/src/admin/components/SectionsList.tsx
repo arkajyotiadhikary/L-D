@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 interface SectionsListProps {
       chapters: {
             _id?: string;
-            title: string;
+            title?: string;
             description?: string;
             content?: {
                   type: "text" | "video";
@@ -22,7 +22,7 @@ const SectionsList: React.FC<SectionsListProps> = ({ chapters }) => {
                   </Heading>
 
                   {chapters.map((section, index) => (
-                        <Section key={index} title={section.title} _id={section._id!} />
+                        <Section key={index} title={section.title!} _id={section._id!} />
                   ))}
 
                   <Button

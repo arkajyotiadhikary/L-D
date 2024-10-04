@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Grid, Skeleton, Text, Button, Center } from "@chakra-ui/react";
+import { Grid, Skeleton, Button, Center } from "@chakra-ui/react";
 import ModuleCard from "../components/ModuleCard";
 import Layout from "../layouts/Main";
 import { getAllModules } from "../services/moduleService";
@@ -74,7 +74,16 @@ const Dashboard = () => {
                                     </Center>,
                               ]
                         ) : (
-                              <Text>No modules available</Text>
+                              <Center mt={5}>
+                                    <Button
+                                          leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                                          colorScheme="purple"
+                                          bg="#805ad5"
+                                          onClick={() => navigate("/admin/module/new")}
+                                    >
+                                          Add New Module
+                                    </Button>
+                              </Center>
                         )}
                   </Grid>
             </Layout>

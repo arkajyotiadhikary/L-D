@@ -69,3 +69,21 @@ export const createModule = async (data: ModuleData) => {
             console.error("Error creating module:", error);
       }
 };
+
+export const updateModule = async (id: string, data: ModuleData) => {
+      try {
+            const response = await api.put(`/api/module/${id}`, data);
+            return response.data;
+      } catch (error) {
+            console.error("Error updating module:", error);
+      }
+};
+
+export const deleteModule = async (id: string) => {
+      try {
+            const response = await api.delete(`/api/module/${id}`);
+            return response.data;
+      } catch (error) {
+            console.error("Error deleting module:", error);
+      }
+};
