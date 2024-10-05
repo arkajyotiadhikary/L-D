@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Input, Textarea, Heading, Text } from "@chakra-ui/react";
-
+import { useEffect, useState } from "react";
+import { Box, Input, Heading, Text } from "@chakra-ui/react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import Quill styles
 interface CourseInfoFormProps {
       title: string;
       description: string;
@@ -15,9 +17,11 @@ interface CourseInfoFormProps {
 }
 
 const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, setModule }) => {
-      // Local state for content fields
+      useEffect(() => {
+            setModule({ title, description });
+      }, [description, setModule, title]);
 
-      // Update module including content fields
+      const [editorState, setEditorState] = useState(description || "");
 
       return (
             <Box>
@@ -45,17 +49,19 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         <Heading size="sm" mb={2}>
                               Description
                         </Heading>
-                        <Textarea
-                              placeholder="Shortly describe this course."
-                              value={description}
-                              onChange={(e) => setModule({ title, description: e.target.value })}
-                        />
+                        <Box mb={2} p={2} border="1px solid #E2E8F0" borderRadius="md">
+                              <ReactQuill
+                                    value={editorState}
+                                    onChange={(value) => {
+                                          setEditorState(value);
+                                          setModule({ title, description: value });
+                                    }}
+                              />
+                        </Box>
                         <Text fontSize="sm" mt={2}>
                               Shortly describe this course.
                         </Text>
                   </Box>
-
-                  {/* Content Type and URL */}
             </Box>
       );
 };

@@ -4,7 +4,7 @@ import CourseInfoForm from "../components/CourseInfoFormChapter";
 import VideoUploader from "../components/VideoUploader";
 import Layout from "../layouts/Main";
 import { useParams, useNavigate } from "react-router-dom";
-import { getChapterById, createChapter } from "../services/moduleService";
+import { getChapterById, createChapter, updateChapter } from "../services/moduleService";
 
 const EditCoursePage: React.FC = () => {
       const { id, moduleId } = useParams();
@@ -48,11 +48,15 @@ const EditCoursePage: React.FC = () => {
             if (id) {
                   // Logic for updating an existing chapter
                   console.log("Updating chapter:", chapter);
-                  // Add your update logic here
-            } else {
-                  // Logic for creating a new chapter
-                  console.log("Creating new chapter:", chapter);
-                  handleCreateChapter();
+                  try {
+                        const updatedChapter = await updateChapter(id, chapter);
+                        console.log("updatedChapter", updatedChapter);
+                        if (updatedChapter) {
+                              navigate(`/admin/dashboard`);
+                        }
+                  } catch (error) {
+                        console.error("Error updating chapter:", error);
+                  }
             }
       };
 
@@ -80,6 +84,7 @@ const EditCoursePage: React.FC = () => {
                                           <CourseInfoForm
                                                 title={chapter.title || ""}
                                                 description={chapter.description || ""}
+                                                url={chapter.content.url || ""}
                                                 setModule={(module) =>
                                                       setChapter((prevState) => ({
                                                             ...prevState,

@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Input, Textarea, Heading, Text, Select } from "@chakra-ui/react";
+import { Box, Input, Heading, Text, Select } from "@chakra-ui/react";
 import { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import Quill styles
 
 interface CourseInfoFormProps {
       title: string;
       description: string;
+      url: string;
       setModule: (module: {
             title: string;
             description: string;
@@ -15,16 +18,19 @@ interface CourseInfoFormProps {
       }) => void;
 }
 
-const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, setModule }) => {
+const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url, setModule }) => {
       // Local state for content fields
       const [contentType, setContentType] = useState<"text" | "video">("text");
-      const [contentUrl, setContentUrl] = useState("");
+      const [contentUrl, setContentUrl] = useState(url || "");
 
-      // Update module including content fields
+      // Editor state for description
+      const [editorState, setEditorState] = useState(description || "");
+
+      // Update module including content fields and rich text description
       const handleSetModule = () => {
             setModule({
                   title,
-                  description,
+                  description: editorState,
                   content: {
                         type: contentType,
                         url: contentUrl,
@@ -46,23 +52,29 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         <Input
                               placeholder="Enter course title"
                               value={title}
-                              onChange={(e) => setModule({ title: e.target.value, description })}
+                              onChange={(e) =>
+                                    setModule({ title: e.target.value, description: editorState })
+                              }
                         />
                         <Text fontSize="sm" mt={2}>
                               Please see our course title guideline
                         </Text>
                   </Box>
 
-                  {/* Description */}
+                  {/* Description with React Quill */}
                   <Box mb={6}>
                         <Heading size="sm" mb={2}>
                               Description
                         </Heading>
-                        <Textarea
-                              placeholder="Shortly describe this course."
-                              value={description}
-                              onChange={(e) => setModule({ title, description: e.target.value })}
-                        />
+                        <Box mb={2} p={2} border="1px solid #E2E8F0" borderRadius="md">
+                              <ReactQuill
+                                    value={editorState}
+                                    onChange={(value) => {
+                                          setEditorState(value);
+                                          handleSetModule();
+                                    }}
+                              />
+                        </Box>
                         <Text fontSize="sm" mt={2}>
                               Shortly describe this course.
                         </Text>

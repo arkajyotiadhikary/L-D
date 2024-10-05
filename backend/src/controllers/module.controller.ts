@@ -144,6 +144,22 @@ export const uploadChapter = async (req: Request, res: Response): Promise<Respon
       }
 };
 
+// update chapter
+export const updateChapter = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const updatedChapter = await Chapter.findByIdAndUpdate(id, req.body, { new: true });
+            if (!updatedChapter) {
+                  return res.status(404).json({ message: "Chapter not found" });
+            }
+            return res
+                  .status(200)
+                  .json({ message: "Chapter updated successfully", updatedChapter });
+      } catch (error) {
+            return res.status(500).json({ message: "Error updating chapter" });
+      }
+};
+
 // upload assignment
 
 // update modules

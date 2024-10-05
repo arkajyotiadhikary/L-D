@@ -57,6 +57,15 @@ export const createChapter = async (data: ChapterData, moduleId: string) => {
       }
 };
 
+export const updateChapter = async (id: string, data: ChapterData) => {
+      try {
+            const response = await api.put(`/api/chapter/${id}`, data);
+            return response.data;
+      } catch (error) {
+            console.error("Error updating chapter:", error);
+      }
+};
+
 export interface ModuleData {
       title?: string;
       description?: string;

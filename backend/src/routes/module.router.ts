@@ -8,6 +8,7 @@ import {
       getChapterById,
       deleteModule,
       updateModule,
+      updateChapter,
 } from "../controllers/module.controller.js";
 
 const router = express.Router();
@@ -32,6 +33,11 @@ router.get("/api/chapter/:id", getChapterById);
 
 // Router for uploading a chapter
 router.post("/api/module/:moduleId/chapter", uploadChapter);
+
+// Router for update a chapter
+router.put("/api/chapter/:id", updateChapter);
+
+// Router for deleting a module
 
 router.delete("/api/module/:id", deleteModule);
 

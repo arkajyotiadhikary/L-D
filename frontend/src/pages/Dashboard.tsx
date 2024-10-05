@@ -7,7 +7,7 @@ import { getUserProgress } from "../services/userService";
 import useUserStore from "../store";
 
 const Dashboard = () => {
-      const user = useUserStore((state) => state.user); // Get user directly from Zustand
+      const user = useUserStore((state) => state.user);
       const [modules, setModules] = useState<
             Array<{
                   _id: string;

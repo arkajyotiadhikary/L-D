@@ -45,7 +45,7 @@ const Dashboard = () => {
                         {isLoading ? (
                               Array.from({ length: 4 }).map((_, i) => (
                                     <Skeleton
-                                          key={i}
+                                          key={`skeleton-${i}`}
                                           startColor="blue.500"
                                           endColor="gray.100"
                                           height="400px"
@@ -53,16 +53,16 @@ const Dashboard = () => {
                               ))
                         ) : modules?.length > 0 ? (
                               [
-                                    ...modules.map((module) => (
+                                    ...modules.map((module, index) => (
                                           <ModuleCard
-                                                key={module._id}
+                                                key={`${module._id}-${index}`}
                                                 _id={module._id}
                                                 title={module.title}
                                                 description={module.description}
                                                 img={module.imgUrl}
                                           />
                                     )),
-                                    <Center mt={5}>
+                                    <Center key="add-new-module" mt={5}>
                                           <Button
                                                 leftIcon={<FontAwesomeIcon icon={faPlus} />}
                                                 colorScheme="purple"
@@ -74,7 +74,7 @@ const Dashboard = () => {
                                     </Center>,
                               ]
                         ) : (
-                              <Center mt={5}>
+                              <Center key="add-new-module" mt={5}>
                                     <Button
                                           leftIcon={<FontAwesomeIcon icon={faPlus} />}
                                           colorScheme="purple"

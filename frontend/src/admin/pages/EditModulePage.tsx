@@ -66,6 +66,10 @@ const EditCoursePage: React.FC = () => {
             }
       }, [id]);
 
+      useEffect(() => {
+            console.log("module", module);
+      }, [module]);
+
       // Function to handle adding a new chapter
       const addChapter = () => {
             const newChapter: Chapter = {
@@ -207,7 +211,7 @@ const EditCoursePage: React.FC = () => {
                               <Box mt={8}>
                                     <Input
                                           placeholder="Image URL"
-                                          value={module.imgUrl || ""}
+                                          defaultValue={module.imgUrl || ""}
                                           onChange={(e) =>
                                                 setModule((prev) => ({
                                                       ...prev,

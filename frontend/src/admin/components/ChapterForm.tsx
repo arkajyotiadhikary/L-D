@@ -1,16 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Input, Textarea, Flex, Select } from "@chakra-ui/react";
+import { Box, Button, Input, Flex, Select } from "@chakra-ui/react";
+import { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import Quill styles
 
 const ChapterForm = ({ index, chapter, updateChapter, removeChapter }: any) => {
+      // Initialize editor state for description
+      const [editorState, setEditorState] = useState(chapter.description || "");
+
+      // Handle input changes (title and content)
       const handleInputChange = (e: any) => {
             const { name, value } = e.target;
             const updatedChapter = { ...chapter, [name]: value };
             updateChapter(index, updatedChapter);
       };
 
+      // Handle content changes (type and url)
       const handleContentChange = (e: any) => {
             const { name, value } = e.target;
             const updatedChapter = { ...chapter, content: { ...chapter.content, [name]: value } };
+            updateChapter(index, updatedChapter);
+      };
+
+      // Handle React Quill editor changes
+      const handleEditorChange = (value: string) => {
+            setEditorState(value);
+            const updatedChapter = { ...chapter, description: value };
             updateChapter(index, updatedChapter);
       };
 
@@ -28,13 +43,12 @@ const ChapterForm = ({ index, chapter, updateChapter, removeChapter }: any) => {
                               Remove
                         </Button>
                   </Flex>
-                  <Textarea
-                        placeholder="Chapter Description"
-                        name="description"
-                        value={chapter.description}
-                        onChange={handleInputChange}
-                        mb={2}
-                  />
+
+                  {/* React Quill for description */}
+                  <Box mb={2} p={2} border="1px solid #E2E8F0" borderRadius="md">
+                        <ReactQuill value={editorState} onChange={handleEditorChange} />
+                  </Box>
+
                   <Flex>
                         <Select
                               name="type"
