@@ -1,24 +1,11 @@
 {
       "routes": [
-            { "src": "/(.*)", "dest": "/" },
             {
-                  "src": "/admin/:path*",
-                  "dest": "/"
+                  "src": "/(.*\\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|json|txt|woff|woff2|ttf|eot|otf|map))",
+                  "dest": "/$1"
             },
             {
-                  "src": "/dashboard",
-                  "dest": "/"
-            },
-            {
-                  "src": "/module/:id",
-                  "dest": "/"
-            },
-            {
-                  "src": "/module/:module/content/:content",
-                  "dest": "/"
-            },
-            {
-                  "src": "/module/:module/assignment/:assignment",
+                  "src": "/(.*)",
                   "dest": "/"
             }
       ]
