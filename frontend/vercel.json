@@ -1,25 +1,25 @@
 {
-      "rewrites": [
-            { "source": "/(.*)", "destination": "/" },
+      "routes": [
+            { "src": "/(.*)", "dest": "/" },
             {
-                  "source": "/admin/:path*",
-                  "destination": "/admin"
+                  "src": "/admin/:path*",
+                  "dest": "/"
             },
             {
-                  "source": "/dashboard",
-                  "destination": "/dashboard"
+                  "src": "/dashboard",
+                  "dest": "/"
             },
             {
-                  "source": "/module/:id",
-                  "destination": "/module"
+                  "src": "/module/:id",
+                  "dest": "/"
             },
             {
-                  "source": "/module/:module/content/:content",
-                  "destination": "/module/content"
+                  "src": "/module/:module/content/:content",
+                  "dest": "/"
             },
             {
-                  "source": "/module/:module/assignment/:assignment",
-                  "destination": "/module/assignment"
+                  "src": "/module/:module/assignment/:assignment",
+                  "dest": "/"
             }
       ]
 }
