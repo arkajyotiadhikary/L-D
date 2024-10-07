@@ -22,7 +22,7 @@ import {
       createModule,
       deleteModule,
       updateModule,
-} from "../services/moduleService";
+} from "../../Instructor/services/moduleService";
 import SectionsList from "../components/SectionsList";
 
 interface Chapter {

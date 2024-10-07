@@ -10,10 +10,13 @@ import PrivateRoute from "../components/PrivateRoute.tsx";
 // ADMIN
 import AdminHome from "../admin/pages/Home.tsx";
 import AdminDashboard from "../admin/pages/Dashboard.tsx";
-import AdminEditModule from "../admin/pages/EditModulePage.tsx";
-import AdminEditChapter from "../admin/pages/EditChapterPage.tsx";
-import AdminEditAssignment from "../admin/pages/EditAssignmentPage.tsx";
-import AdminManageModules from "../admin/pages/ManageModules.tsx";
+
+// Instructor
+import InstructorManageModules from "../Instructor/pages/ManageModules.tsx";
+import InstructorHome from "../Instructor/pages/Home.tsx";
+import InstructorEditModule from "../Instructor/pages/EditModulePage.tsx";
+import InstructorEditChapter from "../Instructor/pages/EditChapterPage.tsx";
+import InstructorEditAssignment from "../Instructor/pages/EditAssignmentPage.tsx";
 
 const Router = () => {
       return (
@@ -48,58 +51,61 @@ const Router = () => {
                                     />
                               }
                         />
+
+                        {/* INSTRUCTOR */}
+                        <Route path="/instructor" element={<InstructorHome />} />
                         <Route
-                              path="/admin/module/edit/:id"
+                              path="/instructor/modules/manage"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditModule />}
-                                          roles={["SUPER_ADMIN"]}
+                                          element={<InstructorManageModules />}
+                                          roles={["SUPER_ADMIN", "INSTRUCTOR"]}
                                     />
                               }
                         />
                         <Route
-                              path="/admin/chapter/edit/:id"
+                              path="/instructor/module/edit/:id"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditChapter />}
-                                          roles={["SUPER_ADMIN"]}
+                                          element={<InstructorEditModule />}
+                                          roles={["SUPER_ADMIN", "INSTRUCTOR"]}
                                     />
                               }
                         />
                         <Route
-                              path="/admin/assignment/edit/:id"
+                              path="/instructor/chapter/edit/:id"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditAssignment />}
-                                          roles={["SUPER_ADMIN"]}
+                                          element={<InstructorEditChapter />}
+                                          roles={["SUPER_ADMIN", "INSTRUCTOR"]}
                                     />
                               }
                         />
                         <Route
-                              path="/admin/modules/manage"
+                              path="/instructor/assignment/edit/:id"
                               element={
                                     <PrivateRoute
-                                          element={<AdminManageModules />}
-                                          roles={["SUPER_ADMIN"]}
+                                          element={<InstructorEditAssignment />}
+                                          roles={["SUPER_ADMIN", "INSTRUCTOR"]}
                                     />
                               }
                         />
 
                         <Route
-                              path="/admin/module/new"
+                              path="/instructor/module/new"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditModule />}
-                                          roles={["SUPER_ADMIN"]}
+                                          element={<InstructorEditModule />}
+                                          roles={["SUPER_ADMIN", "INSTRUCTOR"]}
                                     />
                               }
                         />
                         <Route
-                              path="/admin/chapter/new/:moduleId"
+                              path="/instructor/chapter/new/:moduleId"
                               element={
                                     <PrivateRoute
-                                          element={<AdminEditChapter />}
-                                          roles={["SUPER_ADMIN"]}
+                                          element={<InstructorEditChapter />}
+                                          roles={["SUPER_ADMIN", "INSTRUCTOR"]}
                                     />
                               }
                         />

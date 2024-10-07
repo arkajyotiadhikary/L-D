@@ -21,7 +21,7 @@ const LoginPage = () => {
                   console.log(token, user);
                   login(token, user);
                   useUserStore.setState({ user });
-                  navigate("/admin/dashboard");
+                  navigate("/instructor/modules/manage");
             } catch (error) {
                   console.log(error);
             }
@@ -42,7 +42,7 @@ const LoginPage = () => {
                               <Link m={2} color="blue.500" href="#">
                                     login
                               </Link>
-                              to access your Super Admin Dashboard!
+                              to access your Instructor Dashboard!
                         </Text>
                         <Box
                               p={10}

@@ -4,7 +4,11 @@ import CourseInfoForm from "../components/CourseInfoFormChapter";
 import VideoUploader from "../components/VideoUploader";
 import Layout from "../layouts/Main";
 import { useParams, useNavigate } from "react-router-dom";
-import { getChapterById, createChapter, updateChapter } from "../services/moduleService";
+import {
+      getChapterById,
+      createChapter,
+      updateChapter,
+} from "../../Instructor/services/moduleService";
 
 const EditCoursePage: React.FC = () => {
       const { id, moduleId } = useParams();
@@ -65,7 +69,7 @@ const EditCoursePage: React.FC = () => {
                   const newChapter = await createChapter(chapter, moduleId!);
                   console.log("newChapter", newChapter);
                   if (newChapter) {
-                        navigate(`/admin/module/edit/${moduleId}`);
+                        navigate(`/instructor/module/edit/${moduleId}`);
                   }
             } catch (error) {
                   console.error("Error creating chapter:", error);
