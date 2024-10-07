@@ -9,18 +9,13 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
-// router.post("/register", registerUser);
-
 router.post("/login", signInUser);
 
-// router.put("/api/users/progress", authMiddleware, updateUserProgress);
-router.put("/api/users/progress", updateUserProgress);
+router.put("/api/users/progress", authMiddleware, updateUserProgress);
 
-// router.get("/api/users/progress", authMiddleware, getUserProgress);
-router.get("/api/users/progress/:userId", getUserProgress);
+router.get("/api/users/progress", authMiddleware, getUserProgress);
 
-// SUPER ADMIN
-// create users
+// Super Admins
 router.post("/api/users/create", createUsers);
 
 export default router;

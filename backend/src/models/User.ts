@@ -2,6 +2,7 @@ import { Schema, model, Document, Types } from "mongoose";
 
 export enum UserRole {
       SUPER_ADMIN = "SUPER_ADMIN",
+      INSTRUCTOR = "INSTRUCTOR",
       MANAGER = "MANAGER",
       EMPLOYEE = "EMPLOYEE",
 }

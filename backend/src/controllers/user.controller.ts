@@ -10,9 +10,6 @@ import generatePassword from "../utils/passwordGenerator.js";
 
 dotenv.config();
 
-// Replace this with the ID of the first module in your system
-const INITIAL_MODULE_ID = "66cecb8b389b58336dd4ce0a";
-
 interface AuthRequest extends Request {
       userId?: string;
 }
@@ -203,7 +200,7 @@ export const createUsers = async (req: Request, res: Response) => {
                               .status(400)
                               .json({ message: "Each user must have an email and a role." });
                   }
-                  if (!["SUPER_ADMIN", "MANAGER", "EMPLOYEE"].includes(user.role)) {
+                  if (!["SUPER_ADMIN", "INSTRUCTOR", "MANAGER", "EMPLOYEE"].includes(user.role)) {
                         return res.status(400).json({
                               message: `Invalid role: ${user.role}. Must be one of: SUPER_ADMIN, MANAGER, EMPLOYEE`,
                         });
@@ -227,7 +224,7 @@ export const createUsers = async (req: Request, res: Response) => {
                   const newUser = new User({
                         email,
                         password,
-                        role, // Add the role field to the User schema
+                        role,
                         company: company._id,
                   });
 
