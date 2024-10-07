@@ -1,55 +1,44 @@
 import React from "react";
-import { Box, Input, Flex, IconButton, Heading } from "@chakra-ui/react";
-import { AddIcon, MinusIcon } from "@chakra-ui/icons";
+import { Box, Input, Flex, Heading, useColorModeValue, FormControl } from "@chakra-ui/react";
 
-interface AnswerInputProps {
-      questionType: "multiple" | "single";
-}
-
-const AnswerInput: React.FC<AnswerInputProps> = ({ questionType }) => {
+const AnswerInput: React.FC = () => {
       const [answers, setAnswers] = React.useState<string[]>([""]);
-      const handleAddAnswer = () => {
-            setAnswers((prev) => [...prev, ""]);
-      };
-      const handleRemoveAnswer = (index: number) => {
-            setAnswers((prev) => prev.filter((_, i) => i !== index));
-      };
+
+      // Utilize the same color mode values as in the styled component
+      const bgColor = useColorModeValue("white", "gray.700");
+      const borderColor = useColorModeValue("gray.200", "gray.600");
 
       return (
-            <Box>
-                  <Heading size="sm" mb={2}>
-                        Answers
+            <Box
+                  bg={bgColor}
+                  borderRadius="md"
+                  p={6}
+                  boxShadow="sm"
+                  border="1px"
+                  borderColor={borderColor}
+                  w="100%"
+            >
+                  <Heading size="md" mb={6}>
+                        Answer
                   </Heading>
-                  {answers.map((answer, index) => (
-                        <Flex key={index} mb={2}>
-                              <Input
-                                    placeholder={`Option ${index + 1}`}
-                                    value={answer}
-                                    onChange={(e) =>
-                                          setAnswers((prev) =>
-                                                prev.map((a, i) =>
-                                                      i === index ? e.target.value : a
+                  <Flex direction="column" gap={4}>
+                        {answers.map((answer, index) => (
+                              <FormControl key={index} id={`answer-${index + 1}`} isRequired>
+                                    <Input
+                                          placeholder={`Answer`}
+                                          value={answer}
+                                          onChange={(e) =>
+                                                setAnswers((prev) =>
+                                                      prev.map((a, i) =>
+                                                            i === index ? e.target.value : a
+                                                      )
                                                 )
-                                          )
-                                    }
-                              />
-                              {questionType === "multiple" && (
-                                    <IconButton
-                                          aria-label="Remove option"
-                                          icon={<MinusIcon />}
-                                          ml={2}
-                                          onClick={() => handleRemoveAnswer(index)}
+                                          }
+                                          size="md"
                                     />
-                              )}
-                        </Flex>
-                  ))}
-                  {questionType === "multiple" && (
-                        <IconButton
-                              aria-label="Add option"
-                              icon={<AddIcon />}
-                              onClick={handleAddAnswer}
-                        />
-                  )}
+                              </FormControl>
+                        ))}
+                  </Flex>
             </Box>
       );
 };

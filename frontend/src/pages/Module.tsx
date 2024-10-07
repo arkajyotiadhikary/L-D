@@ -21,7 +21,7 @@ const Module = () => {
       >([]);
       const [currentModule, setCurrentModule] = useState<{
             title: string;
-            details: string;
+            description: string;
       } | null>(null);
 
       // const { user } = useUserStore(); // Access user state from Zustand store
@@ -94,7 +94,12 @@ const Module = () => {
                                     </Text>
                               </HStack>
 
-                              <Text mb={4}>{currentModule?.details}</Text>
+                              <Box
+                                    mb={5}
+                                    dangerouslySetInnerHTML={{
+                                          __html: currentModule?.description || "",
+                                    }}
+                              />
 
                               {chapters?.length > 0 ? (
                                     chapters.map((chapter, index) => (

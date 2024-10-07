@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import VideoPreview from "./VideoPreview";
 import ImagePreview from "./ImagePreview";
 import NavigationButtons from "./NavigationComponents";
-import ModuleDescription from "./VideoDescription";
 import { FaPlay } from "react-icons/fa";
 
 interface Chapter {
@@ -52,6 +51,8 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                     <Text fontSize="2xl" fontWeight="bold" mb={4}>
                                           {currentChapter.title}
                                     </Text>
+
+                                    {/* Video and description */}
                                     <Flex direction={{ base: "column", md: "row" }} gap={6}>
                                           <Box
                                                 flex="1"
@@ -72,9 +73,16 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                                 flexDirection="column"
                                                 justifyContent="space-between"
                                           >
-                                                <ModuleDescription />
+                                                <Box
+                                                      color="gray.700"
+                                                      mt={4}
+                                                      dangerouslySetInnerHTML={{
+                                                            __html: currentChapter.description,
+                                                      }}
+                                                />
                                           </Box>
                                     </Flex>
+                                    {/* Navigation buttons */}
                                     <HStack justify="space-between" mt={8}>
                                           <NavigationButtons
                                                 currentChapter={chapterIndex}
@@ -103,7 +111,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                           <Text fontSize="2xl" fontWeight="bold" mt={2}>
                                                 {currentChapter.title}
                                           </Text>
-                                          <Text
+                                          <Box
                                                 fontSize="xl"
                                                 color="gray.700"
                                                 mt={4}
@@ -111,9 +119,11 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                                       whiteSpace: "pre-wrap",
                                                       wordBreak: "break-word",
                                                 }}
-                                          >
-                                                {currentChapter.description}
-                                          </Text>
+                                                dangerouslySetInnerHTML={{
+                                                      __html: currentChapter.description,
+                                                }}
+                                          />
+
                                           <HStack justify="space-between" mt={4}>
                                                 <NavigationButtons
                                                       currentChapter={chapterIndex}

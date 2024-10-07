@@ -49,7 +49,7 @@ const ModuleCard = ({
                         <Text fontWeight="bold" fontSize="lg">
                               {title}
                         </Text>
-                        <Text color="gray.600">{description}</Text>
+                        <Box color="gray.600" dangerouslySetInnerHTML={{ __html: description }} />
                         <Text
                               mt={4}
                               fontWeight="semibold"

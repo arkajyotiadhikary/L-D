@@ -1,9 +1,13 @@
+// TODO make different sidebar component
+
+// Sidebar.tsx
+import React from "react";
 import {
       Drawer,
       DrawerBody,
-      DrawerContent,
       DrawerHeader,
       DrawerOverlay,
+      DrawerContent,
       VStack,
       Button,
       IconButton,
@@ -26,133 +30,157 @@ import {
       faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-      const navigate = useNavigate();
-      const { isOpen: isInstructorOpen, onToggle: onInstructorToggle } = useDisclosure();
+// 1. Define the SidebarItemProps interface
+interface SidebarItemProps {
+      icon: IconDefinition;
+      label: string;
+      onClick?: () => void;
+      children?: React.ReactNode;
+      defaultIsOpen?: boolean;
+}
+
+// 2. Define the SidebarProps interface
+interface SidebarProps {
+      isOpen: boolean;
+      onClose: () => void;
+}
+// SidebarItem Component
+const SidebarItem: React.FC<SidebarItemProps> = ({
+      icon,
+      label,
+      onClick,
+      children,
+      defaultIsOpen = false,
+}) => {
+      const { isOpen, onToggle } = useDisclosure({ defaultIsOpen });
 
       return (
-            <Drawer isOpen={isOpen} onClose={onClose} placement="left" size="xs">
+            <Box width="100%">
+                  <Button
+                        variant="ghost"
+                        justifyContent="flex-start"
+                        width="100%"
+                        onClick={() => {
+                              if (children) {
+                                    onToggle();
+                              } else if (onClick) {
+                                    onClick();
+                              }
+                        }}
+                        leftIcon={<FontAwesomeIcon icon={icon} />}
+                        rightIcon={
+                              children ? (
+                                    <FontAwesomeIcon
+                                          icon={isOpen ? faChevronDown : faChevronRight}
+                                    />
+                              ) : undefined
+                        }
+                        aria-haspopup={children ? "menu" : undefined}
+                        aria-expanded={children ? isOpen : undefined}
+                  >
+                        {label}
+                  </Button>
+                  {children && (
+                        <Collapse in={isOpen} animateOpacity>
+                              <VStack align="start" pl={4} mt={2} spacing={2}>
+                                    {children}
+                              </VStack>
+                        </Collapse>
+                  )}
+            </Box>
+      );
+};
+// Sidebar Component
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+      const navigate = useNavigate();
+
+      return (
+            <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
                   <DrawerOverlay />
                   <DrawerContent>
-                        <Box position="absolute" top="4" right="4">
+                        <DrawerHeader borderBottomWidth="1px" position="relative">
+                              Logo
                               <IconButton
                                     icon={<FontAwesomeIcon icon={faAngleDoubleLeft} />}
                                     variant="ghost"
                                     onClick={onClose}
                                     aria-label="Close menu"
+                                    position="absolute"
+                                    right={3}
+                                    top={3}
                               />
-                        </Box>
-                        <DrawerHeader>Logo</DrawerHeader>
-                        <hr />
+                        </DrawerHeader>
                         <DrawerBody>
-                              <VStack spacing={4} align="start">
-                                    {/* Instructor Dropdown */}
-                                    <Button
-                                          variant="link"
-                                          onClick={onInstructorToggle}
-                                          rightIcon={
-                                                <FontAwesomeIcon
-                                                      icon={
-                                                            isInstructorOpen
-                                                                  ? faChevronDown
-                                                                  : faChevronRight
-                                                      }
-                                                />
-                                          }
+                              <VStack spacing={4} align="stretch" mt={4}>
+                                    {/* Instructors SidebarItem (Open by Default) */}
+                                    <SidebarItem
+                                          icon={faBook}
+                                          label="Instructors"
+                                          defaultIsOpen={true}
                                     >
-                                          Instructors
-                                    </Button>
-                                    <Collapse in={isInstructorOpen}>
-                                          <VStack spacing={4} align="start">
-                                                <Button
-                                                      variant="link"
-                                                      onClick={() =>
-                                                            navigate("/admin/modules/manage")
-                                                      }
-                                                >
-                                                      <FontAwesomeIcon
-                                                            style={{ marginRight: "5px" }}
-                                                            icon={faBook}
-                                                      />
-                                                      Manage Modules
-                                                </Button>
-                                                <Button
-                                                      variant="link"
-                                                      onClick={() => navigate("/manage-quizzes")}
-                                                >
-                                                      <FontAwesomeIcon
-                                                            style={{ marginRight: "5px" }}
-                                                            icon={faCircleQuestion}
-                                                      />
-                                                      Manage Assignments
-                                                </Button>
-                                                <Button
-                                                      variant="link"
-                                                      onClick={() => navigate("/edit-courses")}
-                                                >
-                                                      <FontAwesomeIcon
-                                                            style={{ marginRight: "5px" }}
-                                                            icon={faFilePen}
-                                                      />
-                                                      Edit Module
-                                                </Button>
-                                                <Button
-                                                      variant="link"
-                                                      onClick={() => navigate("/edit-quiz")}
-                                                >
-                                                      <FontAwesomeIcon
-                                                            style={{ marginRight: "5px" }}
-                                                            icon={faPenSquare}
-                                                      />
-                                                      Edit Assignment
-                                                </Button>
-                                          </VStack>
-                                    </Collapse>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={<FontAwesomeIcon icon={faBook} />}
+                                                onClick={() => navigate("/admin/modules/manage")}
+                                          >
+                                                Manage Modules
+                                          </Button>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={
+                                                      <FontAwesomeIcon icon={faCircleQuestion} />
+                                                }
+                                                onClick={() => navigate("/manage-quizzes")}
+                                          >
+                                                Manage Assignments
+                                          </Button>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={<FontAwesomeIcon icon={faFilePen} />}
+                                                onClick={() => navigate("/edit-courses")}
+                                          >
+                                                Edit Module
+                                          </Button>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={<FontAwesomeIcon icon={faPenSquare} />}
+                                                onClick={() => navigate("/edit-quiz")}
+                                          >
+                                                Edit Assignment
+                                          </Button>
+                                    </SidebarItem>
 
                                     {/* Other Sidebar Items */}
-                                    <VStack spacing={4} align="start">
-                                          <Button
-                                                variant="link"
-                                                onClick={() => navigate("/modules")}
-                                          >
-                                                <FontAwesomeIcon
-                                                      style={{ marginRight: "5px" }}
-                                                      icon={faCubes}
-                                                />
-                                                Modules
-                                          </Button>
-                                          <Button
-                                                variant="link"
-                                                onClick={() => navigate("/assignments")}
-                                          >
-                                                <FontAwesomeIcon
-                                                      style={{ marginRight: "5px" }}
-                                                      icon={faClipboard}
-                                                />
-                                                Assignments
-                                          </Button>
-                                          <Button
-                                                variant="link"
-                                                onClick={() => navigate("/scores")}
-                                          >
-                                                <FontAwesomeIcon
-                                                      style={{ marginRight: "5px" }}
-                                                      icon={faStar}
-                                                />
-                                                Scores
-                                          </Button>
-                                          <Button
-                                                variant="link"
-                                                onClick={() => navigate("/learning-history")}
-                                          >
-                                                <FontAwesomeIcon
-                                                      style={{ marginRight: "5px" }}
-                                                      icon={faHistory}
-                                                />
-                                                Learning History
-                                          </Button>
-                                    </VStack>
+                                    <SidebarItem
+                                          icon={faCubes}
+                                          label="Modules"
+                                          onClick={() => navigate("/modules")}
+                                    />
+                                    <SidebarItem
+                                          icon={faClipboard}
+                                          label="Assignments"
+                                          onClick={() => navigate("/assignments")}
+                                    />
+                                    <SidebarItem
+                                          icon={faStar}
+                                          label="Scores"
+                                          onClick={() => navigate("/scores")}
+                                    />
+                                    <SidebarItem
+                                          icon={faHistory}
+                                          label="Learning History"
+                                          onClick={() => navigate("/learning-history")}
+                                    />
                               </VStack>
                         </DrawerBody>
                   </DrawerContent>

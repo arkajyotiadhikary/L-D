@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Input, Heading, Text, Select } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
 
@@ -25,6 +25,12 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url
 
       // Editor state for description
       const [editorState, setEditorState] = useState(description || "");
+
+      console.log("description", description);
+      console.log("editorState", editorState);
+      useEffect(() => {
+            setEditorState(description || "");
+      }, [description]);
 
       // Update module including content fields and rich text description
       const handleSetModule = () => {

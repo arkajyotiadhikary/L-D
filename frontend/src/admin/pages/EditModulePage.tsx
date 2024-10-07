@@ -1,7 +1,17 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Flex, Input, Stack, Text } from "@chakra-ui/react";
+import { AddIcon, DeleteIcon, SaveIcon } from "@chakra-ui/icons";
+
+import {
+      Box,
+      Button,
+      Flex,
+      Input,
+      Stack,
+      Text,
+      useColorModeValue,
+      Divider,
+} from "@chakra-ui/react";
 import CourseInfoForm from "../components/CourseInfoFormModule";
-import VideoUploader from "../components/VideoUploader";
 import ChapterForm from "../components/ChapterForm";
 import Layout from "../layouts/Main";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
@@ -145,45 +155,61 @@ const EditCoursePage: React.FC = () => {
             }
       };
 
+      // Define colors based on color mode for consistency
+      const containerBg = useColorModeValue("gray.50", "gray.800");
+      const formBg = useColorModeValue("white", "gray.700");
+      const sectionBg = useColorModeValue("gray.100", "gray.600");
+      const buttonBg = useColorModeValue("teal.500", "teal.400");
+      const buttonHoverBg = useColorModeValue("teal.600", "teal.500");
+
       return (
             <Layout>
-                  <Box p={8} bg={"white"}>
-                        <Text fontSize="4xl" fontWeight="bold" mb={4} w="fit-content">
+                  <Box p={8} bg={containerBg} minH="100vh">
+                        <Text
+                              fontSize={{ base: "2xl", md: "4xl" }}
+                              fontWeight="bold"
+                              mb={6}
+                              w="fit-content"
+                              color={useColorModeValue("teal.600", "teal.300")}
+                        >
                               {isNewModule ? "Create New Module" : "Edit Module"}
                         </Text>
-                        <Box p={4}>
-                              <Flex justify="space-between">
-                                    {/* Left Side - Course Information */}
-                                    <Box width="60%">
-                                          <CourseInfoForm
-                                                title={module?.title || ""}
-                                                description={module?.description || ""}
-                                                setModule={setModule}
-                                          />
-                                    </Box>
-
-                                    {/* Right Side - Video Uploader */}
-                                    {!isNewModule && (
-                                          <Box width="35%">
-                                                <VideoUploader />
-                                          </Box>
-                                    )}
+                        <Box p={4} bg={formBg} borderRadius="md" boxShadow="md">
+                              <Flex
+                                    direction={{ base: "column", md: "row" }}
+                                    justify="space-between"
+                                    align={{ base: "flex-start", md: "center" }}
+                                    mb={6}
+                              >
+                                    <CourseInfoForm
+                                          title={module?.title || ""}
+                                          description={module?.description || ""}
+                                          setModule={setModule}
+                                          // Optionally pass other props if needed
+                                    />
                               </Flex>
+
+                              {/* Divider for visual separation */}
+                              <Divider mb={6} />
 
                               {/* Inline Chapter Management */}
                               {isNewModule ? (
                                     <Box
                                           mt={8}
-                                          p={4}
-                                          bg="white"
-                                          borderWidth="1px"
+                                          p={6}
+                                          bg={sectionBg}
                                           borderRadius="md"
-                                          boxShadow="md"
+                                          boxShadow="sm"
                                     >
-                                          <Text fontSize="2xl" fontWeight="bold" mb={4}>
+                                          <Text
+                                                fontSize={{ base: "xl", md: "2xl" }}
+                                                fontWeight="bold"
+                                                mb={4}
+                                                color={useColorModeValue("teal.600", "teal.300")}
+                                          >
                                                 Chapters
                                           </Text>
-                                          <Stack spacing={4}>
+                                          <Stack spacing={6}>
                                                 {chapters.map((chapter, index) => (
                                                       <ChapterForm
                                                             key={index}
@@ -198,7 +224,8 @@ const EditCoursePage: React.FC = () => {
                                                 colorScheme="teal"
                                                 mt={4}
                                                 onClick={addChapter}
-                                                size="sm"
+                                                size="md"
+                                                leftIcon={<AddIcon />}
                                           >
                                                 Add Chapter
                                           </Button>
@@ -209,27 +236,61 @@ const EditCoursePage: React.FC = () => {
 
                               {/* Image Uploader */}
                               <Box mt={8}>
+                                    <Text
+                                          fontSize="lg"
+                                          fontWeight="semibold"
+                                          mb={2}
+                                          color={useColorModeValue("teal.600", "teal.300")}
+                                    >
+                                          Module Image
+                                    </Text>
                                     <Input
                                           placeholder="Image URL"
-                                          defaultValue={module.imgUrl || ""}
+                                          value={module.imgUrl || ""}
                                           onChange={(e) =>
                                                 setModule((prev) => ({
                                                       ...prev,
                                                       imgUrl: e.target.value,
                                                 }))
                                           }
+                                          size="md"
+                                          bg={useColorModeValue("white", "gray.600")}
+                                          borderColor={useColorModeValue("gray.300", "gray.500")}
+                                          _hover={{ borderColor: "teal.500" }}
                                     />
                               </Box>
 
                               {/* Buttons */}
-                              <Flex justify="space-between" mt={8}>
+                              <Flex
+                                    justify="space-between"
+                                    mt={12}
+                                    direction={{ base: "column", md: "row" }}
+                                    align={{ base: "stretch", md: "center" }}
+                                    gap={4}
+                              >
                                     {!isNewModule && (
-                                          <Button colorScheme="red" onClick={removeModule}>
+                                          <Button
+                                                colorScheme="red"
+                                                onClick={removeModule}
+                                                size="md"
+                                                w={{ base: "full", md: "auto" }}
+                                                leftIcon={<DeleteIcon />}
+                                          >
                                                 Delete Module
                                           </Button>
                                     )}
-                                    <Flex>
-                                          <Button variant="outline" mr={4}>
+                                    <Flex
+                                          direction={{ base: "column", md: "row" }}
+                                          gap={4}
+                                          w={{ base: "full", md: "auto" }}
+                                    >
+                                          <Button
+                                                variant="outline"
+                                                colorScheme="teal"
+                                                mr={{ base: 0, md: 4 }}
+                                                size="md"
+                                                w={{ base: "full", md: "auto" }}
+                                          >
                                                 Save Draft
                                           </Button>
                                           <Button
@@ -239,6 +300,10 @@ const EditCoursePage: React.FC = () => {
                                                             ? createNewModule
                                                             : saveModuleChanges
                                                 }
+                                                size="md"
+                                                w={{ base: "full", md: "auto" }}
+                                                leftIcon={isNewModule ? <AddIcon /> : <SaveIcon />}
+                                                _hover={{ bg: buttonHoverBg }}
                                           >
                                                 {isNewModule ? "Create Module" : "Save Changes"}
                                           </Button>
@@ -251,3 +316,5 @@ const EditCoursePage: React.FC = () => {
 };
 
 export default EditCoursePage;
+
+// Don't forget to import the necessary icons at the top

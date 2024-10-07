@@ -1,39 +1,46 @@
-import { useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import React from "react";
+import {
+      Button,
+      VStack,
+      Heading,
+      useColorModeValue,
+      Container,
+      Divider,
+      Icon,
+} from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import AnswerInput from "../components/AnswerInput";
 import QuestionEditor from "../components/QuestionEditor";
-import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import CompletionPoints from "../components/CompletionPoints";
 import Layout from "../layouts/Main";
 import OptionInput from "../components/OptionInput";
 
 const EditAssignmentPage: React.FC = () => {
-      const [questionType, setQuestionType] = useState<"multiple" | "single">("single");
+      const buttonColorScheme = useColorModeValue("purple", "teal");
+
       return (
             <Layout>
-                  <Box p={8} bg={"white"}>
-                        <Box mb={6}>
+                  <Container maxW="container.xl" py={8}>
+                        <VStack spacing={8} align="stretch">
+                              <Heading size="lg">Edit Assignment</Heading>
+
                               <QuestionEditor />
-                        </Box>
-                        <Box mb={6}>
-                              <QuestionTypeSelector
-                                    questionType={questionType}
-                                    setQuestionType={setQuestionType}
-                              />
-                        </Box>
-                        <Box>
                               <OptionInput />
-                        </Box>
-                        <Box mb={6}>
-                              <AnswerInput questionType={questionType} />
-                        </Box>
-                        <Box mb={6}>
+                              <AnswerInput />
                               <CompletionPoints />
-                        </Box>
-                        <Button colorScheme="purple" mt={6}>
-                              Add Question
-                        </Button>
-                  </Box>
+
+                              <Divider />
+
+                              <Button
+                                    leftIcon={<Icon as={AddIcon} />}
+                                    colorScheme={buttonColorScheme}
+                                    size="lg"
+                                    alignSelf="flex-start"
+                              >
+                                    Add Question
+                              </Button>
+                        </VStack>
+                  </Container>
             </Layout>
       );
 };

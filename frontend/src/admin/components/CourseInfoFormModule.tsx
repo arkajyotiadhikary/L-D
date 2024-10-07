@@ -19,6 +19,7 @@ interface CourseInfoFormProps {
 const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, setModule }) => {
       useEffect(() => {
             setModule({ title, description });
+            setEditorState(description || "");
       }, [description, setModule, title]);
 
       const [editorState, setEditorState] = useState(description || "");
