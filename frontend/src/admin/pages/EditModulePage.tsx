@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { AddIcon, DeleteIcon, SaveIcon } from "@chakra-ui/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import {
       Box,
@@ -159,7 +160,6 @@ const EditCoursePage: React.FC = () => {
       const containerBg = useColorModeValue("gray.50", "gray.800");
       const formBg = useColorModeValue("white", "gray.700");
       const sectionBg = useColorModeValue("gray.100", "gray.600");
-      const buttonBg = useColorModeValue("teal.500", "teal.400");
       const buttonHoverBg = useColorModeValue("teal.600", "teal.500");
 
       return (
@@ -225,7 +225,7 @@ const EditCoursePage: React.FC = () => {
                                                 mt={4}
                                                 onClick={addChapter}
                                                 size="md"
-                                                leftIcon={<AddIcon />}
+                                                leftIcon={<FontAwesomeIcon icon={faPlus} />}
                                           >
                                                 Add Chapter
                                           </Button>
@@ -274,7 +274,7 @@ const EditCoursePage: React.FC = () => {
                                                 onClick={removeModule}
                                                 size="md"
                                                 w={{ base: "full", md: "auto" }}
-                                                leftIcon={<DeleteIcon />}
+                                                leftIcon={<FontAwesomeIcon icon={faTrash} />}
                                           >
                                                 Delete Module
                                           </Button>
@@ -302,7 +302,13 @@ const EditCoursePage: React.FC = () => {
                                                 }
                                                 size="md"
                                                 w={{ base: "full", md: "auto" }}
-                                                leftIcon={isNewModule ? <AddIcon /> : <SaveIcon />}
+                                                leftIcon={
+                                                      isNewModule ? (
+                                                            <FontAwesomeIcon icon={faPlus} />
+                                                      ) : (
+                                                            <FontAwesomeIcon icon={faSave} />
+                                                      )
+                                                }
                                                 _hover={{ bg: buttonHoverBg }}
                                           >
                                                 {isNewModule ? "Create Module" : "Save Changes"}
