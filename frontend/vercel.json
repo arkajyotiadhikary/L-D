@@ -1,0 +1,24 @@
+{
+      "rewrites": [
+            {
+                  "source": "/admin/:path*",
+                  "destination": "/admin"
+            },
+            {
+                  "source": "/dashboard",
+                  "destination": "/dashboard"
+            },
+            {
+                  "source": "/module/:id",
+                  "destination": "/module"
+            },
+            {
+                  "source": "/module/:module/content/:content",
+                  "destination": "/module/content"
+            },
+            {
+                  "source": "/module/:module/assignment/:assignment",
+                  "destination": "/module/assignment"
+            }
+      ]
+}
