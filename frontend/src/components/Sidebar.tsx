@@ -113,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                     <SidebarItem
                                           icon={faCubes}
                                           label="Modules"
-                                          onClick={() => navigate("/modules")}
+                                          onClick={() => navigate("/dashboard")}
                                     />
                                     <SidebarItem
                                           icon={faClipboard}
