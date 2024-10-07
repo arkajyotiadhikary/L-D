@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 export var UserRole;
 (function (UserRole) {
     UserRole["SUPER_ADMIN"] = "SUPER_ADMIN";
+    UserRole["INSTRUCTOR"] = "INSTRUCTOR";
     UserRole["MANAGER"] = "MANAGER";
     UserRole["EMPLOYEE"] = "EMPLOYEE";
 })(UserRole || (UserRole = {}));

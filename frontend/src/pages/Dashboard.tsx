@@ -3,7 +3,7 @@ import { Grid, Skeleton, Text } from "@chakra-ui/react";
 import ModuleCard from "../components/ModuleCard";
 import Layout from "../layouts/Main";
 import { getAllModules } from "../services/moduleService";
-import { getUserProgress } from "../services/userService";
+// import { getUserProgress } from "../services/userService";
 import useUserStore from "../store";
 
 const Dashboard = () => {
@@ -24,9 +24,13 @@ const Dashboard = () => {
       useEffect(() => {
             const fetchData = async () => {
                   try {
-                        const [modulesData, progress] = await Promise.all([
+                        const [
+                              modulesData,
+
+                              // progress
+                        ] = await Promise.all([
                               getAllModules(),
-                              getUserProgress(user?._id || ""),
+                              // getUserProgress(user?._id || ""),
                         ]);
                         setModules(modulesData);
 
@@ -34,7 +38,7 @@ const Dashboard = () => {
                               useUserStore.setState({
                                     user: {
                                           ...user,
-                                          progress,
+                                          // progress
                                     },
                               });
                         } else {
