@@ -14,20 +14,23 @@ import {
       Box,
       Collapse,
       useDisclosure,
+      Badge,
+      Flex,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import {
       faAngleDoubleLeft,
-      faBook,
+      faMugHot,
       faChevronDown,
       faChevronRight,
-      faCircleQuestion,
       faClipboard,
       faCubes,
-      faFilePen,
       faHistory,
-      faPenSquare,
       faStar,
+      faClockRotateLeft,
+      faThumbsUp,
+      faCreditCard,
+      faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -39,6 +42,7 @@ interface SidebarItemProps {
       onClick?: () => void;
       children?: React.ReactNode;
       defaultIsOpen?: boolean;
+      notifications?: number;
 }
 
 // 2. Define the SidebarProps interface
@@ -53,8 +57,17 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       onClick,
       children,
       defaultIsOpen = false,
+      notifications = 0,
 }) => {
       const { isOpen, onToggle } = useDisclosure({ defaultIsOpen });
+
+      const handleClick = () => {
+            if (children) {
+                  onToggle();
+            } else if (onClick) {
+                  onClick();
+            }
+      };
 
       return (
             <Box width="100%">
@@ -62,13 +75,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                         variant="ghost"
                         justifyContent="flex-start"
                         width="100%"
-                        onClick={() => {
-                              if (children) {
-                                    onToggle();
-                              } else if (onClick) {
-                                    onClick();
-                              }
-                        }}
+                        onClick={handleClick}
                         leftIcon={<FontAwesomeIcon icon={icon} />}
                         rightIcon={
                               children ? (
@@ -79,8 +86,25 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                         }
                         aria-haspopup={children ? "menu" : undefined}
                         aria-expanded={children ? isOpen : undefined}
+                        position="relative"
                   >
-                        {label}
+                        <Flex flex="1" alignItems="center" justifyContent="space-between">
+                              <Box>{label}</Box>
+                              {notifications > 0 && (
+                                    <Flex alignItems="center" ml={2}>
+                                          <FontAwesomeIcon icon={faBell} size="sm" />
+                                          <Badge
+                                                colorScheme="red"
+                                                borderRadius="full"
+                                                ml={1}
+                                                fontSize="0.7em"
+                                                p={1}
+                                          >
+                                                {notifications}
+                                          </Badge>
+                                    </Flex>
+                              )}
+                        </Flex>
                   </Button>
                   {children && (
                         <Collapse in={isOpen} animateOpacity>
@@ -92,6 +116,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             </Box>
       );
 };
+
 // Sidebar Component
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       const navigate = useNavigate();
@@ -114,53 +139,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         </DrawerHeader>
                         <DrawerBody>
                               <VStack spacing={4} align="stretch" mt={4}>
-                                    {/* Instructors SidebarItem (Open by Default) */}
                                     <SidebarItem
-                                          icon={faBook}
-                                          label="Instructors"
-                                          defaultIsOpen={true}
-                                    >
-                                          <Button
-                                                variant="ghost"
-                                                justifyContent="flex-start"
-                                                width="100%"
-                                                leftIcon={<FontAwesomeIcon icon={faBook} />}
-                                                onClick={() => navigate("/admin/modules/manage")}
-                                          >
-                                                Manage Modules
-                                          </Button>
-                                          <Button
-                                                variant="ghost"
-                                                justifyContent="flex-start"
-                                                width="100%"
-                                                leftIcon={
-                                                      <FontAwesomeIcon icon={faCircleQuestion} />
-                                                }
-                                                onClick={() => navigate("/manage-quizzes")}
-                                          >
-                                                Manage Assignments
-                                          </Button>
-                                          <Button
-                                                variant="ghost"
-                                                justifyContent="flex-start"
-                                                width="100%"
-                                                leftIcon={<FontAwesomeIcon icon={faFilePen} />}
-                                                onClick={() => navigate("/edit-courses")}
-                                          >
-                                                Edit Module
-                                          </Button>
-                                          <Button
-                                                variant="ghost"
-                                                justifyContent="flex-start"
-                                                width="100%"
-                                                leftIcon={<FontAwesomeIcon icon={faPenSquare} />}
-                                                onClick={() => navigate("/edit-quiz")}
-                                          >
-                                                Edit Assignment
-                                          </Button>
-                                    </SidebarItem>
-
-                                    {/* Other Sidebar Items */}
+                                          icon={faMugHot}
+                                          label="Clients"
+                                          onClick={() => navigate("/admin/dashboard")}
+                                    />
+                                    <SidebarItem
+                                          icon={faClockRotateLeft}
+                                          label="Client History"
+                                          onClick={() => navigate("/admin/client-history")}
+                                    />
                                     <SidebarItem
                                           icon={faCubes}
                                           label="Modules"
@@ -180,6 +168,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                           icon={faHistory}
                                           label="Learning History"
                                           onClick={() => navigate("/learning-history")}
+                                    />
+                                    <SidebarItem
+                                          icon={faThumbsUp}
+                                          label="Content Approval"
+                                          onClick={() => navigate("/admin/content-approval")}
+                                    />
+                                    <SidebarItem
+                                          icon={faCreditCard}
+                                          label="Credit Approval"
+                                          onClick={() => navigate("/admin/credit-approval")}
+                                          notifications={2}
                                     />
                               </VStack>
                         </DrawerBody>

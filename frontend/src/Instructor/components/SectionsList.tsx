@@ -29,7 +29,7 @@ const SectionsList: React.FC<SectionsListProps> = ({ chapters, moduleId }) => {
                   <Button
                         mt={4}
                         variant="outline"
-                        onClick={() => navigation(`/admin/chapter/new/${moduleId}`)}
+                        onClick={() => navigation(`/instructor/chapter/new/${moduleId}`)}
                   >
                         Add Section
                   </Button>

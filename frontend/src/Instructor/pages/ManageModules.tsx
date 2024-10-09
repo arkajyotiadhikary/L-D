@@ -67,7 +67,7 @@ const Dashboard = () => {
                                                 leftIcon={<FontAwesomeIcon icon={faPlus} />}
                                                 colorScheme="purple"
                                                 bg="#805ad5"
-                                                onClick={() => navigate("/admin/module/new")}
+                                                onClick={() => navigate("/instructor/module/new")}
                                           >
                                                 Add New Module
                                           </Button>
@@ -79,7 +79,7 @@ const Dashboard = () => {
                                           leftIcon={<FontAwesomeIcon icon={faPlus} />}
                                           colorScheme="purple"
                                           bg="#805ad5"
-                                          onClick={() => navigate("/admin/module/new")}
+                                          onClick={() => navigate("/instructor/module/new")}
                                     >
                                           Add New Module
                                     </Button>

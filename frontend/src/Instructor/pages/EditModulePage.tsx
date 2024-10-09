@@ -121,15 +121,15 @@ const EditCoursePage: React.FC = () => {
             }));
       };
 
-      // Check if this is a "new" module (i.e., /admin/module/new)
-      const isNewModule = !id || location.pathname.includes("/admin/module/new");
+      // Check if this is a "new" module (i.e., /instructor/module/new)
+      const isNewModule = !id || location.pathname.includes("/instructor/module/new");
 
       // Function to create a new module
       const createNewModule = async () => {
             try {
                   const newModule = await createModule(module);
                   console.log("New module created:", newModule);
-                  navigate("/admin/modules/manage");
+                  navigate("/instructor/modules/manage");
             } catch (error) {
                   console.error("Error creating new module:", error);
             }
@@ -140,7 +140,7 @@ const EditCoursePage: React.FC = () => {
             try {
                   const updatedModule = await updateModule(id!, module);
                   console.log("Module updated:", updatedModule);
-                  navigate("/admin/modules/manage");
+                  navigate("/instructor/modules/manage");
             } catch (error) {
                   console.error("Error updating module:", error);
             }
@@ -150,7 +150,7 @@ const EditCoursePage: React.FC = () => {
       const removeModule = async () => {
             try {
                   await deleteModule(id!);
-                  navigate("/admin/modules/manage");
+                  navigate("/instructor/modules/manage");
             } catch (error) {
                   console.error("Error deleting module:", error);
             }

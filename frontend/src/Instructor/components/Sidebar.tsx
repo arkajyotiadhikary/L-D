@@ -18,11 +18,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import {
       faAngleDoubleLeft,
+      faBook,
       faChevronDown,
       faChevronRight,
+      faCircleQuestion,
       faClipboard,
       faCubes,
+      faFilePen,
       faHistory,
+      faPenSquare,
       faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -110,6 +114,53 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         </DrawerHeader>
                         <DrawerBody>
                               <VStack spacing={4} align="stretch" mt={4}>
+                                    {/* Instructors SidebarItem (Open by Default) */}
+                                    <SidebarItem
+                                          icon={faBook}
+                                          label="Instructors"
+                                          defaultIsOpen={true}
+                                    >
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={<FontAwesomeIcon icon={faBook} />}
+                                                onClick={() =>
+                                                      navigate("/instructor/modules/manage")
+                                                }
+                                          >
+                                                Manage Modules
+                                          </Button>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={
+                                                      <FontAwesomeIcon icon={faCircleQuestion} />
+                                                }
+                                                onClick={() => navigate("/manage-quizzes")}
+                                          >
+                                                Manage Assignments
+                                          </Button>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={<FontAwesomeIcon icon={faFilePen} />}
+                                                onClick={() => navigate("/edit-courses")}
+                                          >
+                                                Edit Module
+                                          </Button>
+                                          <Button
+                                                variant="ghost"
+                                                justifyContent="flex-start"
+                                                width="100%"
+                                                leftIcon={<FontAwesomeIcon icon={faPenSquare} />}
+                                                onClick={() => navigate("/edit-quiz")}
+                                          >
+                                                Edit Assignment
+                                          </Button>
+                                    </SidebarItem>
                                     <SidebarItem
                                           icon={faCubes}
                                           label="Modules"
