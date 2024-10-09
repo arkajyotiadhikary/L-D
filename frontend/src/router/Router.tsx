@@ -73,7 +73,7 @@ const Router = () => {
                               }
                         />
                         <Route
-                              path="/instructor/chapter/edit/:id"
+                              path="/instructor/chapter/:moduleId/edit/:id"
                               element={
                                     <PrivateRoute
                                           element={<InstructorEditChapter />}

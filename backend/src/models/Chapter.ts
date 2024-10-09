@@ -1,6 +1,8 @@
+// models/chapter.ts
 import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IChapter extends Document {
+      _id: Types.ObjectId; // Explicitly define _id
       moduleId: Types.ObjectId;
       title: string;
       description: string;
@@ -15,6 +17,7 @@ const chapterSchema = new Schema<IChapter>({
       moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
       title: { type: String, required: true },
       description: { type: String, required: true },
+      order: { type: Number, required: true },
       content: {
             type: {
                   type: String,
@@ -25,8 +28,14 @@ const chapterSchema = new Schema<IChapter>({
       },
 });
 
+// Pre-save hook to set the order for new chapters if not provided
 chapterSchema.pre<IChapter>("save", async function (next) {
       if (!this.isNew) {
+            return next();
+      }
+
+      if (this.order !== undefined && this.order !== null) {
+            // If order is already set by the user, do not override
             return next();
       }
 
@@ -43,5 +52,6 @@ chapterSchema.pre<IChapter>("save", async function (next) {
             next(error as Error);
       }
 });
+
 const Chapter = mongoose.model<IChapter>("Chapter", chapterSchema);
 export default Chapter;

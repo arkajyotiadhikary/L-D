@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import CourseInfoForm from "../components/CourseInfoFormChapter";
 import VideoUploader from "../components/VideoUploader";
@@ -10,17 +10,19 @@ import {
       updateChapter,
 } from "../../Instructor/services/moduleService";
 
+interface ChapterType {
+      _id?: string;
+      title?: string;
+      description?: string;
+      content: {
+            type: "text" | "video";
+            url: string;
+      };
+}
+
 const EditCoursePage: React.FC = () => {
       const { id, moduleId } = useParams();
-      const [chapter, setChapter] = useState<{
-            _id?: string;
-            title?: string;
-            description?: string;
-            content: {
-                  type: "text" | "video";
-                  url: string;
-            };
-      }>({
+      const [chapter, setChapter] = useState<ChapterType>({
             title: "",
             description: "",
             content: { type: "text", url: "" },
@@ -29,34 +31,37 @@ const EditCoursePage: React.FC = () => {
       const navigate = useNavigate();
 
       useEffect(() => {
-            if (id) {
-                  // Get chapter by ID
-                  const fetchChapter = async () => {
+            const fetchChapter = async () => {
+                  if (id) {
                         try {
-                              const _chapter = await getChapterById(id!);
+                              const _chapter = await getChapterById(id);
                               setChapter(_chapter);
-                              console.log("chapter", _chapter);
+                              console.log("Fetched chapter", _chapter);
                         } catch (error) {
                               console.error("Error fetching chapter:", error);
                         }
-                  };
-                  fetchChapter();
-            }
+                  }
+            };
+            fetchChapter();
       }, [id]);
 
-      useEffect(() => {
-            console.log("chapter", chapter);
-      }, [chapter]);
+      const setModule = useCallback(
+            (module: Partial<ChapterType>) => {
+                  setChapter((prevState) => ({
+                        ...prevState,
+                        ...module,
+                  }));
+            },
+            [setChapter]
+      );
 
       const handleSaveChanges = async () => {
             if (id) {
-                  // Logic for updating an existing chapter
-                  console.log("Updating chapter:", chapter);
                   try {
                         const updatedChapter = await updateChapter(id, chapter);
                         console.log("updatedChapter", updatedChapter);
                         if (updatedChapter) {
-                              navigate(`/admin/dashboard`);
+                              navigate(`/instructor/module/edit/${moduleId}`);
                         }
                   } catch (error) {
                         console.error("Error updating chapter:", error);
@@ -89,12 +94,7 @@ const EditCoursePage: React.FC = () => {
                                                 title={chapter.title || ""}
                                                 description={chapter.description || ""}
                                                 url={chapter.content.url || ""}
-                                                setModule={(module) =>
-                                                      setChapter((prevState) => ({
-                                                            ...prevState,
-                                                            ...module,
-                                                      }))
-                                                }
+                                                setModule={setModule}
                                           />
                                     </Box>
                                     <Box width="35%">

@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 interface SectionProps {
       title: string;
       _id: string;
+      moduleId: string;
 }
 
-const Section: React.FC<SectionProps> = ({ title, _id }) => {
+const Section: React.FC<SectionProps> = ({ title, _id, moduleId }) => {
       const navigation = useNavigate();
       return (
             <Box bg="white" p={4} borderRadius="md" boxShadow="sm" mb={4} w="50%">
@@ -22,7 +23,9 @@ const Section: React.FC<SectionProps> = ({ title, _id }) => {
                               variant="ghost"
                               colorScheme="blue"
                               ml={2}
-                              onClick={() => navigation(`/admin/chapter/edit/${_id}`)}
+                              onClick={() =>
+                                    navigation(`/instructor/chapter/${moduleId}/edit/${_id}`)
+                              }
                         />
                   </Flex>
             </Box>

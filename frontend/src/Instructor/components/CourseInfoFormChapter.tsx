@@ -3,14 +3,15 @@ import { Box, Input, Heading, Text, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
+import useDebounce from "../../hooks/useDebounce";
 
 interface CourseInfoFormProps {
       title: string;
       description: string;
       url: string;
       setModule: (module: {
-            title: string;
-            description: string;
+            title?: string;
+            description?: string;
             content?: {
                   type: "text" | "video";
                   url: string;
@@ -19,30 +20,45 @@ interface CourseInfoFormProps {
 }
 
 const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url, setModule }) => {
-      // Local state for content fields
+      // Local state for form fields
+      const [localTitle, setLocalTitle] = useState<string>(title);
+      const [localDescription, setLocalDescription] = useState<string>(description);
       const [contentType, setContentType] = useState<"text" | "video">("text");
-      const [contentUrl, setContentUrl] = useState(url || "");
+      const [contentUrl, setContentUrl] = useState<string>(url || "");
 
-      // Editor state for description
-      const [editorState, setEditorState] = useState(description || "");
-
-      console.log("description", description);
-      console.log("editorState", editorState);
+      // Synchronize local state with props
       useEffect(() => {
-            setEditorState(description || "");
+            setLocalTitle(title);
+      }, [title]);
+
+      useEffect(() => {
+            setLocalDescription(description);
       }, [description]);
 
-      // Update module including content fields and rich text description
-      const handleSetModule = () => {
+      useEffect(() => {
+            setContentUrl(url || "");
+      }, [url]);
+
+      // Debounced values
+      const debouncedTitle = useDebounce<string>(localTitle, 500);
+      const debouncedDescription = useDebounce<string>(localDescription, 500);
+      const debouncedContentUrl = useDebounce<string>(contentUrl, 500);
+
+      /**
+       * Handles updating the module state.
+       * Consolidates debounced form fields to update the parent component.
+       */
+      useEffect(() => {
             setModule({
-                  title,
-                  description: editorState,
+                  title: debouncedTitle,
+                  description: debouncedDescription,
                   content: {
                         type: contentType,
-                        url: contentUrl,
+                        url: debouncedContentUrl,
                   },
             });
-      };
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [debouncedTitle, debouncedDescription, debouncedContentUrl, contentType]);
 
       return (
             <Box>
@@ -57,10 +73,8 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url
                         </Heading>
                         <Input
                               placeholder="Enter course title"
-                              value={title}
-                              onChange={(e) =>
-                                    setModule({ title: e.target.value, description: editorState })
-                              }
+                              value={localTitle}
+                              onChange={(e) => setLocalTitle(e.target.value)}
                         />
                         <Text fontSize="sm" mt={2}>
                               Please see our course title guideline
@@ -74,11 +88,8 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url
                         </Heading>
                         <Box mb={2} p={2} border="1px solid #E2E8F0" borderRadius="md">
                               <ReactQuill
-                                    value={editorState}
-                                    onChange={(value) => {
-                                          setEditorState(value);
-                                          handleSetModule();
-                                    }}
+                                    value={localDescription}
+                                    onChange={(value) => setLocalDescription(value)}
                               />
                         </Box>
                         <Text fontSize="sm" mt={2}>
@@ -93,10 +104,7 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url
                         </Heading>
                         <Select
                               value={contentType}
-                              onChange={(e) => {
-                                    setContentType(e.target.value as "text" | "video");
-                                    handleSetModule();
-                              }}
+                              onChange={(e) => setContentType(e.target.value as "text" | "video")}
                         >
                               <option value="text">Text</option>
                               <option value="video">Video</option>
@@ -104,10 +112,7 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, url
                         <Input
                               placeholder="Enter content URL"
                               value={contentUrl}
-                              onChange={(e) => {
-                                    setContentUrl(e.target.value);
-                                    handleSetModule();
-                              }}
+                              onChange={(e) => setContentUrl(e.target.value)}
                               mt={4}
                         />
                         <Text fontSize="sm" mt={2}>

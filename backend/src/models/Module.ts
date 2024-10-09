@@ -1,6 +1,8 @@
-import { Schema, model, Document, Types } from "mongoose";
+// models/module.ts
+import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IModule extends Document {
+      _id: Types.ObjectId; // Explicitly define _id
       title: string;
       description: string;
       order: number;
@@ -16,6 +18,7 @@ const moduleSchema = new Schema<IModule>({
       chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
 });
 
+// Pre-save hook to set the order for new modules
 moduleSchema.pre<IModule>("save", async function (next) {
       if (!this.isNew) {
             return next();
@@ -30,5 +33,5 @@ moduleSchema.pre<IModule>("save", async function (next) {
       }
 });
 
-const Module = model<IModule>("Module", moduleSchema);
+const Module = mongoose.model<IModule>("Module", moduleSchema);
 export default Module;

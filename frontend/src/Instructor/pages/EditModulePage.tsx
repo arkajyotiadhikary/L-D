@@ -1,3 +1,4 @@
+// EditModulePage.tsx
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,7 @@ import {
       Text,
       useColorModeValue,
       Divider,
+      useToast,
 } from "@chakra-ui/react";
 import CourseInfoForm from "../components/CourseInfoFormModule";
 import ChapterForm from "../components/ChapterForm";
@@ -24,12 +26,14 @@ import {
       updateModule,
 } from "../../Instructor/services/moduleService";
 import SectionsList from "../components/SectionsList";
+import { v4 as uuidv4 } from "uuid"; // Import UUID
 
 interface Chapter {
-      _id?: string;
-      title?: string;
+      _id: string;
+      title: string;
       description?: string;
-      content: {
+      order: number;
+      content?: {
             type: "text" | "video";
             url: string;
       };
@@ -44,10 +48,11 @@ interface Module {
       chapters?: Chapter[];
 }
 
-const EditCoursePage: React.FC = () => {
+const EditModulePage: React.FC = () => {
       const { id } = useParams();
       const location = useLocation();
       const navigate = useNavigate();
+      const toast = useToast();
 
       const [module, setModule] = useState<Module>({
             title: "",
@@ -71,11 +76,18 @@ const EditCoursePage: React.FC = () => {
                               setChapters(_chapters);
                         } catch (error) {
                               console.error("Error fetching module and chapters:", error);
+                              toast({
+                                    title: "Error",
+                                    description: "Failed to fetch module data.",
+                                    status: "error",
+                                    duration: 5000,
+                                    isClosable: true,
+                              });
                         }
                   };
                   fetchModuleAndChapters();
             }
-      }, [id]);
+      }, [id, toast]);
 
       useEffect(() => {
             console.log("module", module);
@@ -84,6 +96,8 @@ const EditCoursePage: React.FC = () => {
       // Function to handle adding a new chapter
       const addChapter = () => {
             const newChapter: Chapter = {
+                  _id: generateUniqueId(), // Now using UUID
+                  order: chapters.length + 1,
                   title: "",
                   description: "",
                   content: { type: "text", url: "" },
@@ -121,6 +135,29 @@ const EditCoursePage: React.FC = () => {
             }));
       };
 
+      // Function to handle reordering chapters
+      const handleReorder = (newChapters: Chapter[]) => {
+            console.log(
+                  "Handling reorder in parent:",
+                  newChapters.map((c) => c.title)
+            );
+
+            // Assign the `order` based on the current index (1-based)
+            const updatedChapters = newChapters.map((chapter, index) => ({
+                  ...chapter,
+                  order: index + 1, // Orders start at 1
+            }));
+
+            // Update the local chapters state
+            setChapters(updatedChapters);
+
+            // Update the module's chapters array with the reordered chapters
+            setModule((prevModule) => ({
+                  ...prevModule,
+                  chapters: updatedChapters,
+            }));
+      };
+
       // Check if this is a "new" module (i.e., /instructor/module/new)
       const isNewModule = !id || location.pathname.includes("/instructor/module/new");
 
@@ -129,9 +166,23 @@ const EditCoursePage: React.FC = () => {
             try {
                   const newModule = await createModule(module);
                   console.log("New module created:", newModule);
+                  toast({
+                        title: "Success",
+                        description: "Module created successfully.",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                  });
                   navigate("/instructor/modules/manage");
             } catch (error) {
                   console.error("Error creating new module:", error);
+                  toast({
+                        title: "Error",
+                        description: "Failed to create module.",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                  });
             }
       };
 
@@ -140,9 +191,23 @@ const EditCoursePage: React.FC = () => {
             try {
                   const updatedModule = await updateModule(id!, module);
                   console.log("Module updated:", updatedModule);
+                  toast({
+                        title: "Success",
+                        description: "Module updated successfully.",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                  });
                   navigate("/instructor/modules/manage");
             } catch (error) {
                   console.error("Error updating module:", error);
+                  toast({
+                        title: "Error",
+                        description: "Failed to update module.",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                  });
             }
       };
 
@@ -150,10 +215,29 @@ const EditCoursePage: React.FC = () => {
       const removeModule = async () => {
             try {
                   await deleteModule(id!);
+                  toast({
+                        title: "Deleted",
+                        description: "Module has been deleted.",
+                        status: "info",
+                        duration: 5000,
+                        isClosable: true,
+                  });
                   navigate("/instructor/modules/manage");
             } catch (error) {
                   console.error("Error deleting module:", error);
+                  toast({
+                        title: "Error",
+                        description: "Failed to delete module.",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                  });
             }
+      };
+
+      // Function to generate a unique ID for new chapters
+      const generateUniqueId = (): string => {
+            return uuidv4();
       };
 
       // Define colors based on color mode for consistency
@@ -205,14 +289,14 @@ const EditCoursePage: React.FC = () => {
                                                 fontSize={{ base: "xl", md: "2xl" }}
                                                 fontWeight="bold"
                                                 mb={4}
-                                                color={useColorModeValue("teal.600", "teal.300")}
+                                                color={"teal.600"}
                                           >
                                                 Chapters
                                           </Text>
                                           <Stack spacing={6}>
                                                 {chapters.map((chapter, index) => (
                                                       <ChapterForm
-                                                            key={index}
+                                                            key={chapter._id}
                                                             index={index}
                                                             chapter={chapter}
                                                             updateChapter={updateChapter}
@@ -231,7 +315,11 @@ const EditCoursePage: React.FC = () => {
                                           </Button>
                                     </Box>
                               ) : (
-                                    <SectionsList chapters={chapters} moduleId={id} />
+                                    <SectionsList
+                                          chapters={chapters}
+                                          moduleId={id!}
+                                          onReorder={handleReorder} // Pass the reorder handler
+                                    />
                               )}
 
                               {/* Image Uploader */}
@@ -321,6 +409,4 @@ const EditCoursePage: React.FC = () => {
       );
 };
 
-export default EditCoursePage;
-
-// Don't forget to import the necessary icons at the top
+export default EditModulePage;
