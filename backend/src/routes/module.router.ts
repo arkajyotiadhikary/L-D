@@ -9,6 +9,11 @@ import {
       deleteModule,
       updateModule,
       updateChapter,
+      getAssignmentById,
+      getAssignmentsByModuleId,
+      createAssignment,
+      updateAssignment,
+      deleteAssignment,
 } from "../controllers/module.controller.js";
 
 const router = express.Router();

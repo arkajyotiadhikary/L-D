@@ -1,26 +1,9 @@
 import { Request, Response } from "express";
+import mongoose, { Types } from "mongoose";
 import Module, { IModule } from "../models/Module.js";
 import Chapter, { IChapter } from "../models/Chapter.js";
-import mongoose, { Types } from "mongoose";
-
-interface ChapterInput {
-      _id?: string; // Optional for new chapters
-      title: string;
-      description: string;
-      content: {
-            type: "video" | "text";
-            url: string;
-      };
-      order?: number; // Optional if order is to be auto-assigned
-}
-
-interface UpdateModuleInput {
-      title?: string;
-      description?: string;
-      imgUrl?: string;
-      chapters: ChapterInput[];
-}
-
+import Assignment from "../models/Assignment.js";
+// MODULE
 // get all modules
 export const getAllModules = async (req: Request, res: Response): Promise<Response> => {
       try {
@@ -42,31 +25,7 @@ export const getModuleById = async (req: Request, res: Response): Promise<Respon
       }
 };
 
-// get chapters by module id
-export const getChaptersByModuleId = async (req: Request, res: Response): Promise<Response> => {
-      try {
-            const { id } = req.params;
-            const chapters = await Chapter.find({ moduleId: id }).sort({ order: 1 });
-            return res.status(200).json(chapters);
-      } catch (error: any) {
-            return res.status(500).json({ message: error.message });
-      }
-};
-
-// get chapter by id
-export const getChapterById = async (req: Request, res: Response): Promise<Response> => {
-      try {
-            const { id } = req.params;
-            const chapter = await Chapter.findOne({ _id: id });
-            return res.status(200).json(chapter);
-      } catch (error: any) {
-            return res.status(500).json({ message: error.message });
-      }
-};
-
-// create modules
-// controllers/moduleController.ts
-
+// create module
 export const createModule = async (req: Request, res: Response) => {
       const { title, description, imgUrl, chapters }: UpdateModuleInput = req.body;
 
@@ -135,6 +94,13 @@ export const createModule = async (req: Request, res: Response) => {
             return res.status(500).json({ message: "Server error while creating module" });
       }
 };
+
+interface UpdateModuleInput {
+      title?: string;
+      description?: string;
+      imgUrl?: string;
+      chapters: ChapterInput[];
+}
 
 // update modules
 export const updateModule = async (req: Request, res: Response) => {
@@ -259,6 +225,53 @@ export const updateModule = async (req: Request, res: Response) => {
       } catch (error) {
             console.error("Error updating module:", error);
             return res.status(500).json({ message: "Server error while updating module" });
+      }
+};
+
+// delete modules
+export const deleteModule = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const deletedModule = await Module.findByIdAndDelete(id);
+            if (!deletedModule) {
+                  return res.status(404).json({ message: "Module not found" });
+            }
+            return res.status(200).json({ message: "Module deleted successfully" });
+      } catch (error) {
+            return res.status(500).json({ message: "Error deleting module" });
+      }
+};
+
+// CHAPTERS
+interface ChapterInput {
+      _id?: string; // Optional for new chapters
+      title: string;
+      description: string;
+      content: {
+            type: "video" | "text";
+            url: string;
+      };
+      order?: number; // Optional if order is to be auto-assigned
+}
+// get chapters by module id
+export const getChaptersByModuleId = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const chapters = await Chapter.find({ moduleId: id }).sort({ order: 1 });
+            return res.status(200).json(chapters);
+      } catch (error: any) {
+            return res.status(500).json({ message: error.message });
+      }
+};
+
+// get chapter by id
+export const getChapterById = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const chapter = await Chapter.findOne({ _id: id });
+            return res.status(200).json(chapter);
+      } catch (error: any) {
+            return res.status(500).json({ message: error.message });
       }
 };
 
@@ -410,18 +423,192 @@ export const updateChapter = async (req: Request, res: Response): Promise<Respon
       }
 };
 
-// upload assignment
-
-// delete modules
-export const deleteModule = async (req: Request, res: Response): Promise<Response> => {
+// ASSIGNMENT
+// get all assignments by module id
+export const getAssignmentsByModuleId = async (req: Request, res: Response): Promise<Response> => {
       try {
             const { id } = req.params;
-            const deletedModule = await Module.findByIdAndDelete(id);
-            if (!deletedModule) {
-                  return res.status(404).json({ message: "Module not found" });
-            }
-            return res.status(200).json({ message: "Module deleted successfully" });
+            const assignments = await Assignment.find({ moduleId: id });
+            return res.status(200).json(assignments);
       } catch (error) {
-            return res.status(500).json({ message: "Error deleting module" });
+            return res.status(500).json({ message: "Error fetching assignments" });
+      }
+};
+
+// get assignment by id
+export const getAssignmentById = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const assignment = await Assignment.findById(id);
+            return res.status(200).json(assignment);
+      } catch (error) {
+            return res.status(500).json({ message: "Error fetching assignment" });
+      }
+};
+
+// Create assignment
+export const createAssignment = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { moduleId } = req.params;
+            const { title, description, questions, order } = req.body;
+
+            if (!moduleId || !title || !description || !questions) {
+                  return res.status(400).json({
+                        message: "Module ID, title, description, and questions are required",
+                  });
+            }
+
+            // Start a session for transaction
+            const session = await mongoose.startSession();
+            session.startTransaction();
+
+            try {
+                  // Find the module
+                  const module = await Module.findById(moduleId).session(session).exec();
+                  if (!module) {
+                        await session.abortTransaction();
+                        session.endSession();
+                        return res.status(404).json({ message: "Module not found" });
+                  }
+
+                  // Fetch existing assignments to determine order
+                  const existingAssignments = await Assignment.find({ moduleId: module._id })
+                        .session(session)
+                        .exec();
+
+                  let newOrder: number;
+
+                  if (order !== undefined && order !== null) {
+                        const parsedOrder = typeof order === "number" ? order : parseInt(order, 10);
+                        if (isNaN(parsedOrder)) {
+                              await session.abortTransaction();
+                              session.endSession();
+                              return res.status(400).json({ message: "Order must be a number" });
+                        }
+
+                        if (parsedOrder < 1 || parsedOrder > existingAssignments.length + 1) {
+                              await session.abortTransaction();
+                              session.endSession();
+                              return res.status(400).json({ message: "Invalid order value" });
+                        }
+
+                        newOrder = parsedOrder;
+
+                        // Increment the order of existing assignments at or beyond the specified order
+                        await Assignment.updateMany(
+                              { moduleId: module._id, order: { $gte: newOrder } },
+                              { $inc: { order: 1 } }
+                        ).session(session);
+                  } else {
+                        // No order specified; insert at the end
+                        newOrder = existingAssignments.length + 1;
+                  }
+
+                  // Create the new assignment with the determined order
+                  const newAssignment = new Assignment({
+                        moduleId: module._id,
+                        title,
+                        description,
+                        questions,
+                        order: newOrder,
+                  });
+
+                  await newAssignment.save({ session });
+
+                  // Insert the new assignment's _id into module.assignments array at the correct position
+                  module.assignments.splice(newOrder - 1, 0, newAssignment._id);
+
+                  await module.save({ session });
+
+                  // Commit the transaction
+                  await session.commitTransaction();
+                  session.endSession();
+
+                  return res.status(201).json({
+                        message: "Assignment created successfully",
+                        assignmentId: newAssignment._id,
+                  });
+            } catch (error: unknown) {
+                  await session.abortTransaction();
+                  session.endSession();
+                  console.error("Error creating assignment:", error);
+                  return res.status(500).json({ message: "Error creating assignment" });
+            }
+      } catch (error: unknown) {
+            console.error("Error creating assignment:", error);
+            return res.status(500).json({ message: "Error creating assignment" });
+      }
+};
+
+// Update assignment
+export const updateAssignment = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+            const updatedAssignment = await Assignment.findByIdAndUpdate(id, req.body, {
+                  new: true,
+            });
+            if (!updatedAssignment) {
+                  return res.status(404).json({ message: "Assignment not found" });
+            }
+            return res.status(200).json({
+                  message: "Assignment updated successfully",
+                  assignment: updatedAssignment,
+            });
+      } catch (error: unknown) {
+            console.error("Error updating assignment:", error);
+            return res.status(500).json({ message: "Error updating assignment" });
+      }
+};
+
+// Delete assignment
+export const deleteAssignment = async (req: Request, res: Response): Promise<Response> => {
+      try {
+            const { id } = req.params;
+
+            // Start a session for transaction
+            const session = await mongoose.startSession();
+            session.startTransaction();
+
+            try {
+                  const assignment = await Assignment.findById(id).session(session).exec();
+                  if (!assignment) {
+                        await session.abortTransaction();
+                        session.endSession();
+                        return res.status(404).json({ message: "Assignment not found" });
+                  }
+
+                  const moduleId = assignment.moduleId;
+                  const order = assignment.order;
+
+                  // Remove the assignment
+                  await Assignment.deleteOne({ session });
+
+                  // Decrement the order of assignments that were after the deleted one
+                  await Assignment.updateMany(
+                        { moduleId: moduleId, order: { $gt: order } },
+                        { $inc: { order: -1 } }
+                  ).session(session);
+
+                  // Remove assignment reference from module
+                  await Module.findByIdAndUpdate(
+                        moduleId,
+                        { $pull: { assignments: assignment._id } },
+                        { session }
+                  ).exec();
+
+                  // Commit the transaction
+                  await session.commitTransaction();
+                  session.endSession();
+
+                  return res.status(200).json({ message: "Assignment deleted successfully" });
+            } catch (error: unknown) {
+                  await session.abortTransaction();
+                  session.endSession();
+                  console.error("Error deleting assignment:", error);
+                  return res.status(500).json({ message: "Error deleting assignment" });
+            }
+      } catch (error: unknown) {
+            console.error("Error deleting assignment:", error);
+            return res.status(500).json({ message: "Error deleting assignment" });
       }
 };

@@ -8,6 +8,7 @@ export interface IModule extends Document {
       order: number;
       imgUrl: string;
       chapters: Types.ObjectId[];
+      assignments: Types.ObjectId[]; // Add this line
 }
 
 const moduleSchema = new Schema<IModule>({
@@ -16,6 +17,7 @@ const moduleSchema = new Schema<IModule>({
       order: { type: Number, unique: true },
       imgUrl: { type: String },
       chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
+      assignments: [{ type: Schema.Types.ObjectId, ref: "Assignment" }], // Add this line
 });
 
 // Pre-save hook to set the order for new modules
