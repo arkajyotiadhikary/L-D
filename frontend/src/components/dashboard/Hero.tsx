@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Flex, Text, Image } from "@chakra-ui/react";
 import img from "../../assets/images/Dashboard Hero.jpg";
 
@@ -44,12 +43,7 @@ const HeroSection = () => {
                         p={8}
                         zIndex="1"
                   >
-                        <Text
-                              fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-                              fontWeight="bold"
-                              color="white"
-                              mb={4}
-                        >
+                        <Text fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }} color="white" mb={4}>
                               Hello, Sanjay!
                         </Text>
                         <Text fontSize={{ base: "xl", md: "2xl" }} color="white" maxWidth="600px">

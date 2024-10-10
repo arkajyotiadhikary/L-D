@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ moduleId }) => {
                                     icon={<FiChevronLeft size={32} />}
                                     bg={"none"}
                                     aria-label="Back"
-                                    onClick={() => navigate(`/module/${moduleId}`)}
+                                    onClick={() => navigate(`/learnings/module/${moduleId}`)}
                               />
                         )}
                         <Text fontSize="2xl" fontWeight="bold">

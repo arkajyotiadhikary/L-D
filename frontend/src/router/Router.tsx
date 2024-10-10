@@ -6,6 +6,7 @@ import Module from "../pages/Module.tsx";
 import Chapter from "../pages/Chapter.tsx";
 import Assignment from "../pages/Assignment.tsx";
 import PrivateRoute from "../components/PrivateRoute.tsx";
+import History from "../pages/History.tsx";
 
 // ADMIN
 import AdminHome from "../admin/pages/Home.tsx";
@@ -33,12 +34,16 @@ const Router = () => {
                                     />
                               }
                         />
-                        <Route path="/module/:id" element={<Module />} />
-                        <Route path="/module/:module/content/:content" element={<Chapter />} />
+                        <Route path="/learnings/module/:id" element={<Module />} />
                         <Route
-                              path="/module/:module/assignment/:assignment"
+                              path="/learnings/module/:module/content/:content"
+                              element={<Chapter />}
+                        />
+                        <Route
+                              path="/learnings/module/:module/assignment/:assignment"
                               element={<Assignment />}
                         />
+                        <Route path="/history" element={<History />} />
 
                         {/* SUPER ADMIN */}
                         <Route path="/admin" element={<AdminHome />} />

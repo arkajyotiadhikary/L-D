@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
-import { Grid, Skeleton, Text } from "@chakra-ui/react";
+import { Grid, Skeleton, Stack, Text } from "@chakra-ui/react";
 import ModuleCard from "../components/ModuleCard";
 import Layout from "../layouts/Main";
 import { getAllModules } from "../services/moduleService";
@@ -76,8 +77,46 @@ const Dashboard = () => {
             <Layout>
                   {/* Hero */}
                   <HeroSection />
-                  <Grid templateColumns="repeat(4, minmax(150px, 1fr))" gap={6} p={5}>
-                        {isLoading ? (
+
+                  <Grid
+                        w={"100%"}
+                        templateColumns="repeat(3, minmax(150px, 1fr))"
+                        gap={6}
+                        p={5}
+                        mt={5}
+                        px={20}
+                  >
+                        <ModuleCard
+                              _id={modules[0]?._id}
+                              title={modules[0]?.title}
+                              img={modules[0]?.imgUrl}
+                              completion="completed"
+                              timeRemaining="12min"
+                              chapters={20}
+                              completionPercentage={100}
+                              dueDate="2022-12-31"
+                        />
+                        <ModuleCard
+                              _id={modules[1]?._id}
+                              title={modules[1]?.title}
+                              img={modules[1]?.imgUrl}
+                              completion="progress"
+                              timeRemaining="12min"
+                              chapters={10}
+                              completionPercentage={30}
+                              dueDate="2025-2-15"
+                        />
+                        <ModuleCard
+                              _id={modules[2]?._id}
+                              title={modules[2]?.title}
+                              img={modules[2]?.imgUrl}
+                              completion="not-started"
+                              timeRemaining="15min"
+                              chapters={15}
+                              completionPercentage={0}
+                              dueDate="2024-12-31"
+                        />
+                        {/* {isLoading ? (
                               Array.from({ length: 4 }).map((_, i) => (
                                     <Skeleton
                                           key={i}
@@ -93,7 +132,7 @@ const Dashboard = () => {
                                           key={module._id}
                                           title={module.title}
                                           img={module.imgUrl}
-                                          completion="completed"
+                                          completion="not-started"
                                           timeRemaining="12min"
                                           chapters={10}
                                           completionPercentage={30}
@@ -102,7 +141,7 @@ const Dashboard = () => {
                               ))
                         ) : (
                               <Text>No modules available</Text>
-                        )}
+                        )} */}
                   </Grid>
             </Layout>
       );

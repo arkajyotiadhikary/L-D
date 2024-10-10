@@ -17,15 +17,11 @@ import {
       faAngleDoubleLeft,
       faChevronDown,
       faChevronRight,
-      faCubes,
-      faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 // 1. Define the SidebarItemProps interface
 interface SidebarItemProps {
-      icon: IconDefinition;
       label: string;
       path: string;
       onClick?: () => void;
@@ -41,7 +37,6 @@ interface SidebarProps {
 
 // SidebarItem Component
 const SidebarItem: React.FC<SidebarItemProps> = ({
-      icon,
       label,
       path,
       onClick,
@@ -50,7 +45,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 }) => {
       const { isOpen, onToggle } = useDisclosure({ defaultIsOpen });
       const location = useLocation(); // Get the current path
-      const isActive = location.pathname === path; // Determine if the tab is active
+      const isActive =
+            location.pathname === path ||
+            location.pathname.includes(`${path}/`) ||
+            location.pathname.includes(`${path}-`);
 
       return (
             <Box width="100%">
@@ -73,12 +71,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                                     onClick();
                               }
                         }}
-                        leftIcon={
-                              <FontAwesomeIcon
-                                    color={isActive ? "white" : "gray.500"}
-                                    icon={icon}
-                              />
-                        }
                         rightIcon={
                               children ? (
                                     <FontAwesomeIcon
@@ -127,16 +119,24 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         <DrawerBody>
                               <VStack spacing={4} align="stretch" mt={4}>
                                     <SidebarItem
-                                          icon={faCubes}
-                                          label="Modules"
+                                          label="Home"
                                           path="/dashboard"
                                           onClick={() => navigate("/dashboard")}
                                     />
                                     <SidebarItem
-                                          icon={faHistory}
-                                          label="Learning History"
-                                          path="/learning-history"
-                                          onClick={() => navigate("/learning-history")}
+                                          label="Learnings"
+                                          path="/learnings"
+                                          onClick={() => navigate("/learnings")}
+                                    />
+                                    <SidebarItem
+                                          label="Explore"
+                                          path="/explore"
+                                          onClick={() => navigate("/explore")}
+                                    />
+                                    <SidebarItem
+                                          label="History"
+                                          path="/history"
+                                          onClick={() => navigate("/history")}
                                     />
                               </VStack>
                         </DrawerBody>

@@ -25,14 +25,14 @@ const ModuleCard = ({
       chapters: number;
       timeRemaining: string;
       completionPercentage: number;
-      completion?: "completed" | "progress" | "incomplete";
+      completion?: "completed" | "progress" | "not-started";
       img?: string;
 }) => {
       const navigate = useNavigate();
 
       const handleClick = () => {
-            if (completion !== "incomplete") {
-                  navigate(`/module/${_id}`);
+            if (completion !== "completed") {
+                  navigate(`/learnings/module/${_id}`);
             }
       };
 
@@ -44,8 +44,6 @@ const ModuleCard = ({
                   boxShadow="lg"
                   overflow="hidden"
                   transition="all 0.2s ease-in-out"
-                  opacity={completion === "incomplete" ? 0.5 : 1}
-                  pointerEvents={completion === "incomplete" ? "none" : undefined}
                   _hover={{
                         boxShadow: "xl",
                         transform: "scale(1.02)",
@@ -56,14 +54,14 @@ const ModuleCard = ({
                         src={img || "/api/placeholder/400/150"}
                         alt="Module"
                         w="100%"
-                        h="150px"
+                        h="200px"
                         objectFit="cover"
                         borderTopRadius="lg"
                   />
 
                   {/* Content */}
                   <Box p={4}>
-                        <Text fontWeight="bold" fontSize="lg" mb={2}>
+                        <Text fontSize="lg" mb={2}>
                               {title}
                         </Text>
 
@@ -87,9 +85,12 @@ const ModuleCard = ({
                                           bgGradient:
                                                 "linear(to-b, rgba(137, 31, 236, 0.8) 0%, rgba(46, 6, 110, 0.8) 60%)", // Darker hover gradient
                                     }}
-                                    isDisabled={completion === "incomplete"}
                               >
-                                    {completion === "completed" ? "Review" : "Start"}
+                                    {completion === "not-started"
+                                          ? "Start"
+                                          : completion === "completed"
+                                          ? "Revisit"
+                                          : "Resume"}
                               </Button>
                         </Flex>
 
