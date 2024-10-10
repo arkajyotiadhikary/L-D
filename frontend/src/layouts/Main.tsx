@@ -30,7 +30,7 @@ const Layout = ({ children, moduleId }: { children: React.ReactNode; moduleId?: 
                         <Header moduleId={moduleId || ""} />
 
                         {/* Page-specific content */}
-                        <Box p={5}>{children}</Box>
+                        <Box>{children}</Box>
                   </Box>
             </Flex>
       );

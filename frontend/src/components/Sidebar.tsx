@@ -1,6 +1,3 @@
-// TODO make different sidebar component
-
-// Sidebar.tsx
 import React from "react";
 import {
       Drawer,
@@ -15,15 +12,13 @@ import {
       Collapse,
       useDisclosure,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
       faAngleDoubleLeft,
       faChevronDown,
       faChevronRight,
-      faClipboard,
       faCubes,
       faHistory,
-      faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -32,6 +27,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 interface SidebarItemProps {
       icon: IconDefinition;
       label: string;
+      path: string;
       onClick?: () => void;
       children?: React.ReactNode;
       defaultIsOpen?: boolean;
@@ -42,19 +38,31 @@ interface SidebarProps {
       isOpen: boolean;
       onClose: () => void;
 }
+
 // SidebarItem Component
 const SidebarItem: React.FC<SidebarItemProps> = ({
       icon,
       label,
+      path,
       onClick,
       children,
       defaultIsOpen = false,
 }) => {
       const { isOpen, onToggle } = useDisclosure({ defaultIsOpen });
+      const location = useLocation(); // Get the current path
+      const isActive = location.pathname === path; // Determine if the tab is active
 
       return (
             <Box width="100%">
                   <Button
+                        _hover={
+                              isActive
+                                    ? {
+                                            bgGradient: "linear(to-r, blue.500, purple.500)",
+                                            color: "white",
+                                      }
+                                    : undefined
+                        }
                         variant="ghost"
                         justifyContent="flex-start"
                         width="100%"
@@ -65,7 +73,12 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                                     onClick();
                               }
                         }}
-                        leftIcon={<FontAwesomeIcon icon={icon} />}
+                        leftIcon={
+                              <FontAwesomeIcon
+                                    color={isActive ? "white" : "gray.500"}
+                                    icon={icon}
+                              />
+                        }
                         rightIcon={
                               children ? (
                                     <FontAwesomeIcon
@@ -75,6 +88,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                         }
                         aria-haspopup={children ? "menu" : undefined}
                         aria-expanded={children ? isOpen : undefined}
+                        bgGradient={isActive ? "linear(to-r, blue.500, purple.500)" : undefined}
+                        color={isActive ? "white" : "gray.700"} // Change text color if active
                   >
                         {label}
                   </Button>
@@ -88,6 +103,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             </Box>
       );
 };
+
 // Sidebar Component
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       const navigate = useNavigate();
@@ -113,21 +129,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                     <SidebarItem
                                           icon={faCubes}
                                           label="Modules"
+                                          path="/dashboard"
                                           onClick={() => navigate("/dashboard")}
-                                    />
-                                    <SidebarItem
-                                          icon={faClipboard}
-                                          label="Assignments"
-                                          onClick={() => navigate("/assignments")}
-                                    />
-                                    <SidebarItem
-                                          icon={faStar}
-                                          label="Scores"
-                                          onClick={() => navigate("/scores")}
                                     />
                                     <SidebarItem
                                           icon={faHistory}
                                           label="Learning History"
+                                          path="/learning-history"
                                           onClick={() => navigate("/learning-history")}
                                     />
                               </VStack>

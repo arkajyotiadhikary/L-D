@@ -1,75 +1,111 @@
-import { Box, Image, Text } from "@chakra-ui/react";
+import {
+      Box,
+      Image,
+      Text,
+      Flex,
+      Button,
+      CircularProgress,
+      CircularProgressLabel,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const ModuleCard = ({
       _id,
       title,
-      description,
+      dueDate,
+      chapters,
+      timeRemaining,
+      completionPercentage,
       completion,
       img,
 }: {
       _id: string;
       title: string;
-      description: string;
+      dueDate: string;
+      chapters: number;
+      timeRemaining: string;
+      completionPercentage: number;
       completion?: "completed" | "progress" | "incomplete";
       img?: string;
 }) => {
       const navigate = useNavigate();
+
+      const handleClick = () => {
+            if (completion !== "incomplete") {
+                  navigate(`/module/${_id}`);
+            }
+      };
+
       return (
             <Box
                   borderWidth="1px"
                   borderRadius="lg"
-                  bg="gray.50"
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="start"
+                  bg="white"
+                  boxShadow="lg"
+                  overflow="hidden"
                   transition="all 0.2s ease-in-out"
-                  onClick={
-                        completion === "incomplete" ? undefined : () => navigate(`/module/${_id}`)
-                  }
                   opacity={completion === "incomplete" ? 0.5 : 1}
                   pointerEvents={completion === "incomplete" ? "none" : undefined}
                   _hover={{
-                        bg: "gray.100",
-                        boxShadow: "md",
+                        boxShadow: "xl",
                         transform: "scale(1.02)",
-                        cursor: "pointer",
                   }}
             >
+                  {/* Image */}
                   <Image
-                        src={img}
+                        src={img || "/api/placeholder/400/150"}
                         alt="Module"
-                        mb={4}
                         w="100%"
-                        h="80"
+                        h="150px"
                         objectFit="cover"
-                        rounded="md"
+                        borderTopRadius="lg"
                   />
-                  <Box display="flex" p={5} flexDirection="column" alignItems="start">
-                        <Text fontWeight="bold" fontSize="lg">
+
+                  {/* Content */}
+                  <Box p={4}>
+                        <Text fontWeight="bold" fontSize="lg" mb={2}>
                               {title}
                         </Text>
-                        <Box color="gray.600" dangerouslySetInnerHTML={{ __html: description }} />
-                        <Text
-                              mt={4}
-                              fontWeight="semibold"
-                              color={
-                                    completion === "completed"
-                                          ? "green.500"
-                                          : completion === "incomplete"
-                                          ? "red.500"
-                                          : completion === "progress"
-                                          ? "gray.500"
-                                          : "yellow.500"
-                              }
+
+                        {/* Progress and Start Button */}
+                        <Flex justifyContent="space-between" alignItems="center" mb={3}>
+                              <CircularProgress
+                                    value={completionPercentage}
+                                    color="rgba(137, 31, 236, 0.7)" // Primary color for the progress bar
+                                    size="50px"
+                              >
+                                    <CircularProgressLabel>
+                                          {completionPercentage}%
+                                    </CircularProgressLabel>
+                              </CircularProgress>
+                              <Button
+                                    bgGradient="linear(to-r, blue.500, purple.500)"
+                                    color="white"
+                                    size="sm"
+                                    onClick={handleClick}
+                                    _hover={{
+                                          bgGradient:
+                                                "linear(to-b, rgba(137, 31, 236, 0.8) 0%, rgba(46, 6, 110, 0.8) 60%)", // Darker hover gradient
+                                    }}
+                                    isDisabled={completion === "incomplete"}
+                              >
+                                    {completion === "completed" ? "Review" : "Start"}
+                              </Button>
+                        </Flex>
+
+                        {/* Additional Info */}
+                        <Flex
+                              justifyContent="space-between"
+                              alignItems="center"
+                              fontSize="sm"
+                              color="gray.500"
                         >
-                              {completion === "completed"
-                                    ? "Completed"
-                                    : completion === "incomplete"
-                                    ? "Incomplete"
-                                    : completion === "progress"
-                                    ? "Continue"
-                                    : "In Progress"}
+                              <Text>{chapters} Lessons</Text>
+                              <Text>Due: {dueDate}</Text>
+                        </Flex>
+
+                        <Text fontSize="sm" color="red.500" mt={2}>
+                              {timeRemaining} left
                         </Text>
                   </Box>
             </Box>

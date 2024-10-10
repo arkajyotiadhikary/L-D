@@ -41,9 +41,10 @@ const customTheme = extendTheme({
       colors,
       config,
       fonts: {
-            heading: `'Inter', sans-serif`,
-            body: `'Inter', sans-serif`,
+            heading: `'SF Pro Display', sans-serif`,
+            body: `'SF Pro Text', sans-serif`,
       },
+
       styles: {
             global: {
                   // Apply global styles
