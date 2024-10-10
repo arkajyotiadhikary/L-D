@@ -73,7 +73,7 @@ const Module = () => {
                               w="full"
                               justify="space-between"
                         >
-                              <Box flex="1" p={8} bg="gray.50" w="full" order={{ base: 2, md: 1 }}>
+                              <Box flex="1" p={8} w="full" order={{ base: 2, md: 1 }}>
                                     <HStack justify="space-between" mb={5}>
                                           <Text fontSize="2xl" fontWeight="bold">
                                                 {currentModule?.title}

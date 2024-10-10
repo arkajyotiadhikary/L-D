@@ -12,7 +12,6 @@ import {
       ModalFooter,
       ModalHeader,
       ModalOverlay,
-      Progress,
       Radio,
       RadioGroup,
       Stack,
@@ -52,191 +51,187 @@ const QuizPage: React.FC = () => {
 
       return (
             <Layout>
-                  <Container bg="white" maxW="container" py={8} borderRadius={"lg"}>
-                        <Stack direction={["column", "row"]} spacing={8}>
-                              {/* Left Side: Text and Quiz */}
-                              <Box flex={{ base: "1", md: "1" }}>
-                                    <Breadcrumb separator=">" mt={6}>
-                                          <BreadcrumbItem>
-                                                <BreadcrumbLink
-                                                      onClick={() => navigate("/dashboard")}
-                                                >
-                                                      <Text
-                                                            fontSize="lg"
-                                                            fontWeight="semibold"
-                                                            color="blue.600"
+                  <Box mx={275}>
+                        <Container bg="white" maxW="container" py={8} borderRadius={"lg"}>
+                              <Stack direction={["column", "row"]} spacing={8}>
+                                    {/* Left Side: Text and Quiz */}
+                                    <Box flex={{ base: "1", md: "1" }}>
+                                          <Breadcrumb separator=">" mt={6}>
+                                                <BreadcrumbItem>
+                                                      <BreadcrumbLink
+                                                            onClick={() => navigate("/dashboard")}
                                                       >
-                                                            Home
-                                                      </Text>
-                                                </BreadcrumbLink>
-                                          </BreadcrumbItem>
-                                          <BreadcrumbItem isCurrentPage>
-                                                <BreadcrumbLink>
-                                                      <Text
-                                                            fontSize="lg"
-                                                            fontWeight="semibold"
-                                                            color="blue.800"
-                                                      >
-                                                            Quiz
-                                                      </Text>
-                                                </BreadcrumbLink>
-                                          </BreadcrumbItem>
-                                    </Breadcrumb>
-                                    <Heading as="h2" size="lg" mt={4} mb={8}>
-                                          The New Team Member
-                                    </Heading>
-                                    <Text mb={6}>
-                                          Hamid is new to Imani’s team and their manager keeps
-                                          making jokes about Hamid’s nationality. Imani is
-                                          uncomfortable, but she's not sure if the manager's conduct
-                                          is harassment because Hamid doesn’t seem upset.
-                                    </Text>
-                                    <Text fontWeight="bold" mb={4}>
-                                          What should Imani do?
-                                    </Text>
-                                    <Text mb={4}>Select the correct option.</Text>
-                                    <RadioGroup onChange={setValue} value={value}>
-                                          <Stack spacing={4}>
-                                                <HStack bg="gray.100" borderRadius="md">
-                                                      <Radio
-                                                            value="1"
-                                                            p={4}
-                                                            bg="gray.300"
-                                                            _checked={{
-                                                                  bg: "gray.700",
-                                                                  color: "white",
-                                                                  borderColor: "gray.700",
-                                                            }}
-                                                      >
-                                                            There is no need for Imani to get
-                                                            involved, because Maeve hasn’t said
-                                                            anything hurtful directly to Tejas.
-                                                      </Radio>
-                                                </HStack>
+                                                            <Text fontSize="lg">Home</Text>
+                                                      </BreadcrumbLink>
+                                                </BreadcrumbItem>
+                                                <BreadcrumbItem isCurrentPage>
+                                                      <BreadcrumbLink>
+                                                            <Text fontSize="lg" fontWeight="bold">
+                                                                  Quiz
+                                                            </Text>
+                                                      </BreadcrumbLink>
+                                                </BreadcrumbItem>
+                                          </Breadcrumb>
+                                          <Heading as="h2" size="lg" mt={4} mb={8}>
+                                                The New Team Member
+                                          </Heading>
+                                          <Text mb={6}>
+                                                Hamid is new to Imani’s team and their manager keeps
+                                                making jokes about Hamid’s nationality. Imani is
+                                                uncomfortable, but she's not sure if the manager's
+                                                conduct is harassment because Hamid doesn’t seem
+                                                upset.
+                                          </Text>
+                                          <Text fontWeight="bold" mb={4}>
+                                                What should Imani do?
+                                          </Text>
+                                          <Text mb={4}>Select the correct option.</Text>
+                                          <RadioGroup onChange={setValue} value={value}>
+                                                <Stack spacing={4}>
+                                                      <HStack bg="gray.100" borderRadius="md">
+                                                            <Radio
+                                                                  value="1"
+                                                                  p={4}
+                                                                  bg="gray.300"
+                                                                  _checked={{
+                                                                        bg: "gray.700",
+                                                                        color: "white",
+                                                                        borderColor: "gray.700",
+                                                                  }}
+                                                            >
+                                                                  There is no need for Imani to get
+                                                                  involved, because Maeve hasn’t
+                                                                  said anything hurtful directly to
+                                                                  Tejas.
+                                                            </Radio>
+                                                      </HStack>
 
-                                                <HStack bg="gray.100" borderRadius="md">
-                                                      <Radio
-                                                            value="2"
-                                                            p={4}
-                                                            bg="gray.300"
-                                                            _checked={{
-                                                                  bg: "gray.700",
-                                                                  color: "white",
-                                                                  borderColor: "gray.700",
-                                                            }}
-                                                      >
-                                                            Maeve is entitled to her opinions to
-                                                            Tejas, and there’s nothing Imani can do
-                                                            to control her behavior.
-                                                      </Radio>
-                                                </HStack>
+                                                      <HStack bg="gray.100" borderRadius="md">
+                                                            <Radio
+                                                                  value="2"
+                                                                  p={4}
+                                                                  bg="gray.300"
+                                                                  _checked={{
+                                                                        bg: "gray.700",
+                                                                        color: "white",
+                                                                        borderColor: "gray.700",
+                                                                  }}
+                                                            >
+                                                                  Maeve is entitled to her opinions
+                                                                  to Tejas, and there’s nothing
+                                                                  Imani can do to control her
+                                                                  behavior.
+                                                            </Radio>
+                                                      </HStack>
 
-                                                <HStack bg="gray.100" borderRadius="md">
-                                                      <Radio
-                                                            value="3"
-                                                            p={4}
-                                                            bg="gray.300"
-                                                            _checked={{
-                                                                  bg: "gray.700",
-                                                                  color: "white",
-                                                                  borderColor: "gray.700",
-                                                            }}
-                                                      >
-                                                            Imani should report Maeve’s behavior
-                                                            internally straight away because it
-                                                            could be harassment, even if Tejas is
-                                                            unaware of it.
-                                                      </Radio>
-                                                </HStack>
-                                          </Stack>
-                                    </RadioGroup>
+                                                      <HStack bg="gray.100" borderRadius="md">
+                                                            <Radio
+                                                                  value="3"
+                                                                  p={4}
+                                                                  bg="gray.300"
+                                                                  _checked={{
+                                                                        bg: "gray.700",
+                                                                        color: "white",
+                                                                        borderColor: "gray.700",
+                                                                  }}
+                                                            >
+                                                                  Imani should report Maeve’s
+                                                                  behavior internally straight away
+                                                                  because it could be harassment,
+                                                                  even if Tejas is unaware of it.
+                                                            </Radio>
+                                                      </HStack>
+                                                </Stack>
+                                          </RadioGroup>
 
-                                    <Button
-                                          mt={8}
-                                          bgGradient="linear(to-r, blue.500, purple.500)"
-                                          color="white"
-                                          _hover={{
-                                                bgGradient: "linear(to-r, blue.600, purple.600)",
-                                          }}
-                                          onClick={handleSubmit}
+                                          <Button
+                                                mt={8}
+                                                bgGradient="linear(to-r, blue.500, purple.500)"
+                                                color="white"
+                                                _hover={{
+                                                      bgGradient:
+                                                            "linear(to-r, blue.600, purple.600)",
+                                                }}
+                                                onClick={handleSubmit}
+                                          >
+                                                Submit
+                                          </Button>
+                                    </Box>
+
+                                    {/* Right Side: Image */}
+                                    <Box
+                                          flex={{ base: "1", md: "1" }}
+                                          display={{ base: "none", md: "block" }}
                                     >
-                                          Submit
-                                    </Button>
-
-                                    <Box my={10} w="full" display="flex" justifyContent="center">
-                                          <Progress
-                                                colorScheme="purple"
-                                                w="xs"
-                                                size="md"
-                                                value={50}
-                                                borderRadius={"full"}
+                                          <Image
+                                                h={"full"}
+                                                w={"full"}
+                                                objectFit="cover"
+                                                borderRadius="md"
+                                                src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa"
+                                                alt="The New Team Member"
                                           />
                                     </Box>
-                              </Box>
-
-                              {/* Right Side: Image */}
-                              <Box
-                                    flex={{ base: "1", md: "1" }}
-                                    display={{ base: "none", md: "block" }}
-                              >
-                                    <Image
-                                          h={"full"}
-                                          w={"full"}
-                                          objectFit="cover"
-                                          borderRadius="md"
-                                          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa"
-                                          alt="The New Team Member"
-                                    />
-                              </Box>
-                        </Stack>
-                        {/* Modal for Feedback */}
-                        <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
-                              <ModalOverlay />
-                              <ModalContent>
-                                    <ModalHeader>
-                                          {isCorrect ? (
-                                                <Icon
-                                                      as={MdCheckCircle}
-                                                      color="green.400"
-                                                      w={8}
-                                                      h={8}
-                                                />
-                                          ) : (
-                                                <Icon as={MdClose} color="red.400" w={8} h={8} />
-                                          )}
-                                          <Text ml={2} display="inline-block">
-                                                {isCorrect ? "Correct Answer!" : "Wrong Answer!"}
-                                          </Text>
-                                    </ModalHeader>
-                                    <ModalCloseButton />
-                                    <ModalBody>
-                                          <Text>
-                                                {isCorrect
-                                                      ? "Great job! Imani should report Maeve’s behavior internally straight away."
-                                                      : "Maeve is entitled to her opinions to Tejas, but there’s nothing Imani can do to control her behavior."}
-                                          </Text>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                          {isCorrect ? (
-                                                <Button
-                                                      colorScheme="green"
-                                                      onClick={() =>
-                                                            navigate("/dashboard", {
-                                                                  replace: true,
-                                                            })
-                                                      }
-                                                >
-                                                      Next
-                                                </Button>
-                                          ) : (
-                                                <Button colorScheme="red" onClick={closeModal}>
-                                                      Retry
-                                                </Button>
-                                          )}
-                                    </ModalFooter>
-                              </ModalContent>
-                        </Modal>
-                  </Container>
+                              </Stack>
+                              {/* Modal for Feedback */}
+                              <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                          <ModalHeader>
+                                                {isCorrect ? (
+                                                      <Icon
+                                                            as={MdCheckCircle}
+                                                            color="green.400"
+                                                            w={8}
+                                                            h={8}
+                                                      />
+                                                ) : (
+                                                      <Icon
+                                                            as={MdClose}
+                                                            color="red.400"
+                                                            w={8}
+                                                            h={8}
+                                                      />
+                                                )}
+                                                <Text ml={2} display="inline-block">
+                                                      {isCorrect
+                                                            ? "Correct Answer!"
+                                                            : "Wrong Answer!"}
+                                                </Text>
+                                          </ModalHeader>
+                                          <ModalCloseButton />
+                                          <ModalBody>
+                                                <Text>
+                                                      {isCorrect
+                                                            ? "Great job! Imani should report Maeve’s behavior internally straight away."
+                                                            : "Maeve is entitled to her opinions to Tejas, but there’s nothing Imani can do to control her behavior."}
+                                                </Text>
+                                          </ModalBody>
+                                          <ModalFooter>
+                                                {isCorrect ? (
+                                                      <Button
+                                                            colorScheme="green"
+                                                            onClick={() =>
+                                                                  navigate("/dashboard", {
+                                                                        replace: true,
+                                                                  })
+                                                            }
+                                                      >
+                                                            Next
+                                                      </Button>
+                                                ) : (
+                                                      <Button
+                                                            colorScheme="red"
+                                                            onClick={closeModal}
+                                                      >
+                                                            Retry
+                                                      </Button>
+                                                )}
+                                          </ModalFooter>
+                                    </ModalContent>
+                              </Modal>
+                        </Container>
+                  </Box>
             </Layout>
       );
 };

@@ -1,4 +1,4 @@
-import { Box, HStack, Button, Progress, Text, Flex, Center } from "@chakra-ui/react";
+import { Box, HStack, Button, Progress, Text, Flex, Center, Image, Badge } from "@chakra-ui/react";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -6,6 +6,7 @@ const VideoCard = ({
       title,
       progress,
       completion,
+      content,
       onClick,
 }: {
       title: string;
@@ -15,7 +16,7 @@ const VideoCard = ({
       completion?: "completed" | "progress" | "incomplete";
       onClick: () => void;
 }) => (
-      <Box
+      <HStack
             p={4}
             borderWidth="1px"
             borderRadius="lg"
@@ -29,47 +30,66 @@ const VideoCard = ({
             }}
             onClick={completion === "incomplete" ? undefined : onClick}
       >
-            <Flex justify="space-between" align="center" mb={3}>
-                  <Text fontWeight="bold" fontSize="lg" noOfLines={1}>
-                        {title}
-                  </Text>
-                  <Button
-                        size="sm"
-                        // colorScheme={completion === "completed" ? "green" : "blue"}
-                        colorScheme="black"
-                        variant="outline"
-                        isDisabled={completion === "incomplete"}
-                  >
-                        <Center>
-                              <FontAwesomeIcon
-                                    icon={faPlay}
-                                    style={{ verticalAlign: "middle", marginRight: "5px" }}
-                              />
-                              {completion === "completed" ? "Review" : "Start"}
-                        </Center>
-                  </Button>
-            </Flex>
+            <Image
+                  src={content.url}
+                  alt="Thumbnail"
+                  borderRadius="md"
+                  boxSize="80px"
+                  mr={4}
+                  objectFit={"cover"}
+            />
+            <Box w={"full"}>
+                  <Flex justify="space-between" align="center" mb={3}>
+                        <Text fontWeight="bold" fontSize="lg" noOfLines={1}>
+                              {title}
+                        </Text>
+                        <HStack>
+                              <Badge
+                                    fontSize="sm"
+                                    fontWeight="medium"
+                                    colorScheme={"green"}
+                                    variant="outline"
+                                    borderRadius="md"
+                                    px={2}
+                                    py={1}
+                              >
+                                    {progress}%
+                              </Badge>
 
-            <HStack spacing={3} align="center">
-                  <Progress
-                        value={progress}
-                        flex="1"
-                        size="sm"
-                        // colorScheme={completion === "completed" ? "green" : "blue"}
-                        colorScheme="green"
-                        borderRadius="full"
-                  />
-                  <Text
-                        fontSize="sm"
-                        fontWeight="medium"
-                        color="gray.600"
-                        minWidth="45px"
-                        textAlign="right"
-                  >
-                        {progress}%
-                  </Text>
-            </HStack>
-      </Box>
+                              <Button
+                                    size="sm"
+                                    // colorScheme={completion === "completed" ? "green" : "blue"}
+                                    colorScheme="gray"
+                                    _disabled={{ bgColor: "gray.200" }}
+                                    variant="outline"
+                                    isDisabled={completion === "incomplete"}
+                              >
+                                    <Center>
+                                          <FontAwesomeIcon
+                                                icon={faPlay}
+                                                style={{
+                                                      verticalAlign: "middle",
+                                                      marginRight: "5px",
+                                                }}
+                                          />
+                                          {completion === "completed" ? "Review" : "Start"}
+                                    </Center>
+                              </Button>
+                        </HStack>
+                  </Flex>
+
+                  <HStack spacing={3} align="center">
+                        <Progress
+                              value={progress}
+                              flex="1"
+                              size="sm"
+                              // colorScheme={completion === "completed" ? "green" : "blue"}
+                              colorScheme="green"
+                              borderRadius="full"
+                        />
+                  </HStack>
+            </Box>
+      </HStack>
 );
 
 export default VideoCard;
