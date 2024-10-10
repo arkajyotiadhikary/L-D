@@ -88,9 +88,13 @@ const LoginPage = () => {
                                     </FormControl>
                                     <Button
                                           onClick={handleSubmit}
-                                          colorScheme="purple"
+                                          bgGradient="linear(to-r, blue.500, purple.500)"
+                                          color="white"
                                           width="full"
                                           size="lg"
+                                          _hover={{
+                                                bgGradient: "linear(to-r, blue.600, purple.600)",
+                                          }}
                                     >
                                           Get Started
                                     </Button>

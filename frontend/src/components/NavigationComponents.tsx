@@ -16,13 +16,13 @@ const NavigationButtons = ({
       // Function to handle navigation
       const handlePrev = () => {
             if (currentChapter > 0) {
-                  navigate(`/module/${currentModule}/content/${currentChapter - 1}`);
+                  navigate(`/learnings/module/${currentModule}/content/${currentChapter - 1}`);
             }
       };
 
       const handleNext = () => {
             if (currentChapter < totalChapters)
-                  navigate(`/module/${currentModule}/content/${currentChapter + 1}`);
+                  navigate(`/learnings/module/${currentModule}/content/${currentChapter + 1}`);
       };
 
       return (
@@ -43,6 +43,7 @@ const NavigationButtons = ({
                         variant="outline"
                         size="sm"
                         onClick={handleNext}
+                        isDisabled={currentChapter >= totalChapters}
                   >
                         Next
                   </Button>

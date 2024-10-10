@@ -3,7 +3,6 @@ import {
       Drawer,
       DrawerBody,
       DrawerHeader,
-      DrawerOverlay,
       DrawerContent,
       VStack,
       Button,
@@ -102,7 +101,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
       return (
             <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
-                  <DrawerOverlay />
                   <DrawerContent>
                         <DrawerHeader borderBottomWidth="1px" position="relative">
                               Logo

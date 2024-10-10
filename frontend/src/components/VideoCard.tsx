@@ -1,8 +1,9 @@
-import { Box, HStack, Button, Progress, Text, Flex } from "@chakra-ui/react";
+import { Box, HStack, Button, Progress, Text, Flex, Center } from "@chakra-ui/react";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const VideoCard = ({
       title,
-      description,
       progress,
       completion,
       onClick,
@@ -34,27 +35,28 @@ const VideoCard = ({
                   </Text>
                   <Button
                         size="sm"
-                        colorScheme={completion === "completed" ? "green" : "blue"}
+                        // colorScheme={completion === "completed" ? "green" : "blue"}
+                        colorScheme="black"
                         variant="outline"
                         isDisabled={completion === "incomplete"}
                   >
-                        {completion === "completed" ? "Review" : "Start"}
+                        <Center>
+                              <FontAwesomeIcon
+                                    icon={faPlay}
+                                    style={{ verticalAlign: "middle", marginRight: "5px" }}
+                              />
+                              {completion === "completed" ? "Review" : "Start"}
+                        </Center>
                   </Button>
             </Flex>
 
-            <Box
-                  fontSize="sm"
-                  color="gray.600"
-                  mb={3}
-                  noOfLines={2}
-                  dangerouslySetInnerHTML={{ __html: description }}
-            />
             <HStack spacing={3} align="center">
                   <Progress
                         value={progress}
                         flex="1"
                         size="sm"
-                        colorScheme={completion === "completed" ? "green" : "blue"}
+                        // colorScheme={completion === "completed" ? "green" : "blue"}
+                        colorScheme="green"
                         borderRadius="full"
                   />
                   <Text

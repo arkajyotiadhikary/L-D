@@ -40,7 +40,8 @@ const Router = () => {
                               element={<Chapter />}
                         />
                         <Route
-                              path="/learnings/module/:module/assignment/:assignment"
+                              // path="/learnings/module/:module/assignment/:assignment"
+                              path="/assignment"
                               element={<Assignment />}
                         />
                         <Route path="/history" element={<History />} />

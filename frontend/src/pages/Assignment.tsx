@@ -20,6 +20,9 @@ import {
       useDisclosure,
       Icon,
       HStack,
+      Breadcrumb,
+      BreadcrumbItem,
+      BreadcrumbLink,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdClose, MdCheckCircle } from "react-icons/md"; // Icons for success or failure
@@ -53,9 +56,32 @@ const QuizPage: React.FC = () => {
                         <Stack direction={["column", "row"]} spacing={8}>
                               {/* Left Side: Text and Quiz */}
                               <Box flex={{ base: "1", md: "1" }}>
-                                    <Text fontSize="sm" color="gray.500">
-                                          Module 1 &gt; Quiz
-                                    </Text>
+                                    <Breadcrumb separator=">" mt={6}>
+                                          <BreadcrumbItem>
+                                                <BreadcrumbLink
+                                                      onClick={() => navigate("/dashboard")}
+                                                >
+                                                      <Text
+                                                            fontSize="lg"
+                                                            fontWeight="semibold"
+                                                            color="blue.600"
+                                                      >
+                                                            Home
+                                                      </Text>
+                                                </BreadcrumbLink>
+                                          </BreadcrumbItem>
+                                          <BreadcrumbItem isCurrentPage>
+                                                <BreadcrumbLink>
+                                                      <Text
+                                                            fontSize="lg"
+                                                            fontWeight="semibold"
+                                                            color="blue.800"
+                                                      >
+                                                            Quiz
+                                                      </Text>
+                                                </BreadcrumbLink>
+                                          </BreadcrumbItem>
+                                    </Breadcrumb>
                                     <Heading as="h2" size="lg" mt={4} mb={8}>
                                           The New Team Member
                                     </Heading>
@@ -125,7 +151,15 @@ const QuizPage: React.FC = () => {
                                           </Stack>
                                     </RadioGroup>
 
-                                    <Button mt={8} colorScheme="purple" onClick={handleSubmit}>
+                                    <Button
+                                          mt={8}
+                                          bgGradient="linear(to-r, blue.500, purple.500)"
+                                          color="white"
+                                          _hover={{
+                                                bgGradient: "linear(to-r, blue.600, purple.600)",
+                                          }}
+                                          onClick={handleSubmit}
+                                    >
                                           Submit
                                     </Button>
 

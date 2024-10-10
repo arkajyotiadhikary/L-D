@@ -51,36 +51,22 @@ const Module = () => {
 
       return (
             <Layout>
-                  <Box px={5} py={2}>
+                  <Box my={10} px={5} mx={275}>
                         {/* Breadcrumbs */}
-                        <Breadcrumb separator=">" mt={6}>
+                        <Breadcrumb separator=">" mt={6} p={8}>
                               <BreadcrumbItem>
                                     <BreadcrumbLink onClick={() => navigate("/dashboard")}>
-                                          <Text
-                                                fontSize="lg"
-                                                fontWeight="semibold"
-                                                color="blue.600"
-                                          >
-                                                Home
-                                          </Text>
+                                          <Text fontSize="lg">Home</Text>
                                     </BreadcrumbLink>
                               </BreadcrumbItem>
                               <BreadcrumbItem isCurrentPage>
                                     <BreadcrumbLink>
-                                          <Text
-                                                fontSize="lg"
-                                                fontWeight="semibold"
-                                                color="blue.800"
-                                          >
+                                          <Text fontSize="lg" fontWeight="bold">
                                                 {currentModule?.title}
                                           </Text>
                                     </BreadcrumbLink>
                               </BreadcrumbItem>
                         </Breadcrumb>
-
-                        <Box p={5}>
-                              <Text fontSize="2xl" fontWeight="bold"></Text>
-                        </Box>
 
                         <Flex
                               direction={{ base: "column", md: "row" }}
@@ -89,27 +75,61 @@ const Module = () => {
                         >
                               <Box flex="1" p={8} bg="gray.50" w="full" order={{ base: 2, md: 1 }}>
                                     <HStack justify="space-between" mb={5}>
-                                          <Text fontSize="2xl" fontWeight="bold" color="blue.700">
+                                          <Text fontSize="2xl" fontWeight="bold">
                                                 {currentModule?.title}
                                           </Text>
                                     </HStack>
 
                                     <Box
+                                          bgColor={"white"}
                                           fontSize="larger"
                                           mb={5}
+                                          p={6}
                                           color="gray.700"
                                           dangerouslySetInnerHTML={{
                                                 __html: currentModule?.description || "",
                                           }}
                                     />
-                                    {chapters?.length > 0 ? (
+                                    {chapters?.length > 0 && (
+                                          <VideoCard
+                                                key={chapters[0]?._id}
+                                                title={chapters[0]?.title}
+                                                description={chapters[0]?.description}
+                                                content={chapters[0]?.content}
+                                                progress={(1 / chapters.length) * 100}
+                                                completion="progress"
+                                                onClick={() =>
+                                                      navigate(
+                                                            `/learnings/module/${id}/content/${1}`
+                                                      )
+                                                }
+                                          />
+                                    )}
+                                    {chapters?.length > 1 && (
+                                          <VideoCard
+                                                key={chapters[1]?._id}
+                                                title={chapters[1]?.title}
+                                                description={chapters[1]?.description}
+                                                content={chapters[1]?.content}
+                                                progress={(2 / chapters.length) * 100}
+                                                completion="progress"
+                                                onClick={() =>
+                                                      navigate(
+                                                            `/learnings/module/${id}/content/${2}`
+                                                      )
+                                                }
+                                          />
+                                    )}
+                                    {/* {chapters?.length > 0 ? (
                                           chapters.map((chapter, index) => (
                                                 <VideoCard
                                                       key={chapter._id}
                                                       title={chapter.title}
                                                       description={chapter.description}
                                                       content={chapter.content}
-                                                      progress={index + 1}
+                                                      progress={
+                                                            ((index + 1) / chapters.length) * 100
+                                                      }
                                                       completion="completed"
                                                       onClick={() =>
                                                             navigate(
@@ -122,10 +142,11 @@ const Module = () => {
                                           ))
                                     ) : (
                                           <Text>No chapters available.</Text>
-                                    )}
+                                    )} */}
                               </Box>
 
                               <Box
+                                    mt="90px"
                                     ml={4}
                                     w={{ base: "full", md: "400px" }}
                                     order={{ base: 1, md: 2 }}

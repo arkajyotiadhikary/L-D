@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const onClose = () => setIsOpen(false);
 
       return (
-            <Flex minH="100vh" bg={"white"}>
+            <Flex minH="100vh" bg={"white"} w={"full"}>
                   {/* Sidebar */}
                   <IconButton
                         icon={<FontAwesomeIcon icon={faAngleDoubleRight} />}

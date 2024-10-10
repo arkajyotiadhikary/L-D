@@ -48,6 +48,10 @@ const ModuleCard = ({
                         boxShadow: "xl",
                         transform: "scale(1.02)",
                   }}
+                  // Define a fixed height for the card
+                  height="400px"
+                  display="flex"
+                  flexDirection="column"
             >
                   {/* Image */}
                   <Image
@@ -60,10 +64,27 @@ const ModuleCard = ({
                   />
 
                   {/* Content */}
-                  <Box p={4}>
-                        <Text fontSize="lg" mb={2}>
-                              {title}
-                        </Text>
+                  <Box p={4} flex="1" display="flex" flexDirection="column">
+                        {/* Title */}
+                        <Box
+                              mb={2}
+                              // Limit the height of the title container
+                              height="3em" // Approx. two lines of text
+                              overflow="hidden"
+                              textOverflow="ellipsis"
+                              whiteSpace="nowrap"
+                              // Alternatively, to allow multiple lines with ellipsis:
+                              // display="-webkit-box"
+                              // WebkitLineClamp={2}
+                              // WebkitBoxOrient="vertical"
+                        >
+                              <Text fontSize="lg" fontWeight="bold">
+                                    {title}
+                              </Text>
+                        </Box>
+
+                        {/* Spacer to push the content to take available space */}
+                        <Box flex="1" />
 
                         {/* Progress and Start Button */}
                         <Flex justifyContent="space-between" alignItems="center" mb={3}>

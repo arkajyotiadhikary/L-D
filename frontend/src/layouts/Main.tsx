@@ -11,7 +11,7 @@ const Layout = ({ children, moduleId }: { children: React.ReactNode; moduleId?: 
       const onClose = () => setIsOpen(false);
 
       return (
-            <Flex minH="100vh">
+            <Flex minH="100vh" w="100vw" bg={"white"}>
                   {/* Sidebar */}
                   <IconButton
                         icon={<FontAwesomeIcon icon={faAngleDoubleRight} />}
@@ -25,7 +25,7 @@ const Layout = ({ children, moduleId }: { children: React.ReactNode; moduleId?: 
                   <Sidebar isOpen={isOpen} onClose={onClose} />
 
                   {/* Main Content */}
-                  <Box w={"full"} flex="1" ml={{ base: 0, md: isOpen ? "60" : "0" }} bg="gray.100">
+                  <Box w="full" flex="1">
                         {/* Header */}
                         <Header moduleId={moduleId || ""} />
 

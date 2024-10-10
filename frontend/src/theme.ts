@@ -41,7 +41,7 @@ const customTheme = extendTheme({
       colors,
       config,
       fonts: {
-            heading: `'SF Pro Display', sans-serif`,
+            heading: `'SF Pro', sans-serif`,
             body: `'SF Pro Text', sans-serif`,
       },
 

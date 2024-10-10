@@ -41,6 +41,7 @@ const HeroSection = () => {
                         position="relative"
                         height="100%"
                         p={8}
+                        mx={275}
                         zIndex="1"
                   >
                         <Text fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }} color="white" mb={4}>

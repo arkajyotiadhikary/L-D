@@ -1,6 +1,18 @@
-import { Flex, IconButton, Text, Image, useDisclosure, HStack } from "@chakra-ui/react";
+import {
+      Flex,
+      IconButton,
+      Text,
+      useDisclosure,
+      HStack,
+      Avatar,
+      Box,
+      Menu,
+      MenuButton,
+      MenuItem,
+      MenuList,
+} from "@chakra-ui/react";
 import React from "react";
-import { FiX, FiMenu, FiChevronLeft } from "react-icons/fi";
+import { FiX, FiMenu, FiChevronLeft, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface HeaderProps {
@@ -28,7 +40,37 @@ const Header: React.FC<HeaderProps> = ({ moduleId }) => {
                               Compliance Training
                         </Text>
                   </HStack>
-                  <IconButton
+
+                  <HStack spacing={4}>
+                        <IconButton
+                              icon={isOpen ? <FiX /> : <FiMenu />}
+                              aria-label="Toggle Menu"
+                              display={{ base: "flex", md: "none" }}
+                              onClick={isOpen ? onClose : onOpen}
+                              variant="ghost"
+                        />
+
+                        <Menu>
+                              <MenuButton
+                                    as={Box}
+                                    rounded="full"
+                                    cursor="pointer"
+                                    _hover={{ boxShadow: "md" }}
+                              >
+                                    <Avatar
+                                          size="sm"
+                                          src="https://media.istockphoto.com/id/1476170969/photo/portrait-of-young-man-ready-for-job-business-concept.jpg?s=1024x1024&w=is&k=20&c=8mgK2Kq73o8DIjazvLmEGkhx2p_7P5r3mvpbIM6q5cA="
+                                          name="User"
+                                    />
+                              </MenuButton>
+                              <MenuList>
+                                    <MenuItem icon={<FiUser />}>Profile</MenuItem>
+                                    <MenuItem icon={<FiSettings />}>Settings</MenuItem>
+                                    <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
+                              </MenuList>
+                        </Menu>
+                  </HStack>
+                  {/* <IconButton
                         icon={isOpen ? <FiX /> : <FiMenu />}
                         aria-label="Toggle Menu"
                         display={{ md: "none" }}
@@ -40,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ moduleId }) => {
                         borderRadius="full"
                         boxSize="40px"
                         objectFit={"cover"}
-                  />
+                  /> */}
             </Flex>
       );
 };
