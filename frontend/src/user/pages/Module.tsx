@@ -7,10 +7,10 @@ import {
       Breadcrumb,
       BreadcrumbItem,
       BreadcrumbLink,
-      SimpleGrid,
       Spinner,
       Center,
       useToast,
+      Grid,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
@@ -24,6 +24,7 @@ interface Chapter {
             type: "video" | "text";
             url: string;
       };
+      order: number;
       _id: string;
 }
 
@@ -59,6 +60,7 @@ const Module = () => {
                         const _chapters = await getChapterById(_module._id);
                         setCurrentModule(_module);
                         setChapters(_chapters);
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   } catch (err: any) {
                         console.error("Error fetching module:", err);
                         setError(err.message || "An unexpected error occurred.");
@@ -101,7 +103,7 @@ const Module = () => {
 
       return (
             <Layout>
-                  <Box my={10} px={5} maxW="1200px" mx="auto">
+                  <Box maxW="1400px" my={10} px={5} mx="auto">
                         {/* Breadcrumbs */}
                         <Breadcrumb separator=">">
                               <BreadcrumbItem>
@@ -150,9 +152,12 @@ const Module = () => {
                                     />
 
                                     {chapters.length > 0 ? (
-                                          <SimpleGrid
-                                                columns={{ base: 1, md: 2, lg: 3 }}
-                                                spacing={6}
+                                          <Grid
+                                                w={"100%"}
+                                                templateColumns="repeat(3, minmax(150px, 1fr))"
+                                                gap={6}
+                                                mt={14}
+                                                px={20}
                                           >
                                                 {chapters.map((chapter, index) => (
                                                       <VideoCard
@@ -161,15 +166,19 @@ const Module = () => {
                                                             due={new Date().toISOString()} // Replace with actual due date if available
                                                             title={chapter.title}
                                                             image={chapter.content.url}
-                                                            description={chapter.description}
                                                             progress={Math.round(
                                                                   ((index + 1) / chapters.length) *
                                                                         100
                                                             )}
                                                             completion="completed" // Replace with actual completion status if available
+                                                            onClick={() =>
+                                                                  navigate(
+                                                                        `/learnings/module/${id}/content/${chapter.order}`
+                                                                  )
+                                                            }
                                                       />
                                                 ))}
-                                          </SimpleGrid>
+                                          </Grid>
                                     ) : (
                                           <Text>No chapters available.</Text>
                                     )}

@@ -1,6 +1,6 @@
 // models/chapter.ts
 import mongoose, { Schema, Document, Types } from "mongoose";
-
+import { IScenario } from "./Scenario";
 export interface IChapter extends Document {
       _id: Types.ObjectId; // Explicitly define _id
       moduleId: Types.ObjectId;
@@ -11,21 +11,34 @@ export interface IChapter extends Document {
             type: "video" | "text";
             url: string;
       };
+      scenarios: Types.DocumentArray<IScenario>;
 }
 
-const chapterSchema = new Schema<IChapter>({
-      moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-      order: { type: Number, required: true },
-      content: {
-            type: {
-                  type: String,
-                  enum: ["video", "text"],
-                  required: true,
+const chapterSchema = new Schema<IChapter>(
+      {
+            moduleId: { type: Schema.Types.ObjectId, ref: "Module", required: true },
+            title: { type: String, required: true },
+            description: { type: String, required: true },
+            order: { type: Number, required: true },
+            content: {
+                  type: {
+                        type: String,
+                        enum: ["video", "text"],
+                        required: true,
+                  },
+                  url: { type: String, required: true },
             },
-            url: { type: String, required: true },
       },
+      {
+            toJSON: { virtuals: true },
+            toObject: { virtuals: true },
+      }
+);
+
+chapterSchema.virtual("scenarios", {
+      ref: "Scenario",
+      localField: "_id",
+      foreignField: "chapterId",
 });
 
 // Pre-save hook to set the order for new chapters if not provided

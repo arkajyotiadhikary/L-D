@@ -57,7 +57,7 @@ const Dashboard = () => {
                   {/* Hero */}
                   <HeroSection />
                   <Center>
-                        <Box mx={20} my={10}>
+                        <Box maxW="1400px" mx={20} my={10}>
                               <Grid
                                     w={"100%"}
                                     templateColumns="repeat(3, minmax(150px, 1fr))"

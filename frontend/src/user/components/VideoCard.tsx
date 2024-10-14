@@ -2,49 +2,36 @@ import React from "react";
 import { Card, CardBody, Text, Box, Image, Button, Flex } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 
 interface VideoCardProps {
       title: string;
-      description: string;
       image: string;
       moduleId: string;
       due: string;
       progress: number;
       completion: "completed" | "progress" | "incomplete";
+      onClick: () => void;
 }
 
-const WatchAndLearnCard: React.FC<VideoCardProps> = ({
+const VideoCard: React.FC<VideoCardProps> = ({
       title,
-      description,
       image,
-      moduleId,
       due,
       progress,
       completion,
+      onClick,
 }) => {
-      const navigate = useNavigate();
       const isClickable = completion !== "incomplete";
+
       return (
-            <Card
-                  maxW="sm"
-                  overflow="hidden"
-                  boxShadow="md"
-                  borderRadius="lg"
-                  onClick={() => isClickable && navigate(`/learnings/module/${moduleId}`)}
-            >
+            <Card maxW="sm" overflow="hidden" boxShadow="md" borderRadius="lg" position="relative">
                   <CardBody p={0}>
                         {/* Header Section */}
-                        <Box bg="blue.50" p={4}>
-                              <Text
-                                    fontSize="sm"
-                                    color="blue.600"
-                                    fontWeight="semibold"
-                                    textTransform="uppercase"
-                              >
+                        <Box p={4}>
+                              <Text fontSize="sm" textTransform="uppercase">
                                     Watch & Learn
                               </Text>
-                              <Text fontSize="2xl" fontWeight="bold" mt={1} noOfLines={1}>
+                              <Text fontSize="2xl" mt={1} noOfLines={1}>
                                     {title}
                               </Text>
                         </Box>
@@ -55,7 +42,7 @@ const WatchAndLearnCard: React.FC<VideoCardProps> = ({
                                     src={image}
                                     alt={`${title} image`}
                                     width="100%"
-                                    height="48"
+                                    h="450px"
                                     objectFit="cover"
                               />
                               <Box
@@ -73,19 +60,26 @@ const WatchAndLearnCard: React.FC<VideoCardProps> = ({
                         </Box>
 
                         {/* Footer Section */}
-                        <Box p={4} bg="transparent">
+                        <Box
+                              position="absolute"
+                              bottom={0}
+                              left={0}
+                              right={0}
+                              p={4}
+                              color={"white"}
+                              bg="rgba(255, 255, 255, 0.2)"
+                              backdropFilter="blur(5px)"
+                        >
                               <Flex justify="space-between" align="center">
-                                    <Text fontSize="sm" color="gray.600">
-                                          Due on {due}
-                                    </Text>
+                                    <Text fontSize="sm">Due on {due}</Text>
                                     <Button
                                           leftIcon={<FontAwesomeIcon icon={faPlay} />}
                                           variant="ghost"
-                                          colorScheme="blue"
-                                          onClick={(e) => {
-                                                e.stopPropagation(); // Prevent card click if nested within a clickable parent
+                                          onClick={isClickable ? onClick : undefined}
+                                          _hover={{
+                                                textDecoration: "none",
+                                                bg: "rgba(255, 255, 255, 0.3)",
                                           }}
-                                          _hover={{ textDecoration: "none", bg: "transparent" }}
                                           aria-label="Resume Learning"
                                     >
                                           Resume
@@ -97,4 +91,4 @@ const WatchAndLearnCard: React.FC<VideoCardProps> = ({
       );
 };
 
-export default WatchAndLearnCard;
+export default VideoCard;

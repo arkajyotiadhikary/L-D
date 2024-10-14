@@ -1,7 +1,6 @@
 import { Box, Flex, Text, Button, HStack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import VideoPreview from "./VideoPreview";
-import ImagePreview from "./ImagePreview";
 import NavigationButtons from "./NavigationComponents";
 import { FaPlay } from "react-icons/fa";
 
@@ -26,7 +25,7 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
             return <Text>Invalid content</Text>;
       }
 
-      console.log(content);
+      console.log("content", content);
 
       const chapterIndex = Number(content);
 
@@ -103,42 +102,67 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                         );
                   case "text":
                         return (
-                              <Flex flex="1" p={4} bg="white">
-                                    <Box flex="1" p={4} borderRadius="md" mr={4}>
-                                          <Text fontSize="lg" fontWeight="bold">
-                                                Chapter {content}
-                                          </Text>
-                                          <Text fontSize="2xl" fontWeight="bold" mt={2}>
-                                                {currentChapter.title}
-                                          </Text>
-                                          <Box
-                                                fontSize="xl"
-                                                color="gray.700"
-                                                mt={4}
-                                                sx={{
-                                                      whiteSpace: "pre-wrap",
-                                                      wordBreak: "break-word",
-                                                }}
-                                                dangerouslySetInnerHTML={{
-                                                      __html: currentChapter.description,
-                                                }}
-                                          />
-
-                                          <HStack justify="space-between" mt={4}>
-                                                <NavigationButtons
-                                                      currentChapter={chapterIndex}
-                                                      currentModule={currentModule}
-                                                      totalChapters={chapter.length}
+                              <Box
+                                    bgImage={currentChapter.content.url}
+                                    bgPosition="center"
+                                    bgSize="cover"
+                                    minH={"92vh"}
+                              >
+                                    <Flex
+                                          w="700px"
+                                          minH={"80vh"}
+                                          mx={"auto"}
+                                          p={8}
+                                          bg="white"
+                                          position={"absolute"}
+                                          top="10%"
+                                          left="10%"
+                                          borderRadius="lg"
+                                          shadow={"md"}
+                                    >
+                                          <Box flex="1" p={4} borderRadius="md" mt={10} mr={4}>
+                                                <Text fontSize="lg" fontWeight="bold">
+                                                      Chapter {content}
+                                                </Text>
+                                                <Text fontSize="2xl" fontWeight="bold" mt={2}>
+                                                      {currentChapter.title}
+                                                </Text>
+                                                <Box
+                                                      fontSize="xl"
+                                                      color="gray.700"
+                                                      mt={4}
+                                                      sx={{
+                                                            whiteSpace: "pre-wrap",
+                                                            wordBreak: "break-word",
+                                                      }}
+                                                      dangerouslySetInnerHTML={{
+                                                            __html: currentChapter.description,
+                                                      }}
                                                 />
-                                                <Button leftIcon={<FaPlay />} variant="outline">
-                                                      Play
-                                                </Button>
-                                          </HStack>
-                                    </Box>
-                                    <Box flex="1" ml={4}>
+
+                                                <HStack
+                                                      justify="space-between"
+                                                      align="center"
+                                                      mt={4}
+                                                >
+                                                      <NavigationButtons
+                                                            currentChapter={chapterIndex}
+                                                            currentModule={currentModule}
+                                                            totalChapters={chapter.length}
+                                                      />
+                                                      <Button
+                                                            leftIcon={<FaPlay />}
+                                                            variant="outline"
+                                                      >
+                                                            Play
+                                                      </Button>
+                                                </HStack>
+                                          </Box>
+                                          {/* <Box flex="1" ml={4}>
                                           <ImagePreview imageUrl={currentChapter.content.url} />
-                                    </Box>
-                              </Flex>
+                                    </Box> */}
+                                    </Flex>
+                              </Box>
                         );
                   default:
                         return <Text>Unsupported content type</Text>;

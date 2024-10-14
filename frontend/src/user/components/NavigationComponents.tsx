@@ -26,7 +26,7 @@ const NavigationButtons = ({
       };
 
       return (
-            <Box display="flex" justifyContent="space-between" mt={4}>
+            <Box display="flex" justifyContent="space-between" alignItems={"center"}>
                   <Button
                         leftIcon={<FaArrowLeft />}
                         colorScheme="gray"
