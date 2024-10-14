@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { Box, Center, Grid, Skeleton, Text } from "@chakra-ui/react";
 import Layout from "../layouts/Main";
 import { getAllModules } from "../services/moduleService";
-// import { getUserProgress } from "../services/userService";
 import useUserStore from "../../store";
 import HeroSection from "../components/dashboard/Hero";
 import AppleCard from "../components/AppleCard";
@@ -30,10 +28,7 @@ const Dashboard = () => {
                               modulesData,
 
                               // progress
-                        ] = await Promise.all([
-                              getAllModules(),
-                              // getUserProgress(user?._id || ""),
-                        ]);
+                        ] = await Promise.all([getAllModules()]);
                         setModules(modulesData);
 
                         if (user?._id) {
@@ -52,26 +47,10 @@ const Dashboard = () => {
                         setIsLoading(false);
                   }
             };
-
             if (user) {
                   fetchData();
             }
       }, []);
-
-      const getModuleCompletionStatus = (moduleId: string) => {
-            if (user && user.progress) {
-                  const { completedModules, currentModule } = user.progress;
-
-                  if (completedModules && completedModules.includes(moduleId)) {
-                        return "completed";
-                  }
-                  if (currentModule === moduleId) {
-                        return "progress";
-                  }
-            }
-            return "incomplete";
-            return "completed";
-      };
 
       return (
             <Layout>

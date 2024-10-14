@@ -1,4 +1,3 @@
-import { getModuleById, getChapterById } from "../services/moduleService";
 import { useEffect, useState } from "react";
 import {
       Box,
@@ -8,57 +7,113 @@ import {
       Breadcrumb,
       BreadcrumbItem,
       BreadcrumbLink,
+      SimpleGrid,
+      Spinner,
+      Center,
+      useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import CourseInfo from "../components/CourseInfo";
 import VideoCard from "../components/VideoCard";
 import Layout from "../layouts/Main";
+import { getModuleById, getChapterById } from "../services/moduleService";
+
+interface Chapter {
+      title: string;
+      description: string;
+      content: {
+            type: "video" | "text";
+            url: string;
+      };
+      _id: string;
+}
+
+interface ModuleData {
+      title: string;
+      description: string;
+      _id: string;
+}
 
 const Module = () => {
-      const { id } = useParams();
+      const { id } = useParams<{ id: string }>();
       const navigate = useNavigate();
+      const toast = useToast();
 
-      const [chapters, setChapters] = useState<
-            Array<{
-                  title: string;
-                  description: string;
-                  content: {
-                        type: "video" | "text";
-                        url: string;
-                  };
-                  _id: string;
-            }>
-      >([]);
-      const [currentModule, setCurrentModule] = useState<{
-            title: string;
-            description: string;
-      } | null>(null);
+      const [chapters, setChapters] = useState<Chapter[]>([]);
+      const [currentModule, setCurrentModule] = useState<ModuleData | null>(null);
+      const [isLoading, setIsLoading] = useState<boolean>(true);
+      const [error, setError] = useState<string | null>(null);
 
       useEffect(() => {
             const fetchModule = async () => {
                   try {
-                        const _module = await getModuleById(id!);
-                        const _chapters = await getChapterById(_module._id!);
+                        setIsLoading(true);
+                        if (!id) {
+                              throw new Error("Module ID is missing.");
+                        }
+
+                        const _module = await getModuleById(id);
+                        if (!_module) {
+                              throw new Error("Module not found.");
+                        }
+
+                        const _chapters = await getChapterById(_module._id);
                         setCurrentModule(_module);
                         setChapters(_chapters);
-                  } catch (error) {
-                        console.error("Error fetching module:", error);
+                  } catch (err: any) {
+                        console.error("Error fetching module:", err);
+                        setError(err.message || "An unexpected error occurred.");
+                        toast({
+                              title: "Error",
+                              description: err.message || "Failed to load module.",
+                              status: "error",
+                              duration: 5000,
+                              isClosable: true,
+                        });
+                  } finally {
+                        setIsLoading(false);
                   }
             };
 
             fetchModule();
-      }, [id]);
+      }, [id, toast]);
+
+      if (isLoading) {
+            return (
+                  <Layout>
+                        <Center h="100vh">
+                              <Spinner size="xl" />
+                        </Center>
+                  </Layout>
+            );
+      }
+
+      if (error) {
+            return (
+                  <Layout>
+                        <Center h="100vh">
+                              <Text color="red.500" fontSize="xl">
+                                    {error}
+                              </Text>
+                        </Center>
+                  </Layout>
+            );
+      }
 
       return (
             <Layout>
-                  <Box my={10} px={5} mx={275}>
+                  <Box my={10} px={5} maxW="1200px" mx="auto">
                         {/* Breadcrumbs */}
-                        <Breadcrumb separator=">" mt={6} p={8}>
+                        <Breadcrumb separator=">">
                               <BreadcrumbItem>
-                                    <BreadcrumbLink onClick={() => navigate("/dashboard")}>
+                                    <BreadcrumbLink
+                                          onClick={() => navigate("/dashboard")}
+                                          cursor="pointer"
+                                          _hover={{ textDecoration: "underline" }}
+                                    >
                                           <Text fontSize="lg">Home</Text>
                                     </BreadcrumbLink>
                               </BreadcrumbItem>
+
                               <BreadcrumbItem isCurrentPage>
                                     <BreadcrumbLink>
                                           <Text fontSize="lg" fontWeight="bold">
@@ -72,8 +127,9 @@ const Module = () => {
                               direction={{ base: "column", md: "row" }}
                               w="full"
                               justify="space-between"
+                              mt={8}
                         >
-                              <Box flex="1" p={8} w="full" order={{ base: 2, md: 1 }}>
+                              <Box flex="1" p={8} w="full">
                                     <HStack justify="space-between" mb={5}>
                                           <Text fontSize="2xl" fontWeight="bold">
                                                 {currentModule?.title}
@@ -81,77 +137,42 @@ const Module = () => {
                                     </HStack>
 
                                     <Box
-                                          bgColor={"white"}
-                                          fontSize="larger"
-                                          mb={5}
+                                          bgColor="white"
+                                          fontSize="lg"
+                                          mb={8}
                                           p={6}
                                           color="gray.700"
+                                          borderRadius="md"
+                                          boxShadow="sm"
                                           dangerouslySetInnerHTML={{
                                                 __html: currentModule?.description || "",
                                           }}
                                     />
-                                    {chapters?.length > 0 && (
-                                          <VideoCard
-                                                key={chapters[0]?._id}
-                                                title={chapters[0]?.title}
-                                                description={chapters[0]?.description}
-                                                content={chapters[0]?.content}
-                                                progress={(1 / chapters.length) * 100}
-                                                completion="progress"
-                                                onClick={() =>
-                                                      navigate(
-                                                            `/learnings/module/${id}/content/${1}`
-                                                      )
-                                                }
-                                          />
-                                    )}
-                                    {chapters?.length > 1 && (
-                                          <VideoCard
-                                                key={chapters[1]?._id}
-                                                title={chapters[1]?.title}
-                                                description={chapters[1]?.description}
-                                                content={chapters[1]?.content}
-                                                progress={(2 / chapters.length) * 100}
-                                                completion="progress"
-                                                onClick={() =>
-                                                      navigate(
-                                                            `/learnings/module/${id}/content/${2}`
-                                                      )
-                                                }
-                                          />
-                                    )}
-                                    {/* {chapters?.length > 0 ? (
-                                          chapters.map((chapter, index) => (
-                                                <VideoCard
-                                                      key={chapter._id}
-                                                      title={chapter.title}
-                                                      description={chapter.description}
-                                                      content={chapter.content}
-                                                      progress={
-                                                            ((index + 1) / chapters.length) * 100
-                                                      }
-                                                      completion="completed"
-                                                      onClick={() =>
-                                                            navigate(
-                                                                  `/learnings/module/${id}/content/${
-                                                                        index + 1
-                                                                  }`
-                                                            )
-                                                      }
-                                                />
-                                          ))
+
+                                    {chapters.length > 0 ? (
+                                          <SimpleGrid
+                                                columns={{ base: 1, md: 2, lg: 3 }}
+                                                spacing={6}
+                                          >
+                                                {chapters.map((chapter, index) => (
+                                                      <VideoCard
+                                                            key={chapter._id}
+                                                            moduleId={id!}
+                                                            due={new Date().toISOString()} // Replace with actual due date if available
+                                                            title={chapter.title}
+                                                            image={chapter.content.url}
+                                                            description={chapter.description}
+                                                            progress={Math.round(
+                                                                  ((index + 1) / chapters.length) *
+                                                                        100
+                                                            )}
+                                                            completion="completed" // Replace with actual completion status if available
+                                                      />
+                                                ))}
+                                          </SimpleGrid>
                                     ) : (
                                           <Text>No chapters available.</Text>
-                                    )} */}
-                              </Box>
-
-                              <Box
-                                    mt="90px"
-                                    ml={4}
-                                    w={{ base: "full", md: "400px" }}
-                                    order={{ base: 1, md: 2 }}
-                              >
-                                    <CourseInfo />
+                                    )}
                               </Box>
                         </Flex>
                   </Box>
