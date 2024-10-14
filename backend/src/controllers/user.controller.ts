@@ -87,7 +87,16 @@ export const signInUser = async (req: Request, res: Response): Promise<void> => 
                   }
             );
 
-            // Send back the token and user details, including the role
+            let employeeDetails = null;
+
+            // Check if the user's role is "employee"
+            if (user.role === UserRole.EMPLOYEE) {
+                  // Fetch the employee details from the Employee model
+                  const employee = await Employee.findOne({ userId: user._id });
+                  employeeDetails = employee;
+            }
+
+            // Send back the token and user details, including the role and employee details if applicable
             res.status(200).json({
                   token,
                   user: {
@@ -95,6 +104,7 @@ export const signInUser = async (req: Request, res: Response): Promise<void> => 
                         email: user.email,
                         role: user.role, // Pass the role to the frontend
                         company: user.company,
+                        employeeDetails, // Include employee details if the user is an employee
                   },
             });
       } catch (error) {

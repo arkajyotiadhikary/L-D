@@ -16,6 +16,7 @@ export const signin = async (
       try {
             console.log("Sending credentials: ", credentials);
             const response = await axios.post(`${BASE_URL}/login`, credentials);
+            console.log("Response: ", response.data);
             return response.data;
       } catch (error) {
             const err = error as { response: { data: { message: string } } };

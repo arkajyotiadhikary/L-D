@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Home from "../pages/Home.tsx";
-import Dashboard from "../pages/Dashboard.tsx";
-import Module from "../pages/Module.tsx";
-import Chapter from "../pages/Chapter.tsx";
-import Assignment from "../pages/Assignment.tsx";
-import PrivateRoute from "../components/PrivateRoute.tsx";
-import History from "../pages/History.tsx";
+import Home from "../user/pages/Home.tsx";
+import Dashboard from "../user/pages/Dashboard.tsx";
+import Module from "../user/pages/Module.tsx";
+import Chapter from "../user/pages/Chapter.tsx";
+import Assignment from "../user/pages/Assignment.tsx";
+import PrivateRoute from "./PrivateRoute.tsx";
+import History from "../user/pages/History.tsx";
 
 // ADMIN
 import AdminHome from "../admin/pages/Home.tsx";

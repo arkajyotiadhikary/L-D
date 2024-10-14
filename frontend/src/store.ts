@@ -19,10 +19,20 @@ interface IAssignmentScore {
       score: number;
 }
 
-// User role types
-type UserRole = "SUPER_ADMIN" | "MANAGER" | "EMPLOYEE";
+// Define employee details interface
+interface IEmployeeDetails {
+      assignmentScores: IAssignmentScore[];
+      moduleProgress: IModuleProgress[];
+      progress: {
+            completedModules: string[];
+            currentModule: string | null;
+      };
+}
 
-// Updated IUser interface to include user roles
+// User role types
+type UserRole = "SUPER_ADMIN" | "MANAGER" | "EMPLOYEE" | "INSTRUCTOR";
+
+// Updated IUser interface to include user roles and employee details
 export interface IUser {
       _id: string;
       email: string;
@@ -30,10 +40,11 @@ export interface IUser {
       role: UserRole; // User role field
       moduleProgress?: IModuleProgress[]; // Optional for non-EMPLOYEEs
       assignmentScores?: IAssignmentScore[]; // Optional for non-EMPLOYEEs
+      employeeDetails?: IEmployeeDetails; // Employee details for employees
       progress?: {
             completedModules: string[];
             currentModule: string | null;
-      }; // Optional for non-EMPLOYEEs
+      }; // Module progress information
 }
 
 // Define the state interface for Zustand
@@ -74,7 +85,7 @@ const localStoragePersist: PersistStorage<UserState> = {
       },
 };
 
-// Zustand store with role-based logic
+// Zustand store with role-based logic and employee details
 const useUserStore = create<UserState>()(
       persist(
             (set, get) => ({

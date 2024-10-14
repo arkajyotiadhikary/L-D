@@ -11,7 +11,7 @@ const Layout = ({ children, moduleId }: { children: React.ReactNode; moduleId?: 
       const onClose = () => setIsOpen(false);
 
       return (
-            <Flex minH="100vh" w="100vw" bg={"white"}>
+            <Flex minH="100vh" w="100%" bg={"white"}>
                   {/* Sidebar */}
                   <IconButton
                         icon={<FontAwesomeIcon icon={faAngleDoubleRight} />}
@@ -20,6 +20,7 @@ const Layout = ({ children, moduleId }: { children: React.ReactNode; moduleId?: 
                         variant="ghost"
                         left={"10px"}
                         top={5}
+                        zIndex={"1"}
                   />
 
                   <Sidebar isOpen={isOpen} onClose={onClose} />

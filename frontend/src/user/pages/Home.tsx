@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
-import img from "../assets/images/Emplyee Home.jpg";
+import img from "../../assets/images/Emplyee Home.jpg";
 import { useNavigate } from "react-router-dom";
 import { signin } from "../services/authService";
-import { useAuth } from "../hooks/useAuth";
-import useUserStore from "../store";
+import { useAuth } from "../../hooks/useAuth";
+import useUserStore from "../../store";
 const LoginPage = () => {
       const navigate = useNavigate();
       const { login } = useAuth();
@@ -19,8 +19,8 @@ const LoginPage = () => {
             try {
                   const { token, user } = await signin(credentials);
                   console.log(token, user);
-                  login(token, user);
                   useUserStore.setState({ user });
+                  login(token, user);
                   navigate("/dashboard");
             } catch (error) {
                   console.log(error);

@@ -3,26 +3,48 @@ import { useEffect, useState } from "react";
 import { Box, Input, Heading, Text } from "@chakra-ui/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
-interface CourseInfoFormProps {
+
+// Define the structure for the module
+
+interface Chapter {
+      _id: string;
       title: string;
-      description: string;
-      setModule: (module: {
-            title: string;
-            description: string;
-            content?: {
-                  type: "text" | "video";
-                  url: string;
-            };
-      }) => void;
+      description?: string;
+      order: number;
+      content?: {
+            type: "text" | "video";
+            url: string;
+      };
+}
+interface Module {
+      _id?: string;
+      title?: string;
+      description?: string;
+      order?: number;
+      imgUrl?: string;
+      chapters?: Chapter[];
 }
 
-const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, setModule }) => {
-      useEffect(() => {
-            setModule({ title, description });
-            setEditorState(description || "");
-      }, [description, setModule, title]);
+// Define the props for the CourseInfoForm component
+interface CourseInfoFormProps {
+      module: Module;
+      setModule: React.Dispatch<React.SetStateAction<Module>>;
+}
 
-      const [editorState, setEditorState] = useState(description || "");
+const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ module, setModule }) => {
+      // Local state for title and description
+      const [localTitle, setLocalTitle] = useState<string>(module.title!);
+      const [localDescription, setLocalDescription] = useState<string>(module.description!);
+
+      // Synchronize local state with the parent component
+      useEffect(() => {
+            console.log("Synchronizing local state with parent:", localTitle, localDescription);
+            setModule((prevModule) => ({
+                  ...prevModule,
+                  title: localTitle,
+                  description: localDescription,
+            }));
+      }, [localTitle, localDescription, setModule]);
 
       return (
             <Box>
@@ -30,37 +52,42 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ title, description, set
                         Basic Information
                   </Heading>
 
-                  {/* Title */}
+                  {/* Title Section */}
                   <Box mb={6}>
                         <Heading size="sm" mb={2}>
                               Course Title
                         </Heading>
                         <Input
                               placeholder="Enter course title"
-                              value={title}
-                              onChange={(e) => setModule({ title: e.target.value, description })}
+                              value={localTitle}
+                              onChange={(e) => setLocalTitle(e.target.value)}
                         />
                         <Text fontSize="sm" mt={2}>
-                              Please see our course title guideline
+                              Please see our course title guidelines.
                         </Text>
                   </Box>
 
-                  {/* Description */}
+                  {/* Description Section */}
                   <Box mb={6}>
                         <Heading size="sm" mb={2}>
                               Description
                         </Heading>
-                        <Box mb={2} p={2} border="1px solid #E2E8F0" borderRadius="md">
+                        <Box
+                              mb={2}
+                              p={2}
+                              border="1px solid #E2E8F0"
+                              borderRadius="md"
+                              minH="200px" // Ensures the editor has a minimum height
+                        >
                               <ReactQuill
-                                    value={editorState}
-                                    onChange={(value) => {
-                                          setEditorState(value);
-                                          setModule({ title, description: value });
-                                    }}
+                                    value={localDescription}
+                                    onChange={(value) => setLocalDescription(value)}
+                                    theme="snow" // Specify the theme explicitly
+                                    placeholder="Shortly describe this course."
                               />
                         </Box>
                         <Text fontSize="sm" mt={2}>
-                              Shortly describe this course.
+                              Briefly describe this course.
                         </Text>
                   </Box>
             </Box>

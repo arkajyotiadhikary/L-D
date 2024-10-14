@@ -50,11 +50,14 @@ const customTheme = extendTheme({
                   // Apply global styles
                   body: {
                         bg: "gray.50",
-                        color: "#353535", // Set default text color here
+                        color: "#f5f5f7", // Set default text color here
                   },
                   // Optionally, target specific HTML elements for more control
                   "p, span, a, h1, h2, h3, h4, h5, h6, li, div, button": {
-                        color: "#353535",
+                        color: "#1d1d1f",
+                  },
+                  "h1, h2, h3, h4, h5, h6": {
+                        color: "#1d1d1f",
                   },
             },
       },

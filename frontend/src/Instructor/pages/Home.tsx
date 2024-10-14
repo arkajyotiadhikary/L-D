@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Flex, Text, Link, Input, Button, FormControl, Image, VStack } from "@chakra-ui/react";
 import img from "../../assets/images/Admin Home.jpg";
 import { useNavigate } from "react-router-dom";
-import { signin } from "../../services/authService";
+import { signin } from "../../user/services/authService";
 import { useAuth } from "../../hooks/useAuth";
 import useUserStore from "../../store";
 const LoginPage = () => {

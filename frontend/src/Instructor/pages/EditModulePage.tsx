@@ -265,12 +265,7 @@ const EditModulePage: React.FC = () => {
                                     align={{ base: "flex-start", md: "center" }}
                                     mb={6}
                               >
-                                    <CourseInfoForm
-                                          title={module?.title || ""}
-                                          description={module?.description || ""}
-                                          setModule={setModule}
-                                          // Optionally pass other props if needed
-                                    />
+                                    <CourseInfoForm module={module} setModule={setModule} />
                               </Flex>
 
                               {/* Divider for visual separation */}

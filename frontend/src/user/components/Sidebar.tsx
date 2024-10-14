@@ -18,6 +18,7 @@ import {
       faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useUserStore from "../../store";
 
 // 1. Define the SidebarItemProps interface
 interface SidebarItemProps {
@@ -99,6 +100,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       const navigate = useNavigate();
 
+      const user = useUserStore((state) => state.user);
+
       return (
             <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
                   <DrawerContent>
@@ -124,7 +127,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                     <SidebarItem
                                           label="Learnings"
                                           path="/learnings"
-                                          onClick={() => navigate("/learnings")}
+                                          onClick={() =>
+                                                navigate(
+                                                      `/learnings/module/${user?.employeeDetails?.progress?.currentModule}`
+                                                )
+                                          }
                                     />
                                     <SidebarItem
                                           label="Explore"

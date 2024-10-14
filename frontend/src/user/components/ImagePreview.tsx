@@ -7,6 +7,7 @@ interface ImagePreviewProps {
 const ImagePreview: React.FC<ImagePreviewProps> = ({ imageUrl }) => {
       return (
             <Box
+                  mx={"100"}
                   maxW="100%"
                   h="80vh"
                   display="flex"
