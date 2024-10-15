@@ -103,7 +103,7 @@ const Module = () => {
 
       return (
             <Layout>
-                  <Box maxW="1400px" my={10} px={5} mx="auto">
+                  <Box maxW="1200px" my={10} px={5} mx="auto">
                         {/* Breadcrumbs */}
                         <Breadcrumb separator=">">
                               <BreadcrumbItem>
@@ -131,7 +131,7 @@ const Module = () => {
                               justify="space-between"
                               mt={8}
                         >
-                              <Box flex="1" p={8} w="full">
+                              <Box flex="1" w="full">
                                     <HStack justify="space-between" mb={5}>
                                           <Text fontSize="2xl" fontWeight="bold">
                                                 {currentModule?.title}
@@ -139,13 +139,11 @@ const Module = () => {
                                     </HStack>
 
                                     <Box
-                                          bgColor="white"
+                                          // bgColor="white"
                                           fontSize="lg"
                                           mb={8}
-                                          p={6}
+                                          py={6}
                                           color="gray.700"
-                                          borderRadius="md"
-                                          boxShadow="sm"
                                           dangerouslySetInnerHTML={{
                                                 __html: currentModule?.description || "",
                                           }}
@@ -155,15 +153,18 @@ const Module = () => {
                                           <Grid
                                                 w={"100%"}
                                                 templateColumns="repeat(3, minmax(150px, 1fr))"
-                                                gap={6}
+                                                gap={10}
                                                 mt={14}
-                                                px={20}
                                           >
                                                 {chapters.map((chapter, index) => (
                                                       <VideoCard
                                                             key={chapter._id}
                                                             moduleId={id!}
-                                                            due={new Date().toISOString()} // Replace with actual due date if available
+                                                            due={
+                                                                  new Date()
+                                                                        .toISOString()
+                                                                        .split("T")[0]
+                                                            } // Replace with actual due date if available
                                                             title={chapter.title}
                                                             image={chapter.content.url}
                                                             progress={Math.round(

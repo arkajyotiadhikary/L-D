@@ -13,24 +13,14 @@ interface VideoCardProps {
       onClick: () => void;
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({
-      title,
-      image,
-      due,
-      progress,
-      completion,
-      onClick,
-}) => {
+const VideoCard: React.FC<VideoCardProps> = ({ title, image, due, completion, onClick }) => {
       const isClickable = completion !== "incomplete";
 
       return (
-            <Card maxW="sm" overflow="hidden" boxShadow="md" borderRadius="lg" position="relative">
+            <Card maxW="sm" overflow="hidden" boxShadow="md" borderRadius="3xl" position="relative">
                   <CardBody p={0}>
                         {/* Header Section */}
-                        <Box p={4}>
-                              <Text fontSize="sm" textTransform="uppercase">
-                                    Watch & Learn
-                              </Text>
+                        <Box p={6}>
                               <Text fontSize="2xl" mt={1} noOfLines={1}>
                                     {title}
                               </Text>
@@ -41,22 +31,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
                               <Image
                                     src={image}
                                     alt={`${title} image`}
-                                    width="100%"
-                                    h="450px"
+                                    width="500px"
+                                    h="300px"
                                     objectFit="cover"
                               />
-                              <Box
-                                    position="absolute"
-                                    top={2}
-                                    left={2}
-                                    bg="blackAlpha.60"
-                                    color="white"
-                                    px={2}
-                                    py={1}
-                                    borderRadius="md"
-                              >
-                                    <Text fontSize="sm">{progress}</Text>
-                              </Box>
                         </Box>
 
                         {/* Footer Section */}
@@ -67,7 +45,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
                               right={0}
                               p={4}
                               color={"white"}
-                              bg="rgba(255, 255, 255, 0.2)"
+                              bg="rgba(255, 255, 255, 0.72)"
                               backdropFilter="blur(5px)"
                         >
                               <Flex justify="space-between" align="center">

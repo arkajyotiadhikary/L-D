@@ -5,7 +5,7 @@ const HeroSection = () => {
       return (
             <Box
                   position="relative"
-                  height="400px"
+                  height="300px"
                   width="100%"
                   borderRadius="lg"
                   overflow="hidden"
@@ -22,7 +22,6 @@ const HeroSection = () => {
                         align="start"
                         position="relative"
                         height="100%"
-                        p={8}
                         mx={275}
                         zIndex="1"
                   >

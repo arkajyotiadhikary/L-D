@@ -32,31 +32,28 @@ const AppleCard: React.FC<AppleCardProps> = ({ heading, image, moduleId, due }) 
                         left="0"
                         w="full"
                         h="full"
-                        // bg="whiteAlpha.700"
+                        bg="blackAlpha.500"
                         display="flex"
                         flexDirection="column"
                         justifyContent="space-between"
                   >
                         <CardBody>
                               {/* Small text at the top */}
-                              <Text fontSize="xs" color="white" textTransform="uppercase">
-                                    Watch and Learn
-                              </Text>
 
                               {/* Big Title */}
-                              <Heading color="white" as="h2" size="lg" mt={1}>
+                              <Heading color="white" as="h2" size="lg" mt={1} fontWeight={"light"}>
                                     {heading}
                               </Heading>
                         </CardBody>
 
-                        <Box bg="white" p={4}>
+                        <Box className="bg-[#fffefe]" p={4}>
                               <CardFooter
                                     display="flex"
                                     justifyContent="space-between"
                                     alignItems="center"
                                     fontSize="sm"
                                     opacity={0.6}
-                                    bg="white"
+                                    bg="fffefe"
                                     color="gray.600"
                                     borderColor="gray.200"
                               >

@@ -64,6 +64,7 @@ const EditModulePage: React.FC = () => {
       const [chapters, setChapters] = useState<Chapter[]>([]);
 
       useEffect(() => {
+            console.log("ID:", id);
             if (id) {
                   // Fetch the module and chapters if ID exists
                   const fetchModuleAndChapters = async () => {

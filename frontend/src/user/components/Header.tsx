@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ moduleId }) => {
       const { isOpen, onOpen, onClose } = useDisclosure();
 
       return (
-            <Flex justify="space-between" align="center" p={5} bg="white">
+            <Flex justify="space-between" align="center" p={5}>
                   <HStack>
                         {(location.pathname.includes("/content") ||
                               location.pathname.includes("/assignment")) && (

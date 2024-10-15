@@ -46,6 +46,16 @@ const CourseInfoForm: React.FC<CourseInfoFormProps> = ({ module, setModule }) =>
             }));
       }, [localTitle, localDescription, setModule]);
 
+      useEffect(() => {
+            console.log(
+                  "Module prop changed, updating local state:",
+                  module.title,
+                  module.description
+            );
+            setLocalTitle(module.title || "");
+            setLocalDescription(module.description || "");
+      }, [module.title, module.description]);
+
       return (
             <Box>
                   <Heading size="md" mb={4}>
