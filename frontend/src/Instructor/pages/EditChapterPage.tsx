@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import CourseInfoForm from "../components/CourseInfoFormChapter";
-import VideoUploader from "../components/VideoUploader";
 import Layout from "../layouts/Main";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -96,9 +95,6 @@ const EditCoursePage: React.FC = () => {
                                                 url={chapter.content.url || ""}
                                                 setModule={setModule}
                                           />
-                                    </Box>
-                                    <Box width="35%">
-                                          <VideoUploader />
                                     </Box>
                               </Flex>
                               <Flex justify="space-between" mt={8}>

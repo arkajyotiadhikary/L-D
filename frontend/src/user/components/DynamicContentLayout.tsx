@@ -116,7 +116,8 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                           bg="white"
                                           position={"absolute"}
                                           top="10%"
-                                          left="10%"
+                                          left={chapterIndex % 2 === 0 ? "10%" : "unset"}
+                                          right={chapterIndex % 2 !== 0 ? "10%" : "unset"}
                                           borderRadius="lg"
                                           shadow={"md"}
                                     >
@@ -131,12 +132,63 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                                       fontSize="xl"
                                                       color="gray.700"
                                                       mt={4}
+                                                      // Removed whiteSpace and wordBreak to allow proper HTML rendering
                                                       sx={{
-                                                            whiteSpace: "pre-wrap",
-                                                            wordBreak: "break-word",
+                                                            // Style for paragraphs
+                                                            p: {
+                                                                  marginBottom: "1em",
+                                                            },
+                                                            // Style for unordered lists
+                                                            ul: {
+                                                                  paddingLeft: "1.5em",
+                                                                  listStyleType: "disc",
+                                                                  marginBottom: "1em",
+                                                            },
+                                                            // Style for ordered lists
+                                                            ol: {
+                                                                  paddingLeft: "1.5em",
+                                                                  listStyleType: "decimal",
+                                                                  marginBottom: "1em",
+                                                            },
+                                                            // Style for list items
+                                                            li: {
+                                                                  marginBottom: "0.5em",
+                                                            },
+                                                            // Style for headings inside the content
+                                                            h1: {
+                                                                  fontSize: "2xl",
+                                                                  marginTop: "1.5em",
+                                                                  marginBottom: "0.5em",
+                                                            },
+                                                            h2: {
+                                                                  fontSize: "xl",
+                                                                  marginTop: "1.2em",
+                                                                  marginBottom: "0.5em",
+                                                            },
+                                                            h3: {
+                                                                  fontSize: "lg",
+                                                                  marginTop: "1em",
+                                                                  marginBottom: "0.5em",
+                                                            },
+                                                            // Style for blockquotes
+                                                            blockquote: {
+                                                                  borderLeft: "4px solid #E2E8F0",
+                                                                  paddingLeft: "1em",
+                                                                  color: "gray.600",
+                                                                  marginBottom: "1em",
+                                                                  fontStyle: "italic",
+                                                            },
+                                                            // Style for images
+                                                            img: {
+                                                                  maxWidth: "100%",
+                                                                  height: "auto",
+                                                                  marginBottom: "1em",
+                                                            },
+                                                            // Add more styles as needed for other HTML elements
                                                       }}
                                                       dangerouslySetInnerHTML={{
-                                                            __html: currentChapter.description,
+                                                            __html:
+                                                                  currentChapter.description || "",
                                                       }}
                                                 />
 
@@ -150,9 +202,20 @@ const DynamicContentLayout: React.FC<DynamicContentLayoutProps> = ({ chapter, cu
                                                             currentModule={currentModule}
                                                             totalChapters={chapter.length}
                                                       />
+                                                      <audio
+                                                            id="audio"
+                                                            src="https://posh-training-lnd.s3.us-west-1.amazonaws.com/static/introPOSH.mp3"
+                                                      />
                                                       <Button
                                                             leftIcon={<FaPlay />}
                                                             variant="outline"
+                                                            onClick={() => {
+                                                                  const audio =
+                                                                        document.getElementById(
+                                                                              "audio"
+                                                                        ) as HTMLAudioElement;
+                                                                  audio.play();
+                                                            }}
                                                       >
                                                             Play
                                                       </Button>
